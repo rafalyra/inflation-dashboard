@@ -1,0 +1,33 @@
+# Everything a human adjusts without touching code (SPEC §8).
+# Countries are added here phase by phase; only enabled countries are processed and shown.
+
+site:
+  locales: [en, pt-BR]
+  # Language for pages that aren't tied to one country (Overview, Learn, Methodology).
+  # Brazil is the only country in Phases 1–2, so the site starts in Portuguese.
+  default_locale: pt-BR
+
+countries:
+  br:
+    enabled: true
+    name:
+      en: Brazil
+      pt-BR: Brasil
+    # Language a visitor sees first on this country's page (they can switch).
+    default_locale: pt-BR
+    timezone: America/Sao_Paulo
+    currency: BRL
+    # CSS design token for this country's accent color (defined in web/src/styles/tokens.css).
+    color_token: country-br
+    # CMN target for IPCA: 3% with ±1.5 pp tolerance (SPEC §6.1).
+    target:
+      target_pct: 3.0
+      band_low_pct: 1.5
+      band_high_pct: 4.5
+    # Continuous target since 2025: missed after this many consecutive months outside the band.
+    months_outside_band_for_miss: 6
+    # Provisional until Phase 1 confirms the sources.
+    primary_expectation_source: bcb_focus
+    # Core measures averaged on the Brazil page. Default per SPEC §6.1; confirm in Phase 1.
+    core_set: [EX0, EX3, MS, DP, P55]
+    chart_start_year: 2010
