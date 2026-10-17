@@ -1,6 +1,6 @@
 # CLAUDE.md — working rules for this repo
 
-**Current phase: 0 (scaffold), then 1 (Brazil).** The owner updates this line as phases close.
+**Current phase: 1 (Brazil).** The owner updates this line as phases close.
 
 The full brief is in `SPEC.md`. Read it before starting any phase, and re-read the section for the phase you're on.
 
