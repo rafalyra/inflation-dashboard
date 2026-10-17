@@ -1,0 +1,68 @@
+{
+  "app": {
+    "title": "Painel de Inflação",
+    "skipToContent": "Pular para o conteúdo"
+  },
+  "nav": {
+    "label": "Principal",
+    "overview": "Visão geral",
+    "learn": "Aprenda",
+    "methodology": "Metodologia"
+  },
+  "language": {
+    "switchTo": "English",
+    "switchLabel": "Switch language to English"
+  },
+  "theme": {
+    "label": "Tema: {{current}}. Mudar tema",
+    "system": "Sistema",
+    "light": "Claro",
+    "dark": "Escuro"
+  },
+  "status": {
+    "loading": "Carregando…",
+    "error": "Não foi possível carregar os dados. Tente novamente mais tarde."
+  },
+  "sample": {
+    "banner": "Dados de exemplo apenas para o layout. Não são números reais."
+  },
+  "units": {
+    "pp": "{{value}} p.p."
+  },
+  "overview": {
+    "heading": "A inflação ao consumidor em resumo",
+    "countries": "Países",
+    "latestReleases": "Divulgações recentes",
+    "noReleases": "Nenhuma divulgação ainda."
+  },
+  "card": {
+    "headlineYoy": "12 meses",
+    "mom": "No mês",
+    "coreYoy": "Núcleo, 12 meses",
+    "notAvailable": "Indisponível",
+    "lastRelease": "Última divulgação",
+    "nextRelease": "Próxima divulgação",
+    "notScheduled": "Sem data",
+    "open": "Abrir página de {{country}}"
+  },
+  "target": {
+    "inside": "Dentro do intervalo da meta",
+    "above": "Acima do intervalo da meta",
+    "below": "Abaixo do intervalo da meta"
+  },
+  "country": {
+    "underConstruction": "Esta página está em construção."
+  },
+  "learn": {
+    "heading": "Aprenda",
+    "intro": "Explicações em linguagem simples sobre como a inflação é medida e interpretada. Em breve."
+  },
+  "methodology": {
+    "heading": "Metodologia e fontes",
+    "intro": "Fontes, códigos das séries, fórmulas e resultados da validação aparecerão aqui."
+  },
+  "notFound": {
+    "heading": "Página não encontrada",
+    "back": "Voltar à visão geral"
+  }
+}

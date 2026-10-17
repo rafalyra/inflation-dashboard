@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "sample": true,
+  "generated_at_utc": "2026-01-01T00:00:00Z",
+  "site": { "default_locale": "pt-BR" },
+  "countries": [
+    {
+      "code": "br",
+      "name": { "en": "Brazil", "pt-BR": "Brasil" },
+      "default_locale": "pt-BR",
+      "color_token": "country-br",
+      "indicator": "IPCA",
+      "reference_period": "2026-01",
+      "headline_yoy_pct": 1.23,
+      "headline_mom_pct": -0.45,
+      "core_yoy_pct": 6.78,
+      "target_status": "below",
+      "last_release_date": "2026-01-01",
+      "next_release_utc": "2030-01-01T12:00:00Z"
+    }
+  ],
+  "latest_releases": [
+    {
+      "country": "br",
+      "indicator": "IPCA",
+      "reference_period": "2026-01",
+      "released_utc": "2026-01-01T12:00:00Z",
+      "mom_pct": -0.45
+    }
+  ]
+}

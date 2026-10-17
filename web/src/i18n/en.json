@@ -1,0 +1,68 @@
+{
+  "app": {
+    "title": "Inflation Dashboard",
+    "skipToContent": "Skip to content"
+  },
+  "nav": {
+    "label": "Main",
+    "overview": "Overview",
+    "learn": "Learn",
+    "methodology": "Methodology"
+  },
+  "language": {
+    "switchTo": "Português",
+    "switchLabel": "Mudar o idioma para português"
+  },
+  "theme": {
+    "label": "Theme: {{current}}. Change theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "status": {
+    "loading": "Loading…",
+    "error": "The data could not be loaded. Please try again later."
+  },
+  "sample": {
+    "banner": "Sample data for layout only. These are not real figures."
+  },
+  "units": {
+    "pp": "{{value}} pp"
+  },
+  "overview": {
+    "heading": "Consumer inflation at a glance",
+    "countries": "Countries",
+    "latestReleases": "Latest releases",
+    "noReleases": "No releases yet."
+  },
+  "card": {
+    "headlineYoy": "12-month",
+    "mom": "Month",
+    "coreYoy": "Core, 12-month",
+    "notAvailable": "Not available",
+    "lastRelease": "Last release",
+    "nextRelease": "Next release",
+    "notScheduled": "Not scheduled",
+    "open": "Open {{country}} page"
+  },
+  "target": {
+    "inside": "Inside target band",
+    "above": "Above target band",
+    "below": "Below target band"
+  },
+  "country": {
+    "underConstruction": "This page is under construction."
+  },
+  "learn": {
+    "heading": "Learn",
+    "intro": "Plain-language explanations of how inflation is measured and read. Coming soon."
+  },
+  "methodology": {
+    "heading": "Methodology and sources",
+    "intro": "Sources, series codes, formulas and validation results will appear here."
+  },
+  "notFound": {
+    "heading": "Page not found",
+    "back": "Back to the overview"
+  }
+}
