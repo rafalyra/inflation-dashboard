@@ -58,19 +58,53 @@ class Series(_Model):
     label_pt: str
     source: str
     source_code: str
-    unit: str
+    unit: str  # the units this series is published in, "|"-separated (see UNITS)
     frequency: str
     adjustment: Adjustment
+    # Filled in during normalization: where the series starts and ends. Items that enter or
+    # leave the basket at a reweighting (e.g. Jan 2020 in Brazil) show it here.
+    first_period: Period | None = None
+    last_period: Period | None = None
+
+
+# Every observation names what its number means. `_pct` values are percent changes or
+# shares, `_pp` values are percentage points.
+UNITS = frozenset(
+    {
+        "mom_pct",  # change versus the previous month
+        "ytd_pct",  # change since December of the previous year
+        "yoy_pct",  # change versus the same month a year earlier
+        "weight_pct",  # share of the basket
+        "share_pct",  # share of items (e.g. the diffusion index)
+        "rate_pct",  # an interest rate, % per year
+        "index",  # an index number (base stated in the catalog)
+        "brl_per_usd",  # an exchange rate
+    }
+)
 
 
 class Observation(_Model):
-    """A single value of a series for one reference month, tied to the release it came from."""
+    """A single value of a series for one reference month, tied to the release it came from.
+
+    One series can have several observations for the same month in different units, e.g.
+    the IPCA headline has `mom_pct`, `ytd_pct`, `yoy_pct` and `index` values.
+    """
 
     series_id: str
     period: Period
     value: float
     unit: str
     release_id: str
+    fetched_at_utc: UtcDatetime
+
+
+class DailyObservation(_Model):
+    """A value for one calendar day, for daily context series (policy rate, FX)."""
+
+    series_id: str
+    date: date
+    value: float
+    unit: str
     fetched_at_utc: UtcDatetime
 
 

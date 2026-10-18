@@ -1,0 +1,110 @@
+{
+ "focus/ExpectativaMercadoMensais_2012-01-01_0140000.json": {
+  "fetched_at_utc": "2026-10-18T23:15:37.395083+00:00",
+  "url": "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativaMercadoMensais?$filter=Indicador%20eq%20%27IPCA%27%20and%20Data%20ge%20%272012-01-01%27&$orderby=Data%20asc&$top=10000&$skip=140000&$format=json"
+ },
+ "focus/ExpectativasMercadoAnuais_2012-01-01_0030000.json": {
+  "fetched_at_utc": "2026-10-18T23:15:43.327443+00:00",
+  "url": "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$filter=Indicador%20eq%20%27IPCA%27%20and%20Data%20ge%20%272012-01-01%27&$orderby=Data%20asc&$top=10000&$skip=30000&$format=json"
+ },
+ "focus/ExpectativasMercadoInflacao12Meses_2012-01-01_0010000.json": {
+  "fetched_at_utc": "2026-10-18T23:15:38.895826+00:00",
+  "url": "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoInflacao12Meses?$filter=Indicador%20eq%20%27IPCA%27%20and%20Data%20ge%20%272012-01-01%27&$orderby=Data%20asc&$top=10000&$skip=10000&$format=json"
+ },
+ "sidra/1419_v2265_2019.json": {
+  "fetched_at_utc": "2026-10-18T23:14:33.575731+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/1419/n1/all/v/2265/p/201901-201912/c315/all"
+ },
+ "sidra/1419_v63_2019.json": {
+  "fetched_at_utc": "2026-10-18T23:14:31.667529+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/1419/n1/all/v/63/p/201901-201912/c315/all"
+ },
+ "sidra/1419_v66_2019.json": {
+  "fetched_at_utc": "2026-10-18T23:14:34.856758+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/1419/n1/all/v/66/p/201901-201912/c315/all"
+ },
+ "sidra/1419_v69_2019.json": {
+  "fetched_at_utc": "2026-10-18T23:14:32.670311+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/1419/n1/all/v/69/p/201901-201912/c315/all"
+ },
+ "sidra/1737_v2265_all.json": {
+  "fetched_at_utc": "2026-10-18T23:14:39.475211+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/1737/n1/all/v/2265/p/197912-202609"
+ },
+ "sidra/1737_v2266_all.json": {
+  "fetched_at_utc": "2026-10-18T23:14:36.411855+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/1737/n1/all/v/2266/p/197912-202609"
+ },
+ "sidra/1737_v63_all.json": {
+  "fetched_at_utc": "2026-10-18T23:14:37.447280+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/1737/n1/all/v/63/p/197912-202609"
+ },
+ "sidra/1737_v69_all.json": {
+  "fetched_at_utc": "2026-10-18T23:14:38.443984+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/1737/n1/all/v/69/p/197912-202609"
+ },
+ "sidra/7060_v2265_2025.json": {
+  "fetched_at_utc": "2026-10-18T23:13:52.643158+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/2265/p/202501-202512/c315/all"
+ },
+ "sidra/7060_v2265_2026.json": {
+  "fetched_at_utc": "2026-10-18T23:13:56.847342+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/2265/p/202601-202609/c315/all"
+ },
+ "sidra/7060_v63_2025.json": {
+  "fetched_at_utc": "2026-10-18T23:13:50.935084+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/63/p/202501-202512/c315/all"
+ },
+ "sidra/7060_v63_2026.json": {
+  "fetched_at_utc": "2026-10-18T23:13:54.747721+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/63/p/202601-202609/c315/all"
+ },
+ "sidra/7060_v66_2025.json": {
+  "fetched_at_utc": "2026-10-18T23:13:53.395061+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/66/p/202501-202512/c315/all"
+ },
+ "sidra/7060_v66_2026.json": {
+  "fetched_at_utc": "2026-10-18T23:13:57.677954+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/66/p/202601-202609/c315/all"
+ },
+ "sidra/7060_v69_2025.json": {
+  "fetched_at_utc": "2026-10-18T23:13:51.595209+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/69/p/202501-202512/c315/all"
+ },
+ "sidra/7060_v69_2026.json": {
+  "fetched_at_utc": "2026-10-18T23:13:55.770352+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/69/p/202601-202609/c315/all"
+ },
+ "sidra/7062_v1120_2025.json": {
+  "fetched_at_utc": "2026-10-18T23:15:09.927911+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7062/n1/all/v/1120/p/202501-202512/c315/all"
+ },
+ "sidra/7062_v1120_2026.json": {
+  "fetched_at_utc": "2026-10-18T23:15:13.710654+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7062/n1/all/v/1120/p/202601-202609/c315/all"
+ },
+ "sidra/7062_v355_2025.json": {
+  "fetched_at_utc": "2026-10-18T23:15:08.208234+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7062/n1/all/v/355/p/202501-202512/c315/all"
+ },
+ "sidra/7062_v355_2026.json": {
+  "fetched_at_utc": "2026-10-18T23:15:11.745871+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7062/n1/all/v/355/p/202601-202609/c315/all"
+ },
+ "sidra/7062_v356_2025.json": {
+  "fetched_at_utc": "2026-10-18T23:15:09.181809+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7062/n1/all/v/356/p/202501-202512/c315/all"
+ },
+ "sidra/7062_v356_2026.json": {
+  "fetched_at_utc": "2026-10-18T23:15:12.973858+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7062/n1/all/v/356/p/202601-202609/c315/all"
+ },
+ "sidra/7062_v357_2025.json": {
+  "fetched_at_utc": "2026-10-18T23:15:10.718587+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7062/n1/all/v/357/p/202501-202512/c315/all"
+ },
+ "sidra/7062_v357_2026.json": {
+  "fetched_at_utc": "2026-10-18T23:15:14.809204+00:00",
+  "url": "https://apisidra.ibge.gov.br/values/t/7062/n1/all/v/357/p/202601-202609/c315/all"
+ }
+}

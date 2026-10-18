@@ -94,6 +94,17 @@ def load_settings(config_dir: Path = DEFAULT_CONFIG_DIR) -> Settings:
     return Settings.model_validate(raw)
 
 
+CALENDAR_COLUMNS = [
+    "release_id",
+    "indicator",
+    "reference_period",
+    "release_date",
+    "release_time_local",
+    "timezone",
+    "source_url",
+]
+
+
 class CalendarEntry(_Config):
     """One scheduled release, as listed in `config/calendars/<country>.csv`."""
 

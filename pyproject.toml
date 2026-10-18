@@ -40,6 +40,8 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+# Typographic dash, minus and multiplication signs are used on purpose in formulas.
+allowed-confusables = ["–", "−", "×"]
 
 [tool.mypy]
 python_version = "3.12"

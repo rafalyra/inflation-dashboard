@@ -1,0 +1,40 @@
+series_id,country,indicator,concept,parent_id,level,label_en,label_pt,source,source_code,unit,frequency,adjustment
+br.ipca.headline,br,IPCA,headline,,0,IPCA,IPCA,ibge_sidra,7169,mom_pct|ytd_pct|yoy_pct|weight_pct|index,monthly,nsa
+br.ipca.group.food,br,IPCA,group,br.ipca.headline,1,Food & beverages,Alimentação e bebidas,ibge_sidra,1,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca.group.housing,br,IPCA,group,br.ipca.headline,1,Housing,Habitação,ibge_sidra,2,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca.group.household,br,IPCA,group,br.ipca.headline,1,Household articles,Artigos de residência,ibge_sidra,3,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca.group.apparel,br,IPCA,group,br.ipca.headline,1,Apparel,Vestuário,ibge_sidra,4,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca.group.transport,br,IPCA,group,br.ipca.headline,1,Transport,Transportes,ibge_sidra,5,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca.group.health,br,IPCA,group,br.ipca.headline,1,Health & personal care,Saúde e cuidados pessoais,ibge_sidra,6,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca.group.personal,br,IPCA,group,br.ipca.headline,1,Personal expenses,Despesas pessoais,ibge_sidra,7,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca.group.education,br,IPCA,group,br.ipca.headline,1,Education,Educação,ibge_sidra,8,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca.group.communication,br,IPCA,group,br.ipca.headline,1,Communication,Comunicação,ibge_sidra,9,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.headline,br,IPCA15,headline,,0,IPCA-15,IPCA-15,ibge_sidra,7169,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.food,br,IPCA15,group,br.ipca15.headline,1,Food & beverages,Alimentação e bebidas,ibge_sidra,1,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.housing,br,IPCA15,group,br.ipca15.headline,1,Housing,Habitação,ibge_sidra,2,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.household,br,IPCA15,group,br.ipca15.headline,1,Household articles,Artigos de residência,ibge_sidra,3,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.apparel,br,IPCA15,group,br.ipca15.headline,1,Apparel,Vestuário,ibge_sidra,4,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.transport,br,IPCA15,group,br.ipca15.headline,1,Transport,Transportes,ibge_sidra,5,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.health,br,IPCA15,group,br.ipca15.headline,1,Health & personal care,Saúde e cuidados pessoais,ibge_sidra,6,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.personal,br,IPCA15,group,br.ipca15.headline,1,Personal expenses,Despesas pessoais,ibge_sidra,7,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.education,br,IPCA15,group,br.ipca15.headline,1,Education,Educação,ibge_sidra,8,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.ipca15.group.communication,br,IPCA15,group,br.ipca15.headline,1,Communication,Comunicação,ibge_sidra,9,mom_pct|ytd_pct|yoy_pct|weight_pct,monthly,nsa
+br.bcb.ipca,br,IPCA,headline_check,,0,IPCA (BCB SGS copy),IPCA (cópia no SGS do BCB),bcb_sgs,433,mom_pct,monthly,nsa
+br.bcb.ipca_12m,br,IPCA,headline_check,,0,"IPCA, 12-month (BCB SGS copy)","IPCA, 12 meses (cópia no SGS do BCB)",bcb_sgs,13522,yoy_pct,monthly,nsa
+br.core.ms,br,IPCA,core,,0,Trimmed mean (smoothed),Médias aparadas com suavização (MS),bcb_sgs,4466,mom_pct,monthly,nsa
+br.core.ma,br,IPCA,core,,0,Trimmed mean (unsmoothed),Médias aparadas sem suavização (MA),bcb_sgs,11426,mom_pct,monthly,nsa
+br.core.ex0,br,IPCA,core,,0,Exclusion EX0,Exclusão EX0,bcb_sgs,11427,mom_pct,monthly,nsa
+br.core.ex1,br,IPCA,core,,0,Exclusion EX1,Exclusão EX1,bcb_sgs,16121,mom_pct,monthly,nsa
+br.core.ex2,br,IPCA,core,,0,Exclusion EX2,Exclusão EX2,bcb_sgs,27838,mom_pct,monthly,nsa
+br.core.ex3,br,IPCA,core,,0,Exclusion EX3,Exclusão EX3,bcb_sgs,27839,mom_pct,monthly,nsa
+br.core.dp,br,IPCA,core,,0,Double weighting (DP),Dupla ponderação (DP),bcb_sgs,16122,mom_pct,monthly,nsa
+br.core.ex_fe,br,IPCA,core,,0,Exclusion EX-FE,Exclusão EX-FE,bcb_sgs,28751,mom_pct,monthly,nsa
+br.core.p55,br,IPCA,core,,0,Percentile 55 (P55),Percentil 55 (P55),bcb_sgs,28750,mom_pct,monthly,nsa
+br.core.ex3_services,br,IPCA,core,,0,EX3 services,EX3 serviços,bcb_sgs,29683,mom_pct,monthly,nsa
+br.core.ex3_industrial,br,IPCA,core,,0,EX3 industrial goods,EX3 bens industriais,bcb_sgs,29684,mom_pct,monthly,nsa
+br.ipca.diffusion,br,IPCA,diffusion,,0,Diffusion index,Índice de difusão,bcb_sgs,21379,share_pct,monthly,nsa
+br.ipca.free,br,IPCA,free_prices,,0,Free prices,Preços livres,bcb_sgs,11428,mom_pct,monthly,nsa
+br.ipca.administered,br,IPCA,administered_prices,,0,Administered prices,Preços monitorados,bcb_sgs,4449,mom_pct,monthly,nsa
+br.ipca.services,br,IPCA,services,,0,Services,Serviços,bcb_sgs,10844,mom_pct,monthly,nsa
+br.policy.selic_target,br,SELIC,policy_rate,,0,Selic target,Meta Selic,bcb_sgs,432,rate_pct,daily,nsa
+br.fx.usdbrl,br,FX,fx,,0,"USD/BRL, sell",Dólar comercial (venda),bcb_sgs,1,brl_per_usd,daily,nsa

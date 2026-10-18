@@ -26,8 +26,9 @@ countries:
       band_high_pct: 4.5
     # Continuous target since 2025: missed after this many consecutive months outside the band.
     months_outside_band_for_miss: 6
-    # Provisional until Phase 1 confirms the sources.
-    primary_expectation_source: bcb_focus
+    # Focus median over the last 30 days (the published report's figure). The 5-day
+    # median (bcb_focus_5d) is shown as secondary.
+    primary_expectation_source: bcb_focus_30d
     # Core measures averaged on the Brazil page. Default per SPEC §6.1; confirm in Phase 1.
     core_set: [EX0, EX3, MS, DP, P55]
     chart_start_year: 2010

@@ -1,4 +1,4 @@
-"""Command-line entry point: `inflation fetch|validate|compute|export|run|due|backfill`."""
+"""Command-line entry point: `inflation fetch|validate|compute|export|run|due|backfill|calendar`."""
 
 from __future__ import annotations
 
@@ -8,8 +8,11 @@ from typing import Annotated
 
 import typer
 
+from inflation import pipeline
 from inflation.calendar import due_releases
 from inflation.config import DEFAULT_CONFIG_DIR, load_calendar, load_settings
+from inflation.http import FetchError
+from inflation.validate import format_report
 
 app = typer.Typer(help="Fetch, validate and export official inflation data.", no_args_is_help=True)
 
@@ -25,22 +28,46 @@ def _require_enabled(country: str, config_dir: Path) -> None:
 
 
 def _not_implemented(step: str) -> None:
-    typer.echo(f"`{step}` is not implemented yet (Phase 1).", err=True)
+    typer.echo(f"`{step}` is not implemented yet (Phase 1, part B).", err=True)
     raise typer.Exit(code=1)
 
 
+def _fetch(country: str, full_history: bool) -> None:
+    try:
+        pipeline.fetch(country, full_history=full_history)
+    except FetchError as exc:
+        typer.echo(f"Fetch failed; nothing was changed downstream.\n{exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+def _build(country: str, config_dir: Path, write: bool) -> None:
+    result = pipeline.build(country, config_dir=config_dir, write=write)
+    typer.echo(format_report(result.report))
+    if not result.report.passed:
+        typer.echo("Validation failed: nothing was stored or published.", err=True)
+        raise typer.Exit(code=1)
+    if write:
+        typer.echo(f"Stored {len(result.data.observations):,} observations for {country}.")
+
+
 @app.command()
-def fetch(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -> None:
+def fetch(
+    country: CountryArg,
+    config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR,
+    full: Annotated[
+        bool, typer.Option(help="Download all history instead of the last ~13 months.")
+    ] = False,
+) -> None:
     """Download raw responses for a country and save them unchanged."""
     _require_enabled(country, config_dir)
-    _not_implemented("fetch")
+    _fetch(country, full_history=full)
 
 
 @app.command()
 def validate(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -> None:
-    """Run generic and official checks; exit non-zero if any fails."""
+    """Normalize the saved raw files and run every check; exit non-zero if any fails."""
     _require_enabled(country, config_dir)
-    _not_implemented("validate")
+    _build(country, config_dir, write=False)
 
 
 @app.command()
@@ -59,16 +86,30 @@ def export(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -
 
 @app.command()
 def run(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -> None:
-    """Fetch, normalize, validate, compute and export, stopping at the first failure."""
+    """Refresh recent data, validate it, and store it only if every check passes."""
     _require_enabled(country, config_dir)
-    _not_implemented("run")
+    _fetch(country, full_history=False)
+    _build(country, config_dir, write=True)
 
 
 @app.command()
 def backfill(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -> None:
-    """Rebuild a country's full history from the sources."""
+    """Download a country's full history, validate it, and store it if every check passes."""
     _require_enabled(country, config_dir)
-    _not_implemented("backfill")
+    _fetch(country, full_history=True)
+    _build(country, config_dir, write=True)
+
+
+@app.command()
+def calendar(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -> None:
+    """Rewrite config/calendars/<country>.csv from the agency's official release calendar."""
+    _require_enabled(country, config_dir)
+    try:
+        path = pipeline.update_calendar(country, config_dir)
+    except FetchError as exc:
+        typer.echo(f"Calendar fetch failed; the file was not changed.\n{exc}", err=True)
+        raise typer.Exit(code=1) from exc
+    typer.echo(f"Wrote {len(load_calendar(country, config_dir))} releases to {path}.")
 
 
 @app.command()
