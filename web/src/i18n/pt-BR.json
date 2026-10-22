@@ -29,11 +29,24 @@
   "units": {
     "pp": "{{value}} p.p."
   },
+  "chart": {
+    "showTable": "Ver tabela",
+    "showChart": "Ver gráfico"
+  },
+  "table": {
+    "month": "Mês",
+    "year": "Ano"
+  },
+  "sources": {
+    "bcb_focus_30d": "Pesquisa Focus (BCB), mediana de 30 dias",
+    "bcb_focus_5d": "Pesquisa Focus (BCB), mediana de 5 dias"
+  },
   "overview": {
     "heading": "A inflação ao consumidor em resumo",
     "countries": "Países",
     "latestReleases": "Divulgações recentes",
-    "noReleases": "Nenhuma divulgação ainda."
+    "noReleases": "Nenhuma divulgação ainda.",
+    "updated": "Dados atualizados em {{when}}"
   },
   "card": {
     "headlineYoy": "12 meses",
@@ -51,15 +64,253 @@
     "below": "Abaixo do intervalo da meta"
   },
   "country": {
-    "underConstruction": "Esta página está em construção."
+    "sections": "Seções",
+    "section": {
+      "snapshot": "Divulgação",
+      "drivers": "O que puxou",
+      "trend": "Tendência",
+      "momentum": "Ritmo",
+      "base": "Próximo mês",
+      "policy": "Juros e mercado",
+      "history": "Histórico"
+    }
+  },
+  "snapshot": {
+    "sentenceUp": "Os preços ao consumidor ({{indicator}}) subiram {{value}} em {{month}}.",
+    "sentenceDown": "Os preços ao consumidor ({{indicator}}) caíram {{value}} em {{month}}.",
+    "sentenceDriver": "{{driver}} foi o que mais contribuiu ({{value}}).",
+    "allGroupsRose": "Os 9 grupos subiram.",
+    "mom": "{{indicator}}, {{period}}: variação no mês",
+    "previous": "Mês anterior: {{value}}",
+    "yoy": "12 meses",
+    "ytd": "No ano",
+    "core": "Média dos núcleos, 12 meses",
+    "coreNote_one": "Média de {{count}} núcleo",
+    "coreNote_many": "Média de {{count}} núcleos",
+    "coreNote_other": "Média de {{count}} núcleos",
+    "expected": "Esperado (variação no mês)",
+    "noExpectation": "Nenhuma expectativa publicada",
+    "expectedNote_one": "{{source}}, pesquisa de {{date}}, {{count}} respondente",
+    "expectedNote_many": "{{source}}, pesquisa de {{date}}, {{count}} respondentes",
+    "expectedNote_other": "{{source}}, pesquisa de {{date}}, {{count}} respondentes",
+    "surprise": "Surpresa (efetivo − esperado)",
+    "aboveExpected": "Acima do esperado",
+    "belowExpected": "Abaixo do esperado",
+    "asExpected": "Em linha com o esperado",
+    "distance": "Distância da meta de {{target}}",
+    "outsideBand": "Meses fora do intervalo de tolerância",
+    "months_one": "{{count}} mês",
+    "months_many": "{{count}} meses",
+    "months_other": "{{count}} meses",
+    "missRule_one": "A meta é considerada descumprida após {{count}} mês consecutivo.",
+    "missRule_many": "A meta é considerada descumprida após {{count}} meses consecutivos.",
+    "missRule_other": "A meta é considerada descumprida após {{count}} meses consecutivos.",
+    "missed_one": "Meta descumprida: {{count}}+ mês consecutivo fora do intervalo.",
+    "missed_many": "Meta descumprida: {{count}}+ meses consecutivos fora do intervalo.",
+    "missed_other": "Meta descumprida: {{count}}+ meses consecutivos fora do intervalo.",
+    "preview": "{{indicator}} (prévia do mês), {{period}}",
+    "previewYoy": "12 meses: {{value}}",
+    "noExpectationPreview": "Não há expectativa de mercado publicada para o {{indicator}}.",
+    "nextRelease": "Próxima: dados de {{period}} em {{when}} {{countdown}}",
+    "nextHeadline": "Próxima divulgação do {{indicator}}"
+  },
+  "drivers": {
+    "groupsTitle": "O que puxou os preços em {{period}}",
+    "groupsSubtitle": "Contribuição de cada grupo para a variação do mês. Os 9 grupos somam {{sum}}; o índice publicado pelo IBGE é {{headline}} (a diferença é arredondamento).",
+    "headlineYoy": "Taxa em 12 meses",
+    "none": "Nenhum neste mês.",
+    "item": "Item",
+    "change": "Variação",
+    "contribution": "Contribuição",
+    "group": "Grupo",
+    "weight": "Peso",
+    "topUp": "5 maiores altas (contribuição)",
+    "topDown": "5 maiores quedas (contribuição)",
+    "stackedTitle": "Contribuições para a taxa em 12 meses",
+    "stackedSubtitle": "Quanto da taxa em 12 meses cada grupo explica, em pontos percentuais.",
+    "rounding": "Arredondamento",
+    "otherNote": "\"Outros\" reúne {{groups}}.",
+    "roundingNote": "As barras podem diferir um pouco da linha porque o IBGE arredonda cada número publicado."
+  },
+  "trend": {
+    "coreRange": "Intervalo dos núcleos",
+    "coreMean": "Média dos núcleos",
+    "coreMin": "Menor núcleo",
+    "coreMax": "Maior núcleo",
+    "headline": "Índice cheio",
+    "coreTitle": "Núcleos de inflação, 12 meses",
+    "coreSubtitle": "Média de {{members}}, com o intervalo entre eles sombreado.",
+    "panel": {
+      "free_vs_administered": {
+        "title": "Preços livres e monitorados",
+        "subtitle": "Taxas em 12 meses. Preços monitorados (energia, combustíveis, transporte público…) são definidos ou regulados por contratos e pelo governo."
+      },
+      "services_vs_goods": {
+        "title": "Serviços e bens industriais",
+        "subtitle": "Taxas em 12 meses das versões EX3 do BCB, construídas da mesma forma para uma comparação justa."
+      }
+    },
+    "diffusion": "Índice de difusão",
+    "diffusionSubtitle": "Percentual de itens com alta de preço no mês."
+  },
+  "momentum": {
+    "saar3": "3 meses anualizado",
+    "saar6": "6 meses anualizado",
+    "yoy": "Taxa em 12 meses",
+    "median": "Mediana",
+    "title": "A inflação está acelerando ou desacelerando?",
+    "subtitle": "Taxas dessazonalizadas dos últimos 3 e 6 meses, anualizadas, comparadas à taxa em 12 meses.",
+    "revisable": "Dessazonalização pelo X-13ARIMA-SEATS. Os pontos a partir de {{from}} são revistos à medida que chegam novos meses.",
+    "unavailable": "As taxas dessazonalizadas não estão disponíveis nesta versão.",
+    "sameMonthTitle": "Este {{month}} comparado aos anteriores",
+    "sameMonthSubtitle_one": "{{value}} neste ano contra mediana de {{median}} no {{count}} ano anterior.",
+    "sameMonthSubtitle_many": "{{value}} neste ano contra mediana de {{median}} nos {{count}} anos anteriores.",
+    "sameMonthSubtitle_other": "{{value}} neste ano contra mediana de {{median}} nos {{count}} anos anteriores.",
+    "change": "Variação no mês"
+  },
+  "base": {
+    "explainer": "A taxa em 12 meses muda quando um novo mês entra e o mesmo mês do ano anterior sai da janela. Se o mês que entra for maior que o que sai, a taxa em 12 meses sobe.",
+    "release": "Divulgação de {{period}}",
+    "leaving": "{{period}} sai da janela",
+    "implied": "Se o resultado de {{period}} vier igual à expectativa ({{expected}}), substituindo {{leaving}} de um ano antes, a taxa em 12 meses passaria de {{from}} para {{to}}.",
+    "impliedSource": "Expectativa: {{source}}, pesquisa de {{date}}.",
+    "noExpectation": "Ainda não há expectativa disponível para o próximo mês."
+  },
+  "policy": {
+    "realRate": "Juro real ex-ante",
+    "exp12m": "Inflação esperada para os próximos 12 meses",
+    "realNote": "Selic descontada a inflação esperada de {{value}}",
+    "yearEnd": "IPCA esperado para {{year}}",
+    "surveyOf": "Focus de {{date}}",
+    "fxChange": "{{value}} em 12 meses (em {{date}})",
+    "ratesTitle": "Taxa básica de juros e juro real",
+    "ratesSubtitle": "Valores de fim de mês, % ao ano.",
+    "exp12mSubtitle": "{{source}}, com o intervalo da meta sombreado.",
+    "fxTitle": "{{label}}, média mensal",
+    "fxSubtitle": "Um real mais fraco encarece os importados em reais, o que pode passar para a inflação."
+  },
+  "history": {
+    "band": "Intervalo de tolerância",
+    "target": "Meta {{value}}",
+    "headline": "{{indicator}}, 12 meses",
+    "core": "Média dos núcleos, 12 meses",
+    "insideNow": "A taxa em 12 meses está dentro do intervalo de tolerância.",
+    "streak_one": "A taxa em 12 meses está fora do intervalo há {{count}} mês. A meta é considerada descumprida após {{threshold}}.",
+    "streak_many": "A taxa em 12 meses está fora do intervalo há {{count}} meses consecutivos. A meta é considerada descumprida após {{threshold}}.",
+    "streak_other": "A taxa em 12 meses está fora do intervalo há {{count}} meses consecutivos. A meta é considerada descumprida após {{threshold}}.",
+    "title": "{{indicator}} e núcleos desde 2010",
+    "subtitle": "Taxas em 12 meses; a faixa sombreada é o intervalo de tolerância ({{low}}–{{high}})."
   },
   "learn": {
     "heading": "Aprenda",
-    "intro": "Explicações em linguagem simples sobre como a inflação é medida e interpretada. Em breve."
+    "intro": "Como a inflação é medida e como ler uma divulgação, com exemplos dos dados mais recentes.",
+    "exampleLabel": "Neste mês",
+    "concepts": {
+      "mom": {
+        "title": "Variação mensal",
+        "body": "A variação percentual do índice de preços de um mês para o seguinte.",
+        "example": "O {{indicator}} subiu {{value}} em {{period}}."
+      },
+      "yoy": {
+        "title": "Variação em 12 meses",
+        "body": "A variação em relação ao mesmo mês do ano anterior. É o número que aparece no noticiário. Ela compõe as últimas 12 variações mensais: (1+m₁)(1+m₂)…(1+m₁₂) − 1.",
+        "example": "Nos 12 meses até {{period}}, os preços subiram {{value}}."
+      },
+      "ytd": {
+        "title": "Acumulado no ano",
+        "body": "A variação acumulada desde dezembro do ano anterior.",
+        "example": "De janeiro a {{period}}, os preços subiram {{value}}."
+      },
+      "sa": {
+        "title": "Ajuste sazonal",
+        "body": "Alguns preços seguem o calendário: mensalidades escolares em fevereiro, alimentos depois das safras. O ajuste sazonal remove esses padrões regulares para que a variação mensal possa ser lida como tendência."
+      },
+      "saar": {
+        "title": "Taxa anualizada",
+        "body": "Uma variação dessazonalizada de 3 ou 6 meses, expressa como se durasse um ano. Mostra pontos de virada antes da taxa em 12 meses, com mais ruído.",
+        "example": "A taxa anualizada de 3 meses é {{value}}."
+      },
+      "core": {
+        "title": "Núcleos de inflação",
+        "body": "Medidas que retiram preços voláteis para mostrar a tendência subjacente. Cada uma faz isso de um jeito: excluindo itens, aparando os extremos ou ponderando pela volatilidade. O Banco Central acompanha a média delas.",
+        "example": "A média dos núcleos é {{value}} em 12 meses."
+      },
+      "contribution": {
+        "title": "Contribuição",
+        "body": "Quantos pontos percentuais da variação do índice vieram de um componente: aproximadamente seu peso vezes sua própria variação. As contribuições somam o índice cheio.",
+        "example": "{{driver}} contribuiu com {{value}} para a variação do mês."
+      },
+      "diffusion": {
+        "title": "Difusão",
+        "body": "O percentual de itens cujos preços subiram no mês. Um percentual alto indica altas espalhadas, não concentradas em poucos itens.",
+        "example": "{{value}} dos itens subiram em {{period}}."
+      },
+      "band": {
+        "title": "Meta e intervalo de tolerância",
+        "body": "A meta do Brasil é 3%, com tolerância de ±1,5 p.p. Desde 2025 a meta é contínua: é considerada descumprida quando a taxa em 12 meses fica fora do intervalo por 6 meses consecutivos, e o Banco Central precisa explicar o motivo em carta aberta.",
+        "example": "A taxa em 12 meses está a {{value}} da meta."
+      },
+      "surprise": {
+        "title": "Surpresa",
+        "body": "O número efetivo menos o que se esperava antes da divulgação, em pontos percentuais. Usamos a última pesquisa publicada antes do dia da divulgação.",
+        "example": "Esta divulgação veio {{value}} em relação à expectativa."
+      },
+      "base": {
+        "title": "Efeito base",
+        "body": "A taxa em 12 meses do próximo mês depende de qual mês sai da janela. Se o novo resultado for maior que o que sai, a taxa em 12 meses sobe, qualquer que seja a tendência.",
+        "example": "Na próxima divulgação, sai {{period}} ({{value}})."
+      },
+      "real": {
+        "title": "Juro real (ex-ante)",
+        "body": "A taxa básica de juros descontada a inflação esperada: (1 + juros) / (1 + inflação esperada) − 1. Mostra quão apertada a política monetária realmente está.",
+        "example": "O juro real ex-ante é {{value}}."
+      },
+      "vintage": {
+        "title": "Primeira divulgação (vintage)",
+        "body": "O valor como foi publicado pela primeira vez, antes de qualquer revisão. Guardar essas versões torna surpresas e revisões rastreáveis."
+      }
+    },
+    "howTo": {
+      "title": "Como ler uma divulgação de inflação",
+      "steps": [
+        "Comece pela variação do mês e compare com a expectativa: houve surpresa?",
+        "Veja a taxa em 12 meses e sua distância da meta.",
+        "Confira o que puxou o mês: quais grupos e itens mais contribuíram?",
+        "Olhe além do ruído: núcleos e difusão vão na mesma direção?",
+        "Confira o ritmo: as taxas anualizadas de 3 e 6 meses estão acima ou abaixo da taxa em 12 meses?",
+        "Olhe adiante: qual mês sai da janela de 12 meses na próxima divulgação?"
+      ]
+    }
   },
   "methodology": {
     "heading": "Metodologia e fontes",
-    "intro": "Fontes, códigos das séries, fórmulas e resultados da validação aparecerão aqui."
+    "intro": "Todo número deste site vem de fontes oficiais e passa por uma série de verificações antes de ser publicado. Se alguma falhar, nada é publicado e a versão anterior continua no ar.",
+    "validation": "Validação",
+    "validationPassed_one": "{{count}} verificação aprovada em {{when}}.",
+    "validationPassed_many": "Todas as {{count}} verificações aprovadas em {{when}}.",
+    "validationPassed_other": "Todas as {{count}} verificações aprovadas em {{when}}.",
+    "validationFailed": "A validação falhou em {{when}}.",
+    "sourcesTitle": "Fontes",
+    "sourcesBr": {
+      "ibge": "IBGE (Instituto Brasileiro de Geografia e Estatística): IPCA e IPCA-15, pela API do SIDRA (tabelas 7060, 1419, 1737 e 7062) e pelo calendário de divulgações.",
+      "sgs": "Banco Central do Brasil, séries temporais do SGS: núcleos, difusão, preços livres e monitorados, serviços, meta Selic, dólar.",
+      "focus": "Banco Central do Brasil, pesquisa Focus (API Olinda): expectativas de IPCA mensal, em 12 meses e de fim de ano."
+    },
+    "methodsTitle": "Como os números são calculados",
+    "methods": [
+      "As variações em 12 meses e no ano compõem as variações mensais.",
+      "Contribuições são peso × variação; em 12 meses são encadeadas para somar a taxa em 12 meses.",
+      "As taxas anualizadas usam um índice dessazonalizado pelo X-13ARIMA-SEATS (US Census Bureau); os últimos 12 meses podem ser revistos.",
+      "O valor esperado de uma divulgação é a última pesquisa datada antes do dia da divulgação.",
+      "Nossos números precisam bater com os publicados com tolerância de 0,01 p.p. (uma unidade no último dígito publicado)."
+    ],
+    "limitsTitle": "Limitações conhecidas",
+    "limits": [
+      "A pesquisa Focus não publica expectativa para o IPCA-15.",
+      "Os nomes dos itens do IBGE em inglês são tradução nossa.",
+      "As taxas em 12 meses dos núcleos são compostas a partir das séries mensais do BCB."
+    ],
+    "docs": "As fórmulas completas e os códigos das fontes estão na documentação do projeto no GitHub."
   },
   "notFound": {
     "heading": "Página não encontrada",

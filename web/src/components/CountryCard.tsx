@@ -36,7 +36,7 @@ export function CountryCard({ country, now }: Props) {
         <div className="muted">{t('card.headlineYoy')}</div>
         <div className="card__headline num">{formatPct(country.headline_yoy_pct, locale)}</div>
       </div>
-      <TargetChip status={country.target_status} />
+      {country.target_status && <TargetChip status={country.target_status} />}
 
       <dl className="card__stats">
         <div>
@@ -56,7 +56,7 @@ export function CountryCard({ country, now }: Props) {
       <dl className="card__meta">
         <div>
           <dt>{t('card.lastRelease')}</dt>
-          <dd>{formatDate(country.last_release_date, locale)}</dd>
+          <dd>{country.last_release_date ? formatDate(country.last_release_date, locale) : '—'}</dd>
         </div>
         <div>
           <dt>{t('card.nextRelease')}</dt>

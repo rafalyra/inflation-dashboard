@@ -38,6 +38,8 @@ TOP_N = 5
 SAME_MONTH_YEARS = 10
 # X-13 estimates seasonal factors from this many years of history before the chart start.
 SA_ESTIMATION_YEARS = 10
+# Distinct colors a stacked chart can carry (docs/methodology.md; the web palette has 8).
+MAX_STACK = 8
 
 
 def _r(value: float | None, digits: int = 4) -> float | None:
@@ -270,6 +272,30 @@ class CountryExport:
         c12 = contributions.twelve_month_pp(g_c, head_mom)
         c12 = c12[c12.index >= self.start]
         yoy = _series(self.obs, headline_id, "yoy_pct").reindex(c12.index)
+        # A stacked chart can tell at most MAX_STACK series apart by color, so the smallest
+        # groups (by latest weight) are summed into "Other". Kept groups stay in catalog
+        # order, so each keeps the same color whatever the month.
+        kept = [sid for sid in groups if sid in c12.columns]
+        if len(kept) > MAX_STACK:
+            smallest = g_w.loc[period, kept].sort_values().index[: len(kept) - MAX_STACK + 1]
+            other = c12[list(smallest)].sum(axis=1)
+            kept = [sid for sid in kept if sid not in set(smallest)]
+            other_labels = [self.label(sid) for sid in smallest]
+        else:
+            other, other_labels = None, []
+        stack = [
+            {"series_id": sid, "label": self.label(sid), "values_pp": [_r(v) for v in c12[sid]]}
+            for sid in kept
+        ]
+        if other is not None:
+            stack.append(
+                {
+                    "series_id": "other",
+                    "label": {"en": "Other", "pt-BR": "Outros"},
+                    "members": other_labels,
+                    "values_pp": [_r(v) for v in other],
+                }
+            )
         return {
             "period": period,
             "groups": group_rows,
@@ -279,14 +305,7 @@ class CountryExport:
             "top_down": item_rows(down),
             "twelve_month": {
                 "periods": list(c12.index),
-                "series": [
-                    {
-                        "series_id": sid,
-                        "label": self.label(sid),
-                        "values_pp": [_r(v) for v in c12[sid]],
-                    }
-                    for sid in c12.columns
-                ],
+                "series": stack,
                 "headline_yoy_pct": [_r(v) for v in yoy],
                 "rounding_pp": [_r(v) for v in (yoy - c12.sum(axis=1))],
             },

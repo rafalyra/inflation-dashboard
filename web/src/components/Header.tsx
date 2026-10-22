@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, NavLink } from 'react-router';
 import { chooseLocale, useLocale } from '../i18n';
+import { useOverview } from '../lib/data';
 import { applyTheme, getThemeChoice, setThemeChoice, type ThemeChoice } from '../lib/preferences';
 
 const NEXT_THEME: Record<ThemeChoice, ThemeChoice> = { system: 'light', light: 'dark', dark: 'system' };
@@ -10,6 +11,9 @@ export function Header() {
   const { t } = useTranslation();
   const locale = useLocale();
   const [theme, setTheme] = useState<ThemeChoice>(getThemeChoice);
+  // One nav link per exported country, so no country is hard-coded in the web app.
+  const overview = useOverview();
+  const countries = overview.status === 'ready' ? overview.data.countries : [];
 
   const cycleTheme = () => {
     const next = NEXT_THEME[theme];
@@ -28,6 +32,11 @@ export function Header() {
           <NavLink to="/" end>
             {t('nav.overview')}
           </NavLink>
+          {countries.map((c) => (
+            <NavLink key={c.code} to={`/country/${c.code}`}>
+              {c.name[locale]}
+            </NavLink>
+          ))}
           <NavLink to="/learn">{t('nav.learn')}</NavLink>
           <NavLink to="/methodology">{t('nav.methodology')}</NavLink>
         </nav>

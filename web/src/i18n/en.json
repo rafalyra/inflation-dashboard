@@ -29,11 +29,24 @@
   "units": {
     "pp": "{{value}} pp"
   },
+  "chart": {
+    "showTable": "Show table",
+    "showChart": "Show chart"
+  },
+  "table": {
+    "month": "Month",
+    "year": "Year"
+  },
+  "sources": {
+    "bcb_focus_30d": "BCB Focus survey, 30-day median",
+    "bcb_focus_5d": "BCB Focus survey, 5-day median"
+  },
   "overview": {
     "heading": "Consumer inflation at a glance",
     "countries": "Countries",
     "latestReleases": "Latest releases",
-    "noReleases": "No releases yet."
+    "noReleases": "No releases yet.",
+    "updated": "Data updated {{when}}"
   },
   "card": {
     "headlineYoy": "12-month",
@@ -51,15 +64,245 @@
     "below": "Below target band"
   },
   "country": {
-    "underConstruction": "This page is under construction."
+    "sections": "Sections",
+    "section": {
+      "snapshot": "Release",
+      "drivers": "Drivers",
+      "trend": "Underlying trend",
+      "momentum": "Momentum",
+      "base": "Next month",
+      "policy": "Policy and markets",
+      "history": "History"
+    }
+  },
+  "snapshot": {
+    "sentenceUp": "Consumer prices ({{indicator}}) rose {{value}} in {{month}}.",
+    "sentenceDown": "Consumer prices ({{indicator}}) fell {{value}} in {{month}}.",
+    "sentenceDriver": "{{driver}} contributed the most ({{value}}).",
+    "allGroupsRose": "All 9 groups rose.",
+    "mom": "{{indicator}}, {{period}}: monthly change",
+    "previous": "Previous month: {{value}}",
+    "yoy": "12-month",
+    "ytd": "Year to date",
+    "core": "Core average, 12-month",
+    "coreNote_one": "Average of {{count}} core measure",
+    "coreNote_other": "Average of {{count}} core measures",
+    "expected": "Expected (monthly change)",
+    "noExpectation": "No expectation published",
+    "expectedNote_one": "{{source}}, survey of {{date}}, {{count}} respondent",
+    "expectedNote_other": "{{source}}, survey of {{date}}, {{count}} respondents",
+    "surprise": "Surprise (actual − expected)",
+    "aboveExpected": "Above expectations",
+    "belowExpected": "Below expectations",
+    "asExpected": "As expected",
+    "distance": "Distance from the {{target}} target",
+    "outsideBand": "Months outside the tolerance band",
+    "months_one": "{{count}} month",
+    "months_other": "{{count}} months",
+    "missRule_one": "The target counts as missed after {{count}} consecutive month.",
+    "missRule_other": "The target counts as missed after {{count}} consecutive months.",
+    "missed_one": "Target missed: {{count}}+ consecutive month outside the band.",
+    "missed_other": "Target missed: {{count}}+ consecutive months outside the band.",
+    "preview": "{{indicator}} (mid-month preview), {{period}}",
+    "previewYoy": "12-month: {{value}}",
+    "noExpectationPreview": "No market expectation is published for the {{indicator}}.",
+    "nextRelease": "Next: {{period}} data on {{when}} {{countdown}}",
+    "nextHeadline": "Next {{indicator}} release"
+  },
+  "drivers": {
+    "groupsTitle": "What drove prices in {{period}}",
+    "groupsSubtitle": "Contribution of each group to the monthly change. The 9 groups add up to {{sum}}; IBGE's published headline is {{headline}} (the gap is rounding).",
+    "headlineYoy": "12-month rate",
+    "none": "None this month.",
+    "item": "Item",
+    "change": "Change",
+    "contribution": "Contribution",
+    "group": "Group",
+    "weight": "Weight",
+    "topUp": "Top 5 pushing up",
+    "topDown": "Top 5 holding down",
+    "stackedTitle": "Contributions to the 12-month rate",
+    "stackedSubtitle": "How much of the 12-month rate each group explains, in percentage points.",
+    "rounding": "Rounding",
+    "otherNote": "\"Other\" combines {{groups}}.",
+    "roundingNote": "Bars may differ slightly from the line because IBGE rounds each published number."
+  },
+  "trend": {
+    "coreRange": "Range of core measures",
+    "coreMean": "Core average",
+    "coreMin": "Lowest core",
+    "coreMax": "Highest core",
+    "headline": "Headline",
+    "coreTitle": "Core inflation, 12-month",
+    "coreSubtitle": "Average of {{members}}, with the range between them shaded.",
+    "panel": {
+      "free_vs_administered": {
+        "title": "Free vs administered prices",
+        "subtitle": "12-month rates. Administered prices (energy, fuel, public transport…) are set or regulated by contracts and government."
+      },
+      "services_vs_goods": {
+        "title": "Services vs industrial goods",
+        "subtitle": "12-month rates of the BCB's EX3 versions, built the same way for a like-for-like comparison."
+      }
+    },
+    "diffusion": "Diffusion index",
+    "diffusionSubtitle": "Share of items whose prices rose in the month."
+  },
+  "momentum": {
+    "saar3": "3-month annualized",
+    "saar6": "6-month annualized",
+    "yoy": "12-month rate",
+    "median": "Median",
+    "title": "Is inflation speeding up or slowing down?",
+    "subtitle": "Seasonally adjusted rates over the last 3 and 6 months, annualized, against the 12-month rate.",
+    "revisable": "Seasonal adjustment by X-13ARIMA-SEATS. Points from {{from}} on are revised as new months arrive.",
+    "unavailable": "Seasonally adjusted rates are not available in this build.",
+    "sameMonthTitle": "This {{month}} compared with past ones",
+    "sameMonthSubtitle_one": "{{value}} this year against a median of {{median}} over the previous {{count}} year.",
+    "sameMonthSubtitle_other": "{{value}} this year against a median of {{median}} over the previous {{count}} years.",
+    "change": "Monthly change"
+  },
+  "base": {
+    "explainer": "The 12-month rate moves when a new month comes in and the month from a year earlier drops out. If the new month is bigger than the one leaving, the 12-month rate rises.",
+    "release": "{{period}} release",
+    "leaving": "{{period}} leaves the window",
+    "implied": "If {{period}}'s print matches the expectation ({{expected}}), replacing {{leaving}} from a year earlier, the 12-month rate would go from {{from}} to {{to}}.",
+    "impliedSource": "Expectation: {{source}}, survey of {{date}}.",
+    "noExpectation": "No expectation is available for next month yet."
+  },
+  "policy": {
+    "realRate": "Real ex-ante rate",
+    "exp12m": "Inflation expected over the next 12 months",
+    "realNote": "Selic deflated by expected inflation of {{value}}",
+    "yearEnd": "Expected IPCA for {{year}}",
+    "surveyOf": "Focus survey of {{date}}",
+    "fxChange": "{{value}} over 12 months (as of {{date}})",
+    "ratesTitle": "Policy rate and real rate",
+    "ratesSubtitle": "End-of-month values, % per year.",
+    "exp12mSubtitle": "{{source}}, with the target band shaded.",
+    "fxTitle": "{{label}}, monthly average",
+    "fxSubtitle": "A weaker real makes imported goods dearer in reais, which can feed into inflation."
+  },
+  "history": {
+    "band": "Tolerance band",
+    "target": "Target {{value}}",
+    "headline": "{{indicator}}, 12-month",
+    "core": "Core average, 12-month",
+    "insideNow": "The 12-month rate is inside the tolerance band.",
+    "streak_one": "The 12-month rate has been outside the band for {{count}} month. The target counts as missed after {{threshold}}.",
+    "streak_other": "The 12-month rate has been outside the band for {{count}} consecutive months. The target counts as missed after {{threshold}}.",
+    "title": "{{indicator}} and core inflation since 2010",
+    "subtitle": "12-month rates; the shaded band is the tolerance interval ({{low}}–{{high}})."
   },
   "learn": {
     "heading": "Learn",
-    "intro": "Plain-language explanations of how inflation is measured and read. Coming soon."
+    "intro": "How inflation is measured and how to read a release, with examples from the latest data.",
+    "exampleLabel": "This month",
+    "concepts": {
+      "mom": {
+        "title": "Monthly change (MoM)",
+        "body": "The percentage change in the price index from one month to the next.",
+        "example": "{{indicator}} rose {{value}} in {{period}}."
+      },
+      "yoy": {
+        "title": "12-month change",
+        "body": "The change against the same month a year earlier. This is the headline number in the news. It compounds the last 12 monthly changes: (1+m₁)(1+m₂)…(1+m₁₂) − 1.",
+        "example": "Over the 12 months to {{period}}, prices rose {{value}}."
+      },
+      "ytd": {
+        "title": "Year to date",
+        "body": "The accumulated change since December of the previous year.",
+        "example": "From January to {{period}}, prices rose {{value}}."
+      },
+      "sa": {
+        "title": "Seasonal adjustment",
+        "body": "Some prices move with the calendar: school fees in February, food after harvests. Seasonal adjustment removes these regular patterns so a monthly change can be read as a trend."
+      },
+      "saar": {
+        "title": "Annualized rate (SAAR)",
+        "body": "A seasonally adjusted 3- or 6-month change, expressed as if it lasted a year. It shows turning points before the 12-month rate does, at the cost of more noise.",
+        "example": "The 3-month annualized rate is {{value}}."
+      },
+      "core": {
+        "title": "Core inflation",
+        "body": "Measures that strip out volatile prices to show the underlying trend. Each one does it differently: excluding items, trimming the extremes or reweighting by volatility. The central bank watches their average.",
+        "example": "The core average is {{value}} over 12 months."
+      },
+      "contribution": {
+        "title": "Contribution",
+        "body": "How many percentage points of the headline change came from a component: roughly its weight times its own change. Contributions add up to the headline.",
+        "example": "{{driver}} contributed {{value}} to this month's change."
+      },
+      "diffusion": {
+        "title": "Diffusion",
+        "body": "The share of items whose prices rose in the month. A high share means increases are widespread, not concentrated in a few items.",
+        "example": "{{value}} of items rose in {{period}}."
+      },
+      "band": {
+        "title": "Target and tolerance band",
+        "body": "Brazil's target is 3% with a tolerance of ±1.5 pp. Since 2025 the target is continuous: it counts as missed when the 12-month rate stays outside the band for 6 consecutive months, and the central bank must explain why in an open letter.",
+        "example": "The 12-month rate is {{value}} away from the target."
+      },
+      "surprise": {
+        "title": "Surprise",
+        "body": "The actual number minus what was expected before the release, in percentage points. We use the last survey published before release day.",
+        "example": "This release came in {{value}} versus the expectation."
+      },
+      "base": {
+        "title": "Base effect",
+        "body": "Next month's 12-month rate depends on which month leaves the 12-month window. If the new print is bigger than the one dropping out, the 12-month rate rises, whatever the trend.",
+        "example": "At the next release, {{period}} ({{value}}) drops out."
+      },
+      "real": {
+        "title": "Real interest rate (ex-ante)",
+        "body": "The policy rate after expected inflation: (1 + rate) / (1 + expected inflation) − 1. It shows how tight monetary policy really is.",
+        "example": "The real ex-ante rate is {{value}}."
+      },
+      "vintage": {
+        "title": "Vintage",
+        "body": "The value as first published at a release, before any revision. Keeping vintages makes surprises and revisions traceable."
+      }
+    },
+    "howTo": {
+      "title": "How to read an inflation release",
+      "steps": [
+        "Start with the monthly change and compare it with the expectation: was it a surprise?",
+        "Look at the 12-month rate and its distance from the target.",
+        "Check what drove the month: which groups and items contributed most?",
+        "Look past the noise: are core measures and diffusion moving the same way?",
+        "Check momentum: are the 3- and 6-month annualized rates above or below the 12-month rate?",
+        "Look ahead: which month drops out of the 12-month window next?"
+      ]
+    }
   },
   "methodology": {
     "heading": "Methodology and sources",
-    "intro": "Sources, series codes, formulas and validation results will appear here."
+    "intro": "Every number on this site comes from official sources and passes a set of checks before it is published. If any check fails, nothing is published and the previous version stays online.",
+    "validation": "Validation",
+    "validationPassed_one": "{{count}} check passed on {{when}}.",
+    "validationPassed_other": "All {{count}} checks passed on {{when}}.",
+    "validationFailed": "Validation failed on {{when}}.",
+    "sourcesTitle": "Sources",
+    "sourcesBr": {
+      "ibge": "IBGE (Instituto Brasileiro de Geografia e Estatística): IPCA and IPCA-15, via the SIDRA API (tables 7060, 1419, 1737 and 7062) and the release calendar.",
+      "sgs": "Banco Central do Brasil, SGS time series: core measures, diffusion, free and administered prices, services, Selic target, USD/BRL.",
+      "focus": "Banco Central do Brasil, Focus market survey (Olinda API): monthly, 12-month and year-end IPCA expectations."
+    },
+    "methodsTitle": "How the numbers are computed",
+    "methods": [
+      "12-month and year-to-date changes compound monthly changes.",
+      "Contributions are weight × change; over 12 months they are chain-linked so they add up to the 12-month rate.",
+      "Annualized rates use an index seasonally adjusted with X-13ARIMA-SEATS (US Census Bureau); the latest 12 months are revisable.",
+      "The expected value for a release is the latest survey dated before release day.",
+      "Our numbers must match the published ones within 0.01 pp (one unit in the last published digit)."
+    ],
+    "limitsTitle": "Known limitations",
+    "limits": [
+      "No IPCA-15 expectation is published by the Focus survey.",
+      "English names for IBGE items are our own translation.",
+      "Core 12-month rates are compounded from the BCB's monthly core series."
+    ],
+    "docs": "Full formulas and source codes are in the project's documentation on GitHub."
   },
   "notFound": {
     "heading": "Page not found",

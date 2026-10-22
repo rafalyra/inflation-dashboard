@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { MemoryRouter } from 'react-router';
-import sample from '../../public/sample/overview.json';
+import sample from './overview.sample.json';
 import i18n from '../i18n';
 import type { OverviewData } from '../lib/types';
 import { OverviewView } from '../pages/Overview';

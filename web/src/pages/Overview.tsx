@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { CountryCard } from '../components/CountryCard';
 import { usePageLocale, useLocale } from '../i18n';
 import { useOverview } from '../lib/data';
-import { formatPct, formatPeriod } from '../lib/format';
+import { formatDateTime, formatPct, formatPeriod } from '../lib/format';
 import type { OverviewData } from '../lib/types';
 
 export function OverviewPage() {
@@ -29,6 +29,7 @@ export function OverviewView({ data, now }: { data: OverviewData; now: Date }) {
         </p>
       )}
       <h1>{t('overview.heading')}</h1>
+      <p className="muted">{t('overview.updated', { when: formatDateTime(data.generated_at_utc, locale) })}</p>
 
       <section aria-labelledby="countries-heading">
         <h2 id="countries-heading" className="sr-only-heading">

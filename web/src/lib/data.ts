@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react';
-import type { OverviewData } from './types';
+import type { CountryData, OverviewData } from './types';
 
-// Phase 0 reads the layout sample. Phase 1 switches this to the pipeline export in data/.
-const OVERVIEW_URL = `${import.meta.env.BASE_URL}sample/overview.json`;
+// The pipeline writes these into public/data/ (gitignored) before each build.
+const DATA_URL = `${import.meta.env.BASE_URL}data/`;
 
 export type LoadState<T> =
   | { status: 'loading' }
   | { status: 'error' }
   | { status: 'ready'; data: T };
 
-export function useOverview(): LoadState<OverviewData> {
-  const [state, setState] = useState<LoadState<OverviewData>>({ status: 'loading' });
+function useJson<T>(file: string): LoadState<T> {
+  const [state, setState] = useState<LoadState<T>>({ status: 'loading' });
 
   useEffect(() => {
     let cancelled = false;
-    fetch(OVERVIEW_URL)
+    setState({ status: 'loading' });
+    fetch(`${DATA_URL}${file}`)
       .then((response) => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json() as Promise<OverviewData>;
+        return response.json() as Promise<T>;
       })
       .then((data) => {
         if (!cancelled) setState({ status: 'ready', data });
@@ -28,7 +29,15 @@ export function useOverview(): LoadState<OverviewData> {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [file]);
 
   return state;
+}
+
+export function useOverview(): LoadState<OverviewData> {
+  return useJson<OverviewData>('overview.json');
+}
+
+export function useCountry(code: string): LoadState<CountryData> {
+  return useJson<CountryData>(`${code}.json`);
 }
