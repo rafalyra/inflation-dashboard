@@ -1,0 +1,25 @@
+name: Source health
+
+# Manual check that each official source answers GitHub's runners with real data.
+# One request per source, so it can't trip rate limits. Prints status and content type only.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe sources
+        run: |
+          probe() {
+            name="$1"; url="$2"
+            out=$(curl -s -m 60 -o body.txt -w "%{http_code} %{content_type}" "$url" || echo "curl-failed")
+            printf '%-14s %s  first bytes: %s\n' "$name" "$out" "$(head -c 80 body.txt | tr -d '\n')"
+          }
+          probe "SGS 433"     "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/1?formato=json"
+          probe "SIDRA 7060"  "https://apisidra.ibge.gov.br/values/t/7060/n1/all/v/63/p/last%201/c315/7169"
+          probe "Focus"       "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativaMercadoMensais?%24top=1&%24format=json"
+          probe "IBGE cal."   "https://servicodados.ibge.gov.br/api/v3/calendario/9256?qtd=1"
