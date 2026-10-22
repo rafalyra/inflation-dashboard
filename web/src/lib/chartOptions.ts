@@ -232,7 +232,8 @@ export function stackedOption(opts: {
         stack: 'c',
         data: s.values,
         barCategoryGap: '20%',
-        itemStyle: { color: s.color, borderColor: theme.surface, borderWidth: 1 },
+        // 2px surface gap between stacked segments (secondary encoding next to color).
+        itemStyle: { color: s.color, borderColor: theme.surface, borderWidth: 2 },
         emphasis: { focus: 'series' },
       })),
       {

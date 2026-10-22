@@ -5,11 +5,18 @@ from __future__ import annotations
 import csv
 from datetime import UTC, date, datetime, time
 from pathlib import Path
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
 
 from inflation.models import Period
 
@@ -44,6 +51,32 @@ class Target(_Config):
         return self
 
 
+HexColor = Annotated[str, StringConstraints(pattern=r"^#[0-9a-fA-F]{6}$|^rgba\([0-9., ]+\)$")]
+
+
+class ThemeColors(_Config):
+    """One mode (light or dark) of a country's page palette. The web app turns each field
+    into a CSS design token; `series` is the validated chart order (see docs/methodology.md)."""
+
+    bg: HexColor
+    surface: HexColor
+    surface_muted: HexColor
+    border: HexColor
+    text: HexColor
+    text_muted: HexColor
+    link: HexColor
+    header_bg: HexColor
+    header_text: HexColor
+    accent: HexColor
+    band: HexColor
+    series: tuple[HexColor, ...] = Field(min_length=8, max_length=8)
+
+
+class CountryTheme(_Config):
+    light: ThemeColors
+    dark: ThemeColors
+
+
 class SeriesRoles(_Config):
     """Catalog series ids for each role on the country page."""
 
@@ -67,6 +100,7 @@ class CountryConfig(_Config):
     core_set: tuple[str, ...] = ()
     chart_start_year: int = Field(ge=1900)
     series: SeriesRoles
+    theme: CountryTheme | None = None
     panels: dict[str, tuple[str, ...]] = {}
 
     def core_series_ids(self, code: str) -> list[str]:

@@ -78,8 +78,9 @@ h2 {
 }
 
 .header {
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  border-bottom: 3px solid var(--color-accent);
+  background: var(--header-bg);
+  color: var(--header-text);
 }
 
 .header__inner {
@@ -95,29 +96,45 @@ h2 {
 .header__title {
   font-weight: 600;
   font-size: var(--text-md);
-  color: var(--color-text);
+  color: var(--header-text);
   text-decoration: none;
   margin-right: auto;
 }
 
 .header__nav {
   display: flex;
-  gap: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-2);
   order: 3;
   width: 100%;
 }
 
 .header__nav a {
-  color: var(--color-text-muted);
+  color: var(--header-text);
   text-decoration: none;
   font-size: var(--text-sm);
-  padding-block: var(--space-1);
-  border-bottom: 2px solid transparent;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  opacity: 0.85;
+}
+
+.header__nav a:hover {
+  opacity: 1;
+  border-color: color-mix(in srgb, var(--header-text) 40%, transparent);
 }
 
 .header__nav a[aria-current='page'] {
-  color: var(--color-text);
-  border-bottom-color: currentColor;
+  opacity: 1;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--header-text) 14%, transparent);
+  border-color: var(--color-accent);
+}
+
+.header .button {
+  background: color-mix(in srgb, var(--header-text) 12%, transparent);
+  border-color: color-mix(in srgb, var(--header-text) 35%, transparent);
+  color: var(--header-text);
 }
 
 .header__controls {
@@ -286,18 +303,54 @@ h2 {
   margin-bottom: var(--space-5);
 }
 
+/* Section buttons stay in reach while scrolling the long country page. */
 .section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2) var(--space-4);
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section-nav__button {
+  font: inherit;
   font-size: var(--text-sm);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-3);
+  min-height: 2.25rem;
+  cursor: pointer;
+}
+
+.section-nav__button:hover {
+  border-color: var(--color-accent);
+}
+
+.section-nav__button[aria-current='true'] {
+  background: var(--header-bg);
+  color: var(--header-text);
+  border-color: var(--color-accent);
+  font-weight: 600;
 }
 
 .country-section {
   padding-top: var(--space-5);
   margin-top: var(--space-5);
   border-top: 1px solid var(--color-border);
-  scroll-margin-top: var(--space-4);
+  /* Leave room for the sticky section buttons when jumping to a section. */
+  scroll-margin-top: 4.5rem;
+}
+
+/* The sticky section buttons already draw a line; the first section needs no second one. */
+.country-head + .country-section {
+  border-top: 0;
+  margin-top: 0;
 }
 
 .lead {
@@ -313,7 +366,8 @@ h2 {
 
 .tile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  /* auto-fit: tiles stretch to fill the row instead of leaving an empty column. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
   gap: var(--space-3);
   margin: var(--space-4) 0;
 }

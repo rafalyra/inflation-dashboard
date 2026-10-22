@@ -38,7 +38,7 @@ TOP_N = 5
 SAME_MONTH_YEARS = 10
 # X-13 estimates seasonal factors from this many years of history before the chart start.
 SA_ESTIMATION_YEARS = 10
-# Distinct colors a stacked chart can carry (docs/methodology.md; the web palette has 8).
+# Distinct colors a stacked chart can carry (each country theme has 8 validated series).
 MAX_STACK = 8
 
 
@@ -492,6 +492,7 @@ class CountryExport:
                 "default_locale": self.cfg.default_locale,
                 "color_token": self.cfg.color_token,
                 "currency": self.cfg.currency,
+                "theme": self.cfg.theme.model_dump() if self.cfg.theme else None,
             },
             "headline": headline,
             "preview": self.headline_release(self.cfg.series.preview)

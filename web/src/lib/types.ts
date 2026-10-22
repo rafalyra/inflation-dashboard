@@ -44,6 +44,27 @@ export interface OverviewData {
 
 // ---- <country>.json ----
 
+/** One mode of a country's palette (config/countries.yaml → CSS tokens). */
+export interface ThemeColors {
+  bg: string;
+  surface: string;
+  surface_muted: string;
+  border: string;
+  text: string;
+  text_muted: string;
+  link: string;
+  header_bg: string;
+  header_text: string;
+  accent: string;
+  band: string;
+  series: string[];
+}
+
+export interface CountryTheme {
+  light: ThemeColors;
+  dark: ThemeColors;
+}
+
 export interface Points {
   periods: string[];
   values: (number | null)[];
@@ -95,6 +116,7 @@ export interface CountryData {
     default_locale: Locale;
     color_token: string;
     currency: string;
+    theme: CountryTheme | null;
   };
   headline: Release;
   preview: Release | null;

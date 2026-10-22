@@ -41,7 +41,7 @@ export function useChartTheme(): ChartTheme {
   useEffect(() => {
     const update = () => setTheme(readTheme());
     const observer = new MutationObserver(update);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-country'] });
     const media = window.matchMedia?.('(prefers-color-scheme: dark)');
     media?.addEventListener?.('change', update);
     return () => {

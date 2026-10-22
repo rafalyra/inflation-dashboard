@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { ChartCard } from '../components/ChartCard';
@@ -7,6 +7,7 @@ import { TargetChip } from '../components/TargetChip';
 import { usePageLocale, useLocale } from '../i18n';
 import { contributionBars, lineOption, periodRows, stackedOption, valueFormatter } from '../lib/chartOptions';
 import { type ChartTheme, useChartTheme } from '../lib/chartTheme';
+import { useCountryTheme } from '../lib/countryTheme';
 import { useCountry } from '../lib/data';
 import {
   formatCountdown,
@@ -36,6 +37,8 @@ export function CountryPage() {
   const state = useCountry(code);
   // Each country page opens in its own configured language (e.g. Brazil in Portuguese).
   usePageLocale(state.status === 'ready' ? state.data.country.default_locale : undefined);
+  // The country's own palette (from config) while its page is open.
+  useCountryTheme(code, state.status === 'ready' ? state.data.country.theme : null);
 
   if (state.status === 'loading') return <p className="muted">{t('status.loading')}</p>;
   if (state.status === 'error') return <NotFoundPage />;
@@ -73,22 +76,7 @@ export function CountryView({ d }: { d: CountryData }) {
       )}
       <header className="country-head">
         <h1>{d.country.name[locale]}</h1>
-        <nav className="section-nav" aria-label={t('country.sections')}>
-          {sections.map(([id]) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              onClick={(event) => {
-                // Scroll in-page without touching the URL, which some hosts (like the
-                // preview build's) don't let the page change.
-                event.preventDefault();
-                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              {t(`country.section.${id}`)}
-            </a>
-          ))}
-        </nav>
+        <SectionNav ids={sections.map(([id]) => id)} label={t('country.sections')} names={(id) => t(`country.section.${id}`)} />
       </header>
       {sections.map(([id, node]) => (
         <section key={id} id={id} className="country-section" aria-labelledby={`${id}-h`}>
@@ -97,6 +85,51 @@ export function CountryView({ d }: { d: CountryData }) {
         </section>
       ))}
     </>
+  );
+}
+
+/**
+ * Buttons that scroll to each section. The one for the section in view is highlighted
+ * (and marked with aria-current), so the reader always knows where they are.
+ */
+function SectionNav({ ids, label, names }: { ids: readonly string[]; label: string; names: (id: string) => string }) {
+  const [active, setActive] = useState(ids[0]);
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: '-80px 0px -60% 0px' },
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, [ids]);
+
+  return (
+    <nav className="section-nav" aria-label={label}>
+      {ids.map((id) => (
+        <button
+          key={id}
+          type="button"
+          className="section-nav__button"
+          aria-current={active === id ? 'true' : undefined}
+          onClick={() => {
+            setActive(id);
+            const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+            document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+          }}
+        >
+          {names(id)}
+        </button>
+      ))}
+    </nav>
   );
 }
 
