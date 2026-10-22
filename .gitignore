@@ -21,6 +21,7 @@ build/
 node_modules/
 web/dist/
 web/dist-preview/
+web/dist-preview-build/
 web/public/data/
 *.tsbuildinfo
 

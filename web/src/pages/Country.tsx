@@ -79,8 +79,8 @@ export function CountryView({ d }: { d: CountryData }) {
               key={id}
               href={`#${id}`}
               onClick={(event) => {
-                // Scroll in-page without touching the URL hash, which hash-routed
-                // preview builds use for the route itself.
+                // Scroll in-page without touching the URL, which some hosts (like the
+                // preview build's) don't let the page change.
                 event.preventDefault();
                 document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
               }}
