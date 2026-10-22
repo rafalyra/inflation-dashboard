@@ -10,7 +10,10 @@ pipeline won't publish until it is verified).
 ### IBGE SIDRA: IPCA and IPCA-15
 
 URL pattern: `https://apisidra.ibge.gov.br/values/t/{table}/n1/all/v/{variable}/p/{YYYYMM}-{YYYYMM}/c315/all`
-Metadata: `https://servicodados.ibge.gov.br/api/v3/agregados/{table}/metadados`
+Metadata: `https://servicodados.ibge.gov.br/api/v3/agregados/{table}/metadados`. This host was
+unreachable on 2026-10-22, both from this machine and from GitHub's runners. The pipeline therefore
+doesn't call it at fetch time: each table's first month is fixed in the adapter, from metadata read on
+2026-10-17/18. The newest month is asked of the values API itself (`/p/last%201`).
 Classification 315 = general index (category 7169), 9 groups, subgroups, items, subitems.
 
 | Table | Covers | Variables | Status |
@@ -33,7 +36,9 @@ their basket) or is suppressed.
 `https://servicodados.ibge.gov.br/api/v3/calendario/{product}?de=MM-DD-YYYY&ate=MM-DD-YYYY&qtd=500`
 (✅ 2026-10-18). Products: **9256** IPCA, **9260** IPCA-15. (9262 is "IPCA Especial", which we don't use.)
 Times are listed as `12:00:00` for releases IBGE makes at 09:00 Brasília time, so we read them as UTC.
-`inflation calendar br` rewrites `config/calendars/br.csv` from this API.
+`inflation calendar br` rewrites `config/calendars/br.csv` from this API. The same
+`servicodados` host failed from GitHub's runners on 2026-10-22, so for now the calendar is
+refreshed locally and committed. Revisit this in Phase 2.
 
 ### BCB SGS: cores, context and the SGS copy of IPCA
 
@@ -57,18 +62,22 @@ URL pattern: `https://api.bcb.gov.br/dados/serie/bcdata.sgs.{code}/dados?formato
 | 29684 | EX3 industrial goods (new) | ✅ 2026-10-17 |
 | 21379 | Diffusion index | ✅ 2026-10-17 (Sep 2026 = 54.91) |
 | 432 | Selic target, daily (includes future-dated rows until the next meeting) | ✅ 2026-10-17 |
-| 11428 | IPCA free prices ("itens livres") | ⏳ code found in BCB open-data catalogue 2026-10-18; values not yet fetched |
-| 4449 | IPCA administered prices ("preços monitorados – total") | ⏳ same |
-| 10844 | IPCA services | ⏳ same |
-| 1 | USD/BRL, free market, sell, daily (PTAX sell rate) | ⏳ same |
-| (pending) | IPCA industrial goods | ⏳ not found in the catalogue yet; look up once SGS is reachable |
+| 11428 | IPCA free prices ("itens livres") | ✅ 2026-10-22 (Sep 2026 = 0.55) |
+| 4449 | IPCA administered prices ("preços monitorados – total") | ✅ 2026-10-22 (Sep 2026 = 1.59) |
+| 10844 | IPCA services | ✅ 2026-10-22 (Sep 2026 = 0.61) |
+| 1 | USD/BRL, free market, sell, daily | ✅ 2026-10-22 (22 Oct 2026 = 5.0383) |
+| — | IPCA industrial goods | Not used. 27863 returns data but its metadata page was down on 2026-10-22, so its meaning is unconfirmed. The "services vs goods" panel uses the verified EX3 pair 29683/29684 instead. |
 
 Food at home comes from SIDRA (subgroup 11, "Alimentação no domicílio"), so it needs no SGS code.
 
-**Availability problem (2026-10-18):** after about 30 probe requests over two days, every SGS request
-from this machine started returning HTTP 200 with either an HTML "Requisição inválida" page or
-`{"erro":{"statusCode":500,"detail":"Internal error"}}`. The client now treats both as failures,
-throttles SGS to one request per 3 s, and backs off for 20 s, 60 s, 180 s… between retries.
+**Availability (2026-10-18 to 22):**
+- After about 30 probe requests over two days, every SGS request from this machine started returning
+  HTTP 200 with either an HTML "Requisição inválida" page or
+  `{"erro":{"statusCode":500,"detail":"Internal error"}}`. Access came back by 2026-10-22.
+- The client now treats both responses as failures. It throttles SGS to one request every 3 s and
+  backs off for 20 s, 60 s, 180 s… between retries.
+- From GitHub's runners (the manual "Source health" workflow, 2026-10-22), SGS, SIDRA and Focus all
+  answered normally.
 
 ### BCB Olinda: Focus market expectations
 

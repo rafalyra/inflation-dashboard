@@ -1,21 +1,25 @@
 # Glossary
 
-Plain-language definitions. This file feeds the site's Learn page and, later, the assistant.
-Seeded from SPEC §3. Each entry will gain a fuller explanation and a live example in Phase 1.
+Plain-language definitions. The site's Learn page shows these with live examples (in English
+and Portuguese, `web/src/i18n/`). Later, the AI assistant will draw on them. Formulas are in
+[methodology.md](methodology.md).
 
 | Term | Meaning |
 |---|---|
-| MoM | Month-over-month % change in the price index. |
-| 12-month (YoY) | % change versus the same month a year earlier. This is the headline number in the news. |
-| YTD | Accumulated change since December of the previous year. |
-| NSA / SA | Not seasonally adjusted / seasonally adjusted. SA is needed to read MoM as a trend. |
-| SAAR | Seasonally adjusted annualized rate, e.g. 3-month SAAR = ((I_t / I_{t-3})^4 − 1), using an SA index. It shows turning points before the 12-month rate does. |
-| Core | A measure that strips out volatile items to show the underlying trend. Each country defines it differently. |
-| Contribution (pp) | How many percentage points of the headline change came from a component, roughly weight × change. Contributions add up to the headline. |
-| Diffusion | Share of items whose prices rose in the month (by count or by weight). |
-| Target band | The central bank's target and tolerance interval. |
-| Surprise | Actual minus expected, in pp. |
-| Base effect | The 12-month rate next month depends on which month leaves the 12-month window. If the new monthly print is above the one dropping out, the 12-month rate rises. |
-| Real policy rate (ex-ante) | (1 + policy rate) / (1 + expected inflation over the next 12 months) − 1. |
+| MoM (monthly change) | % change in the price index from one month to the next. |
+| 12-month (YoY) | % change versus the same month a year earlier. This is the headline number in the news. It compounds the last 12 monthly changes. |
+| YTD (year to date) | Accumulated change since December of the previous year. |
+| NSA / SA | Not seasonally adjusted / seasonally adjusted. SA removes regular calendar patterns (school fees in February, harvests) so a monthly change can be read as a trend. |
+| SAAR | Seasonally adjusted annualized rate: a 3- or 6-month SA change expressed as if it lasted a year. It shows turning points before the 12-month rate does, but with more noise. |
+| Core | A measure that strips out volatile items to show the underlying trend. Each country defines it differently. Brazil's central bank watches several, and we show their average and range. |
+| Contribution (pp) | How many percentage points of the headline change came from a component: its weight times its own change. Contributions add up to the headline. |
+| Diffusion | Share of items whose prices rose in the month. High diffusion means increases are widespread. |
+| Free / administered prices | Administered (monitored) prices are set or regulated by contracts or the government, for example electricity, fuel and public transport. Free prices respond to supply and demand. |
+| Target band | The central bank's target and tolerance interval. Brazil: 3% ± 1.5 pp. Since 2025 the target is continuous: it is missed after 6 consecutive months outside the band. |
+| Surprise | Actual minus expected, in pp, using the last survey published before the release. |
+| Base effect | The 12-month rate next month depends on which month leaves the 12-month window. If the new print is bigger than the one dropping out, the 12-month rate rises. |
+| Real policy rate (ex-ante) | (1 + policy rate) / (1 + expected inflation over the next 12 months) − 1. It shows how tight monetary policy really is. |
+| Focus survey | The BCB's weekly survey of about 140 banks and consultancies' forecasts. We use the median over the last 30 days. |
+| IPCA-15 | A preview of the IPCA, with prices collected from around the 16th of the previous month to the 15th of the reference month. |
 | Vintage | The value as first published at a given release, before any revision. |
 | Flash / final | A preliminary estimate followed by the definitive one (Eurozone HICP). |
