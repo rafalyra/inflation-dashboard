@@ -28,3 +28,6 @@ web/public/data/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Downloaded third-party binaries (X-13ARIMA-SEATS)
+/tools/

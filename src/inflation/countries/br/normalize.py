@@ -14,6 +14,7 @@ levels can start or end at a basket change, which `first_period`/`last_period` r
 
 from __future__ import annotations
 
+import csv
 from collections.abc import Iterable
 from datetime import date
 from pathlib import Path
@@ -116,8 +117,18 @@ def _sidra_observations(
     return df[OBSERVATION_COLUMNS].reset_index(drop=True), df
 
 
+ITEM_LABELS_PATH = Path(__file__).with_name("item_labels.csv")
+
+
+def _english_labels() -> dict[str, str]:
+    """English names for subgroups and items (our translation; IBGE publishes Portuguese only)."""
+    with ITEM_LABELS_PATH.open(encoding="utf-8", newline="") as f:
+        return {row["code"]: row["label_en"] for row in csv.DictReader(f)}
+
+
 def _generated_series(detail: pd.DataFrame, catalog: list[dict[str, str]]) -> pd.DataFrame:
     """Catalog rows for subgroups, items and subitems, built from IBGE's classification."""
+    english = _english_labels()
     known = {row["series_id"] for row in catalog}
     lower = detail[~detail["series_id"].isin(known)]
     # Label from the newest basket in which the series appears.
@@ -145,9 +156,8 @@ def _generated_series(detail: pd.DataFrame, catalog: list[dict[str, str]]) -> pd
                     },
                 ),
                 "level": level,
-                # English labels for items are added in Part B (item_labels.csv); until
-                # then the Portuguese name is used in both languages.
-                "label_en": row["name"],
+                # Subitems (~380) keep the Portuguese name in both languages.
+                "label_en": english.get(code, row["name"]),
                 "label_pt": row["name"],
                 "source": "ibge_sidra",
                 "source_code": code,

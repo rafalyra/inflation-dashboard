@@ -44,6 +44,16 @@ class Target(_Config):
         return self
 
 
+class SeriesRoles(_Config):
+    """Catalog series ids for each role on the country page."""
+
+    headline: str
+    preview: str | None = None  # e.g. Brazil's IPCA-15, a mid-month preview
+    diffusion: str | None = None
+    policy_rate: str | None = None
+    fx: str | None = None
+
+
 class CountryConfig(_Config):
     enabled: bool
     name: LocalizedName
@@ -56,6 +66,11 @@ class CountryConfig(_Config):
     primary_expectation_source: str | None = None
     core_set: tuple[str, ...] = ()
     chart_start_year: int = Field(ge=1900)
+    series: SeriesRoles
+    panels: dict[str, tuple[str, ...]] = {}
+
+    def core_series_ids(self, code: str) -> list[str]:
+        return [f"{code}.core.{name.lower().replace('-', '_')}" for name in self.core_set]
 
     @field_validator("timezone")
     @classmethod

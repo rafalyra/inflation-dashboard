@@ -38,10 +38,15 @@ def _months_between(first: str, last: str) -> list[str]:
     return [p.strftime("%Y-%m") for p in pd.period_range(first, last, freq="M")]
 
 
+# Series whose months must be complete: a hole would silently break chained metrics
+# (12-month rates, contributions) for every month whose window contains it.
+GAP_FREE_CONCEPTS = ("headline", "group")
+
+
 def _headline_has_no_gaps(data: Normalized) -> list[CheckResult]:
-    """A missing month in a headline series would silently break every chained metric."""
+    """No missing months in headline and group series."""
     results = []
-    headlines = data.series.loc[data.series["concept"] == "headline", "series_id"]
+    headlines = data.series.loc[data.series["concept"].isin(GAP_FREE_CONCEPTS), "series_id"]
     for series_id in headlines:
         periods = data.observations.loc[
             (data.observations["series_id"] == series_id)

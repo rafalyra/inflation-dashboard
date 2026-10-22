@@ -1,0 +1,72 @@
+code,label_en
+11,Food at home
+1101,"Cereals, legumes and oilseeds"
+1102,"Flours, starches and pasta"
+1103,"Tubers, roots and vegetables"
+1104,Sugar and sweets
+1105,Leafy vegetables and greens
+1106,Fruit
+1107,Meat
+1108,Fish and seafood
+1109,Processed meat and fish
+1110,Poultry and eggs
+1111,Milk and dairy
+1112,Bread and bakery
+1113,Oils and fats
+1114,Beverages and infusions
+1115,Canned and preserved food
+1116,Salt and seasonings
+12,Food away from home
+1201,Food away from home
+21,Housing costs and upkeep
+2101,Rent and housing fees
+2103,Home repairs
+2104,Cleaning products
+22,Fuel and energy
+2201,Household fuel
+2202,Residential electricity
+31,Furniture and household goods
+3101,Furniture
+3102,Utensils and decor
+3103,"Bed, table and bath linen"
+32,Appliances and electronics
+3201,Household appliances
+3202,"TV, audio and computers"
+33,Repairs and maintenance
+3301,Repairs and maintenance
+41,Clothing
+4101,Men's clothing
+4102,Women's clothing
+4103,Children's clothing
+42,Footwear and accessories
+4201,Footwear and accessories
+43,Jewelry and costume jewelry
+4301,Jewelry and costume jewelry
+44,Fabrics and haberdashery
+4401,Fabrics and haberdashery
+51,Transport
+5101,Public transport
+5102,Own vehicle
+5104,Vehicle fuel
+61,Pharmaceutical and optical products
+6101,Pharmaceutical products
+6102,Optical products
+62,Health services
+6201,Medical and dental services
+6202,Lab and hospital services
+6203,Health insurance
+63,Personal care
+6301,Personal hygiene
+71,Personal services
+7101,Personal services
+72,Recreation and tobacco
+7201,Recreation
+7202,Tobacco
+7203,Photography and filming
+81,"Courses, reading and stationery"
+8101,Regular schooling
+8102,Reading
+8103,Stationery
+8104,Other courses
+91,Communication
+9101,Communication

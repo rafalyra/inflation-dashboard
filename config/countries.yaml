@@ -29,6 +29,19 @@ countries:
     # Focus median over the last 30 days (the published report's figure). The 5-day
     # median (bcb_focus_5d) is shown as secondary.
     primary_expectation_source: bcb_focus_30d
-    # Core measures averaged on the Brazil page. Default per SPEC §6.1; confirm in Phase 1.
+    # Core measures averaged on the Brazil page (SPEC §6.1 default). Each name maps to the
+    # catalog series br.core.<name in lower case>, e.g. EX0 → br.core.ex0.
     core_set: [EX0, EX3, MS, DP, P55]
     chart_start_year: 2010
+    # Which catalog series play each role on the country page.
+    series:
+      headline: br.ipca.headline
+      preview: br.ipca15.headline
+      diffusion: br.ipca.diffusion
+      policy_rate: br.policy.selic_target
+      fx: br.fx.usdbrl
+    # Country-specific comparison panels: each lists series shown side by side (12-month rates).
+    panels:
+      free_vs_administered: [br.ipca.free, br.ipca.administered]
+      # BCB Technical Note 57 pair, built the same way so the comparison is like-for-like.
+      services_vs_goods: [br.core.ex3_services, br.core.ex3_industrial]

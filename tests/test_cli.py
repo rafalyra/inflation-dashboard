@@ -22,10 +22,3 @@ def test_due_with_repo_config(repo_config_dir: Path) -> None:
 def test_unknown_country_rejected(repo_config_dir: Path) -> None:
     result = runner.invoke(app, ["compute", "zz", "--config-dir", str(repo_config_dir)])
     assert result.exit_code == 2
-
-
-def test_unimplemented_step_fails_loudly(repo_config_dir: Path) -> None:
-    # A stub must never look like success to automation. (`compute` is still a stub;
-    # `run` would touch the network, which tests never do.)
-    result = runner.invoke(app, ["compute", "br", "--config-dir", str(repo_config_dir)])
-    assert result.exit_code == 1

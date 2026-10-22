@@ -27,11 +27,6 @@ def _require_enabled(country: str, config_dir: Path) -> None:
         raise typer.Exit(code=2)
 
 
-def _not_implemented(step: str) -> None:
-    typer.echo(f"`{step}` is not implemented yet (Phase 1, part B).", err=True)
-    raise typer.Exit(code=1)
-
-
 def _fetch(country: str, full_history: bool) -> None:
     try:
         pipeline.fetch(country, full_history=full_history)
@@ -40,14 +35,17 @@ def _fetch(country: str, full_history: bool) -> None:
         raise typer.Exit(code=1) from exc
 
 
-def _build(country: str, config_dir: Path, write: bool) -> None:
-    result = pipeline.build(country, config_dir=config_dir, write=write)
+def _build(country: str, config_dir: Path, write: bool, export: bool = False) -> None:
+    step = pipeline.export if export else pipeline.build
+    result = step(country, config_dir=config_dir, write=write)
     typer.echo(format_report(result.report))
     if not result.report.passed:
         typer.echo("Validation failed: nothing was stored or published.", err=True)
         raise typer.Exit(code=1)
     if write:
         typer.echo(f"Stored {len(result.data.observations):,} observations for {country}.")
+    if export and write:
+        typer.echo(f"Wrote {pipeline.EXPORT_DIR / (country + '.json')} and overview.json.")
 
 
 @app.command()
@@ -72,16 +70,16 @@ def validate(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR)
 
 @app.command()
 def compute(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -> None:
-    """Compute country-agnostic metrics from validated data."""
+    """Validate and compute every metric from the saved raw files, without writing anything."""
     _require_enabled(country, config_dir)
-    _not_implemented("compute")
+    _build(country, config_dir, write=False, export=True)
 
 
 @app.command()
 def export(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -> None:
-    """Write JSON for the web app."""
+    """Validate the saved raw files, store them, and write the web app's JSON."""
     _require_enabled(country, config_dir)
-    _not_implemented("export")
+    _build(country, config_dir, write=True, export=True)
 
 
 @app.command()
@@ -89,7 +87,7 @@ def run(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR) -> N
     """Refresh recent data, validate it, and store it only if every check passes."""
     _require_enabled(country, config_dir)
     _fetch(country, full_history=False)
-    _build(country, config_dir, write=True)
+    _build(country, config_dir, write=True, export=True)
 
 
 @app.command()
@@ -97,7 +95,7 @@ def backfill(country: CountryArg, config_dir: ConfigDirOpt = DEFAULT_CONFIG_DIR)
     """Download a country's full history, validate it, and store it if every check passes."""
     _require_enabled(country, config_dir)
     _fetch(country, full_history=True)
-    _build(country, config_dir, write=True)
+    _build(country, config_dir, write=True, export=True)
 
 
 @app.command()

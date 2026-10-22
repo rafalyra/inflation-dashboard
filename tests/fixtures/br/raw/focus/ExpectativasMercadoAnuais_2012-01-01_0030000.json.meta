@@ -1,0 +1,4 @@
+{
+ "fetched_at_utc": "2026-10-18T23:15:43.327443+00:00",
+ "url": "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$filter=Indicador%20eq%20%27IPCA%27%20and%20Data%20ge%20%272012-01-01%27&$orderby=Data%20asc&$top=10000&$skip=30000&$format=json"
+}

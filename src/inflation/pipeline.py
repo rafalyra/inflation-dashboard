@@ -7,19 +7,23 @@ caller gets the report explaining what failed.
 from __future__ import annotations
 
 import csv
+import json
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 # Importing each country package registers its adapter.
 import inflation.countries.br  # noqa: F401
-from inflation.config import CALENDAR_COLUMNS, DEFAULT_CONFIG_DIR, load_calendar
+from inflation.config import CALENDAR_COLUMNS, DEFAULT_CONFIG_DIR, load_calendar, load_settings
 from inflation.countries.base import CountryAdapter, Normalized, get_adapter_class
+from inflation.export import CountryExport, overview, write_json
 from inflation.models import ValidationReport
 from inflation.store import DEFAULT_ROOT, Store
 from inflation.validate import run_validation
 
 RAW_ROOT = Path("raw")
+# The web app reads these at build time; the folder is gitignored (never committed to main).
+EXPORT_DIR = Path("web/public/data")
 
 # A routine refresh re-reads a little over a year, so revisions and the 12-month window
 # are always current without re-downloading all history.
@@ -30,6 +34,7 @@ REFRESH_WINDOW = timedelta(days=400)
 class BuildResult:
     report: ValidationReport
     data: Normalized
+    payload: dict[str, object] | None = None
 
 
 def adapter_for(country: str) -> CountryAdapter:
@@ -76,3 +81,36 @@ def update_calendar(country: str, config_dir: Path = DEFAULT_CONFIG_DIR) -> Path
         writer.writeheader()
         writer.writerows(rows)
     return path
+
+
+def export(
+    country: str,
+    config_dir: Path = DEFAULT_CONFIG_DIR,
+    out_dir: Path = EXPORT_DIR,
+    write: bool = True,
+) -> BuildResult:
+    """Validate, then compute metrics and write JSON. Nothing is written if validation fails."""
+    result = build(country, config_dir=config_dir, write=write)
+    if not result.report.passed:
+        return result
+    settings = load_settings(config_dir)
+    payload = CountryExport(
+        country,
+        settings.countries[country],
+        result.data,
+        load_calendar(country, config_dir),
+        result.report,
+        datetime.now(UTC),
+    ).build()
+    if write:
+        write_json(out_dir / f"{country}.json", payload)
+        exported = []
+        for code in settings.enabled_countries():
+            path = out_dir / f"{code}.json"
+            if path.exists():
+                exported.append(json.loads(path.read_text("utf-8")))
+        write_json(
+            out_dir / "overview.json",
+            overview(exported, settings.site.default_locale, datetime.now(UTC)),
+        )
+    return BuildResult(report=result.report, data=result.data, payload=payload)

@@ -27,20 +27,39 @@ class SidraTable:
     indicator: str
     variables: dict[int, str]  # SIDRA variable id -> our unit
     with_categories: bool
+    first: int  # first month (YYYYMM), from the table's metadata
+    last: int | None = None  # last month for closed tables; None = still updated
 
 
 # Basket eras (see NOTES.md): table 1419 covers Jan 2012–Dec 2019, table 7060 Jan 2020 on.
-# Table 1737 carries the long headline history and the index number.
+# Table 1737 carries the long headline history and the index number. First/last months were
+# read from each table's metadata on 2026-10-17/18 (docs/sources.md). We don't query the
+# metadata host at fetch time: it was unreachable on 2026-10-22, also from GitHub runners.
 SIDRA_TABLES = [
     SidraTable(
-        7060, "IPCA", {63: "mom_pct", 69: "ytd_pct", 2265: "yoy_pct", 66: "weight_pct"}, True
+        7060,
+        "IPCA",
+        {63: "mom_pct", 69: "ytd_pct", 2265: "yoy_pct", 66: "weight_pct"},
+        True,
+        202001,
     ),
     SidraTable(
-        1419, "IPCA", {63: "mom_pct", 69: "ytd_pct", 2265: "yoy_pct", 66: "weight_pct"}, True
+        1419,
+        "IPCA",
+        {63: "mom_pct", 69: "ytd_pct", 2265: "yoy_pct", 66: "weight_pct"},
+        True,
+        201201,
+        201912,
     ),
-    SidraTable(1737, "IPCA", {2266: "index", 63: "mom_pct", 69: "ytd_pct", 2265: "yoy_pct"}, False),
     SidraTable(
-        7062, "IPCA15", {355: "mom_pct", 356: "ytd_pct", 1120: "yoy_pct", 357: "weight_pct"}, True
+        1737, "IPCA", {2266: "index", 63: "mom_pct", 69: "ytd_pct", 2265: "yoy_pct"}, False, 197912
+    ),
+    SidraTable(
+        7062,
+        "IPCA15",
+        {355: "mom_pct", 356: "ytd_pct", 1120: "yoy_pct", 357: "weight_pct"},
+        True,
+        202002,
     ),
 ]
 
@@ -54,13 +73,18 @@ def load_catalog_rows() -> list[dict[str, str]]:
 
 
 def _chunks(start: int, end: int, by_year: bool) -> list[tuple[int, int, str]]:
-    """Split a YYYYMM range into request windows: per calendar year, or all at once."""
+    """Split a YYYYMM range into request windows: per calendar year, or all at once.
+
+    The label names the file, so it must describe exactly the range inside: a short
+    refresh must never overwrite a file that holds the full history.
+    """
     if not by_year:
-        return [(start, end, "all")]
-    return [
-        (max(start, year * 100 + 1), min(end, year * 100 + 12), str(year))
+        return [(start, end, f"{start}-{end}")]
+    windows = [
+        (max(start, year * 100 + 1), min(end, year * 100 + 12))
         for year in range(start // 100, end // 100 + 1)
     ]
+    return [(a, b, f"{a}-{b}") for a, b in windows]
 
 
 @register
@@ -82,20 +106,20 @@ class BrazilAdapter(CountryAdapter):
 
     # ---- fetch -------------------------------------------------------------------------
 
-    def _sidra_metadata(self, table: int) -> dict[str, object]:
-        url = sidra.METADATA_URL.format(table=table)
-        response = self.client.get(url)
-        self.raw.save(f"sidra/meta_{table}.json", response.content, url)
-        meta: dict[str, object] = response.json()
-        return meta
+    def _latest_month(self, spec: SidraTable) -> int:
+        """Newest month the table publishes, asked of the values API itself ("last 1")."""
+        path = sidra.latest_path(spec.table, next(iter(spec.variables)), spec.with_categories)
+        body = self.client.get(path, validate=sidra.validate_values).json()
+        (value,) = sidra.parse_values(spec.table, body)
+        return int(value.period.replace("-", ""))
 
     def fetch(self, since: date) -> None:
         for spec in SIDRA_TABLES:
-            meta = self._sidra_metadata(spec.table)
-            periodicity = meta["periodicidade"]
-            assert isinstance(periodicity, dict)
-            first, last = int(periodicity["inicio"]), int(periodicity["fim"])
+            first = spec.first
+            last = spec.last if spec.last is not None else self._latest_month(spec)
             start = max(first, since.year * 100 + since.month)
+            if start > last:
+                continue  # a closed basket table outside the requested window
             for p_from, p_to, label in _chunks(start, last, by_year=spec.with_categories):
                 # One request per variable (and per year for the ~460-category tables)
                 # keeps each response far below SIDRA's 100,000-value limit.
@@ -149,8 +173,8 @@ class BrazilAdapter(CountryAdapter):
         return sorted(rows, key=lambda r: (r["release_date"], r["indicator"]))
 
     def latest_reference_period(self, indicator: str) -> str:
-        url = sidra.METADATA_URL.format(table=LATEST_TABLE[indicator])
-        last = str(self.client.get(url).json()["periodicidade"]["fim"])
+        spec = next(t for t in SIDRA_TABLES if t.table == LATEST_TABLE[indicator])
+        last = str(self._latest_month(spec))
         return f"{last[:4]}-{last[4:]}"
 
     # ---- normalize & checks: below -------------------------------------------------------

@@ -54,6 +54,14 @@ def values_path(
     return path
 
 
+def latest_path(table: int, variable: int, with_categories: bool) -> str:
+    """URL path for the newest published month of the general index."""
+    path = f"{VALUES_URL}/t/{table}/n1/all/v/{variable}/p/last%201"
+    if with_categories:
+        path += f"/c{CLASSIFICATION}/{GENERAL_INDEX_CATEGORY}"
+    return path
+
+
 def validate_values(response: httpx.Response) -> None:
     require_json(response)
     body = response.json()
