@@ -3,9 +3,9 @@
 Run from the repo root after a fetch:  uv run python tests/fixtures/br/record.py
 
 Nothing here is invented: every kept row is copied verbatim from a raw response; rows are
-only dropped, to keep the fixtures small (headline + 9 groups, Sep 2025 – Sep 2026; items
-for Sep 2026 only; plus Dec 2019 for the table-overlap check). Each file keeps its original fetch
-record (URL and time).
+only dropped, to keep the fixtures small: headline and 9 groups for Sep 2025 – Sep 2026, every
+level for Sep 2026, and Dec 2019 for the table-overlap check. Each file keeps its original
+fetch record (URL and time).
 """
 
 from __future__ import annotations
@@ -36,7 +36,9 @@ def keep_sidra(rows: list[dict[str, str]], first: str, last: str) -> list[dict[s
         code = row[name_key].partition(".")[0]
         # General index and the 9 groups (1 digit) every month; items (4 digits) only in
         # the latest month, where the top movers are computed.
-        return not code.isdigit() or len(code) == 1 or (len(code) == 4 and row[month_key] == last)
+        # Subgroups and subitems too in the latest month (BCB segments, basket map).
+        latest_only = len(code) in (2, 4, 7) and row[month_key] == last
+        return not code.isdigit() or len(code) == 1 or latest_only
 
     return [header, *[r for r in body if wanted(r)]]
 

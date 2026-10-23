@@ -14,6 +14,7 @@ from typing import Any
 
 import pandas as pd
 
+from inflation import export_deep
 from inflation.config import CalendarEntry, CountryConfig
 from inflation.countries.base import Normalized
 from inflation.metrics import (
@@ -475,6 +476,14 @@ class CountryExport:
                 }
         return out
 
+    def explore(self) -> dict[str, Any]:
+        """The Explore tab's data: every category of the headline, in a separate file."""
+        return {
+            "schema_version": SCHEMA_VERSION,
+            "generated_at_utc": self.now.isoformat(),
+            **export_deep.explore_payload(self, self.cfg.series.headline),
+        }
+
     def build(self) -> dict[str, Any]:
         hid = self.cfg.series.headline
         headline = self.headline_release(hid)
@@ -512,6 +521,11 @@ class CountryExport:
                 "diffusion": self.diffusion_section(),
             },
             "momentum": self.momentum_section(hid),
+            "adjusted": export_deep.adjusted_momentum(
+                self, hid, f"{self.cfg.chart_start_year - SA_ESTIMATION_YEARS}-01"
+            ),
+            "composition": export_deep.composition_section(self, hid, headline["reference_period"]),
+            "seasonality": export_deep.seasonality_section(self, hid, headline["reference_period"]),
             "base_effects": self.base_effects_section(headline),
             "policy": self.policy_section(),
             "history": {

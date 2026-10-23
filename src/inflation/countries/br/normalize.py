@@ -24,6 +24,7 @@ import pandas as pd
 from inflation.countries.base import Normalized
 from inflation.countries.br import sgs, sidra
 from inflation.countries.br.adapter import SIDRA_TABLES
+from inflation.countries.br.composition import segment_observations
 from inflation.countries.br.ibge_calendar import release_id
 from inflation.frames import (
     DAILY_COLUMNS,
@@ -257,7 +258,10 @@ def _focus(raw: RawStore) -> pd.DataFrame:
 def normalize(raw: RawStore, catalog: list[dict[str, str]]) -> Normalized:
     sidra_obs, detail = _sidra_observations(raw, catalog)
     sgs_obs, daily = _sgs(raw, catalog)
-    observations = pd.concat([sidra_obs, sgs_obs], ignore_index=True).astype({"value": float})
+    segments = segment_observations(sidra_obs)
+    observations = pd.concat([sidra_obs, segments, sgs_obs], ignore_index=True).astype(
+        {"value": float}
+    )
     observations["fetched_at_utc"] = pd.to_datetime(observations["fetched_at_utc"], utc=True)
     daily = daily.astype({"value": float})
     daily["fetched_at_utc"] = pd.to_datetime(daily["fetched_at_utc"], utc=True)

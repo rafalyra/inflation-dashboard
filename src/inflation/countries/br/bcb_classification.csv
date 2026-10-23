@@ -1,0 +1,62 @@
+code,category,label
+# BCB classification of IPCA subitems from January 2020 (POF 2017-2018 basket).
+# Source: BCB, Estudo Especial 69/2019, Tabela 5 "Classificações do IPCA a partir de janeiro
+# de 2020: estrutura completa" (verified 2026-10-23). The longest matching code prefix wins;
+# subitems matched by no row are industrial goods (the BCB defines that segment as free prices
+# minus food at home and services). Categories: food = Alimentação no domicílio,
+# services = Serviços, administered = Monitorados, industrial = Bens industriais.
+11,food,Alimentação no domicílio
+12,services,Alimentação fora do domicílio
+2101001,services,Aluguel residencial
+2101002,services,Condomínio
+2101012,services,Mudança
+2103042,services,Mão de obra (Reparos)
+33,services,Consertos e manutenção
+5101010,services,Passagem aérea
+5101026,services,Transporte escolar
+5101051,services,Transporte por aplicativo
+5102005,services,Seguro voluntário de veículo
+5102011,services,Conserto de automóvel
+5102013,services,Estacionamento
+5102037,services,Pintura de veículo
+5102051,services,Aluguel de veículo
+6201,services,Serviços médicos e dentários
+6202,services,Serviços laboratoriais e hospitalares
+7101,services,Serviços pessoais (exceto Cartório e Conselho de classe)
+7201,services,Recreação (exceto os itens abaixo)
+7201010,industrial,Instrumento musical
+7201019,industrial,Bicicleta
+7201020,industrial,Alimento para animais
+7201023,industrial,Brinquedo
+7201067,industrial,Material de caça e pesca
+8101,services,Cursos regulares
+8104,services,Cursos diversos
+9101008,services,Plano de telefonia móvel
+9101010,services,TV por assinatura
+9101018,services,Acesso à internet
+9101115,services,Serviços de streaming
+9101116,services,"Combo de telefonia, internet e TV por assinatura"
+2101004,administered,Taxa de água e esgoto
+2201004,administered,Gás de botijão
+2201005,administered,Gás encanado
+2202003,administered,Energia elétrica residencial
+5101001,administered,Ônibus urbano
+5101002,administered,Táxi
+5101004,administered,Trem
+5101006,administered,Ônibus intermunicipal
+5101007,administered,Ônibus interestadual
+5101011,administered,Metrô
+5101053,administered,Integração transporte público
+5102004,administered,Emplacamento e licença
+5102006,administered,Multa
+5102015,administered,Pedágio
+5104001,administered,Gasolina
+5104003,administered,Óleo diesel
+5104005,administered,Gás veicular
+6101,administered,Produtos farmacêuticos
+6203,administered,Plano de saúde
+7101034,administered,Cartório
+7101090,administered,Conselho de classe
+7201063,administered,Jogos de azar
+9101001,administered,Correio
+9101002,administered,Plano de telefonia fixa

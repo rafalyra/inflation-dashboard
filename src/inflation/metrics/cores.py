@@ -20,3 +20,11 @@ def core_summary(core_yoy_pct: pd.DataFrame) -> pd.DataFrame:
             "max_pct": complete.max(axis=1),
         }
     )
+
+
+def core_mean_mom(core_mom_pct: pd.DataFrame) -> pd.Series:
+    """Average monthly change across core measures (columns), for months where all exist.
+
+    Used to build a core index for seasonal adjustment and core momentum.
+    """
+    return core_mom_pct.dropna().mean(axis=1)

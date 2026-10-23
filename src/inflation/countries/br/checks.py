@@ -219,6 +219,47 @@ def tables_agree_on_overlap(raw: RawStore) -> CheckResult:
     )
 
 
+def segments_match_published(obs: pd.DataFrame) -> list[CheckResult]:
+    """Our BCB segments (built from IBGE subitems) must reproduce the series the BCB and IBGE
+    publish: free prices (SGS 11428), administered (4449), services (10844) and food at home
+    (IBGE subgroup 11), in every month since Jan 2020, within rounding."""
+    seg = {
+        k: _series(obs, f"br.ipca.bcb.{k}", u)
+        for k in ("food", "industrial", "services", "administered")
+        for u in ("mom_pct",)
+    }
+    weights = {k: _series(obs, f"br.ipca.bcb.{k}", "weight_pct") for k in seg}
+    if any(s.empty for s in seg.values()):
+        return [CheckResult(name="bcb_segments_present", passed=False, detail="no segment data")]
+    free_keys = ("food", "industrial", "services")
+    free_w = sum(weights[k] for k in free_keys)
+    free = sum(weights[k] * seg[k] for k in free_keys) / free_w
+    pairs = {
+        "free": (free, _series(obs, "br.ipca.free", "mom_pct")),
+        "administered": (seg["administered"], _series(obs, "br.ipca.administered", "mom_pct")),
+        "services": (seg["services"], _series(obs, "br.ipca.services", "mom_pct")),
+        "food": (seg["food"], _series(obs, "br.ipca.subgroup.11", "mom_pct")),
+    }
+    results = []
+    for name, (ours, published) in pairs.items():
+        both = pd.concat([ours, published], axis=1, keys=["ours", "published"]).dropna()
+        gap = (both["ours"] - both["published"]).abs()
+        worst = gap.idxmax() if len(gap) else None
+        results.append(
+            CheckResult(
+                name=f"bcb_segment_{name}_matches_published",
+                passed=bool(len(gap)) and bool((gap <= TOLERANCE_PP + EXACT).all()),
+                expected=round(float(both.loc[worst, "published"]), 4) if worst else None,
+                actual=round(float(both.loc[worst, "ours"]), 4) if worst else None,
+                tolerance=TOLERANCE_PP,
+                detail=f"{len(gap)} months, largest gap at {worst}"
+                if worst
+                else "no overlapping months",
+            )
+        )
+    return results
+
+
 def official_checks(
     data: Normalized, raw: RawStore, calendar: list[CalendarEntry], now_utc: datetime
 ) -> list[CheckResult]:
@@ -234,4 +275,5 @@ def official_checks(
     results.append(sgs_copy_matches_sidra(obs, "br.bcb.ipca_12m", "yoy_pct"))
     results.append(sgs_series_are_current(obs))
     results.append(tables_agree_on_overlap(raw))
+    results.extend(segments_match_published(obs))
     return results

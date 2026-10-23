@@ -94,16 +94,18 @@ def export(
     if not result.report.passed:
         return result
     settings = load_settings(config_dir)
-    payload = CountryExport(
+    exporter = CountryExport(
         country,
         settings.countries[country],
         result.data,
         load_calendar(country, config_dir),
         result.report,
         datetime.now(UTC),
-    ).build()
+    )
+    payload = exporter.build()
     if write:
         write_json(out_dir / f"{country}.json", payload)
+        write_json(out_dir / f"{country}-explore.json", exporter.explore())
         exported = []
         for code in settings.enabled_countries():
             path = out_dir / f"{code}.json"

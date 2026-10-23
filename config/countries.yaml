@@ -77,6 +77,22 @@ countries:
         up: "#b28324"
         down: "#578ed4"
         series: ["#346aac", "#50a064", "#407bc5", "#b28324", "#139cb6", "#9f7100", "#578ed4", "#287c42"]
+    # Ways to split the headline into parts that add up to it. Each set gets monthly and
+    # 12-month contributions on the Composition tab. The BCB segments are aggregated from
+    # IBGE subitems with the BCB's own classification (from Jan 2020; validated against SGS).
+    composition:
+      bcb_segments: [br.ipca.bcb.food, br.ipca.bcb.industrial, br.ipca.bcb.services, br.ipca.bcb.administered]
+    # Seasonality tab: the "normal" pattern for each calendar month comes from these years
+    # (2012 onward, skipping the pandemic and the 2021-22 shock; the window grows each year).
+    seasonality:
+      baseline_start_year: 2012
+      baseline_exclude_years: [2020, 2021, 2022]
+      # Long official histories where they exist (BCB SGS, IBGE subgroup 11); industrial
+      # goods only exists as our 2020+ aggregate, so its baseline is short (the page says so).
+      series: [br.ipca.headline, br.ipca.subgroup.11, br.ipca.services, br.ipca.bcb.industrial, br.ipca.administered, br.ipca.free]
+    # Weighted diffusion counts subitems whose 12-month change is above this level (the
+    # band ceiling), next to the share whose price rose in the month.
+    diffusion_threshold_pct: 4.5
     # Country-specific comparison panels: each lists series shown side by side (12-month rates).
     panels:
       free_vs_administered: [br.ipca.free, br.ipca.administered]

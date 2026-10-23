@@ -34,3 +34,16 @@ def same_month_history(mom_pct: pd.Series, period: str, years: int) -> dict[str,
         "min_pct": float(past.min()) if len(past) else None,
         "max_pct": float(past.max()) if len(past) else None,
     }
+
+
+def sa_mom_pct(sa_index: pd.Series) -> pd.Series:
+    """Seasonally adjusted monthly change: I_t / I_{t−1} − 1 on the adjusted index, in %."""
+    sa_index = sa_index.sort_index()
+    return ((sa_index / sa_index.shift(1) - 1) * 100).dropna()
+
+
+def index_from_mom(mom_pct: pd.Series, base: float = 100.0) -> pd.Series:
+    """An index built by chaining monthly changes, for series published only as rates
+    (e.g. a core-measure average), so it can be seasonally adjusted."""
+    mom_pct = mom_pct.sort_index().dropna()
+    return base * (1 + mom_pct / 100).cumprod()

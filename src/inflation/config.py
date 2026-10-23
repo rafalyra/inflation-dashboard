@@ -89,6 +89,22 @@ class SeriesRoles(_Config):
     fx: str | None = None
 
 
+class Seasonality(_Config):
+    """Which years define each calendar month's 'normal' change, and which series to show."""
+
+    baseline_start_year: int
+    baseline_exclude_years: tuple[int, ...] = ()
+    series: tuple[str, ...] = ()
+
+    def baseline_years(self, before_year: int) -> list[int]:
+        """Baseline years up to (not including) `before_year`, minus the excluded ones."""
+        return [
+            y
+            for y in range(self.baseline_start_year, before_year)
+            if y not in self.baseline_exclude_years
+        ]
+
+
 class CountryConfig(_Config):
     enabled: bool
     name: LocalizedName
@@ -104,6 +120,9 @@ class CountryConfig(_Config):
     series: SeriesRoles
     theme: CountryTheme | None = None
     panels: dict[str, tuple[str, ...]] = {}
+    composition: dict[str, tuple[str, ...]] = {}
+    seasonality: Seasonality | None = None
+    diffusion_threshold_pct: float | None = None
 
     def core_series_ids(self, code: str) -> list[str]:
         return [f"{code}.core.{name.lower().replace('-', '_')}" for name in self.core_set]

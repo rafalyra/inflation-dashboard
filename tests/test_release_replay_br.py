@@ -81,7 +81,7 @@ def test_full_answer_key_passes(data: Normalized, adapter: BrazilAdapter) -> Non
     results = official_checks(data, adapter.raw, calendar, NOW)
     failed = {c.name: c for c in results if not c.passed}
     assert not failed, failed
-    assert len(results) == 17
+    assert len(results) == 21  # 17 headline checks + 4 BCB segment checks
 
 
 def test_generic_checks_pass(data: Normalized) -> None:
@@ -95,6 +95,7 @@ def test_export_reproduces_the_release(data: Normalized, monkeypatch: pytest.Mon
         raise SeasonalAdjustmentUnavailable("X-13 binary not found")
 
     monkeypatch.setattr("inflation.export.seasonally_adjust", no_x13)
+    monkeypatch.setattr("inflation.export_deep.seasonally_adjust", no_x13)
     settings = load_settings(CONFIG_DIR)
     report = ValidationReport(
         country="br",
@@ -123,6 +124,20 @@ def test_export_reproduces_the_release(data: Normalized, monkeypatch: pytest.Mon
     assert out["preview"]["mom_pct"] == 0.70
     assert out["preview"]["expected"] is None  # Focus has no IPCA-15 survey
     assert out["momentum"]["saar"] == {"available": False, "reason": "X-13 binary not found"}
+    assert out["adjusted"] == {"available": False, "reason": "X-13 binary not found"}
+    # BCB segments add up to the headline within rounding (Sep 2026).
+    parts = out["composition"]["sets"]["bcb_segments"]["parts"]
+    assert [p["label"]["en"] for p in parts] == [
+        "Food at home",
+        "Industrial goods",
+        "Services",
+        "Administered prices",
+    ]
+    assert sum(p["contribution_pp"] for p in parts) == pytest.approx(0.82, abs=0.01)
+    assert sum(p["weight_pct"] for p in parts) == pytest.approx(100.0, abs=0.01)
+    # The basket map covers groups down to subitems for the latest month.
+    levels = {n["level"] for n in out["composition"]["treemap"]["nodes"]}
+    assert levels == {1, 2, 3, 4}
 
 
 def test_focus_expectation_for_sep_2026(data: Normalized) -> None:
