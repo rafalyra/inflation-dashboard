@@ -154,14 +154,17 @@ when monthly rates were tens of percent. That's a property of rounding, not of t
 
 Each country's page palette and chart order live in `config/countries.yaml`.
 
-- **Chart series** reuse a categorical palette that was already checked for color-blind safety.
-  For Brazil it is reordered so that blue, green and gold lead.
-- **The order was checked by computation** (the dataviz palette validator) in light and dark mode,
-  against each mode's surface color:
-  - the lightness band and chroma floor;
-  - separation between neighboring colors as seen with each kind of color blindness;
+- **Built from the flag.** Brazil's chart series use only flag families: navy, mid and light blue,
+  light and dark green, gold and deep gold, plus a teal-blue bridge.
+- **How the colors were chosen.** Shades were generated in OKLCH inside the validator's lightness
+  band: 0.43–0.77 on the light surface and 0.48–0.67 on the dark one. Then every ordering of the
+  candidates was scored with the dataviz palette validator, in both modes:
+  - lightness band and chroma floor;
+  - separation between neighbors as seen with each kind of color blindness;
   - separation with normal color vision.
-  The weakest neighboring pair is aqua against red, at ΔE 6.5–6.9. It is only used in the stacked
-  chart, which adds 2px gaps between segments, a legend and a table view.
-- **Every chart has a "Show table" view,** because some light-mode hues are below 3:1 contrast
-  against the background.
+- **Result.** The chosen order's worst neighboring pair is ΔE 19.9 (light) and 18.4 (dark), well
+  above the 8 target.
+- **Increases and decreases** use gold and navy, a pairing that stays apart in every color-vision
+  type (ΔE ≈ 24).
+- **Table views.** Some light shades are below 3:1 contrast against the background, so every chart
+  has a "Show table" view.

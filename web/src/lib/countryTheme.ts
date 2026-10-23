@@ -21,6 +21,8 @@ function tokens(c: ThemeColors): string {
     ['--header-text', c.header_text],
     ['--color-accent', c.accent],
     ['--chart-band', c.band],
+    ['--diverging-up', c.up],
+    ['--diverging-down', c.down],
     ...c.series.map((hex, i): [string, string] => [`--series-${i + 1}`, hex]),
   ];
   return pairs.map(([k, v]) => `${k}: ${v};`).join(' ');

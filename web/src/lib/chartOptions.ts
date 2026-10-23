@@ -218,22 +218,27 @@ export function stackedOption(opts: {
   return {
     ...base(theme, true),
     grid: { left: 8, right: 16, top: 64, bottom: 8, containLabel: true },
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: fmt },
-    xAxis: { ...monthAxis(periods, theme, locale), boundaryGap: true },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'line', lineStyle: { color: theme.axis } }, valueFormatter: fmt },
+    xAxis: monthAxis(periods, theme, locale),
     yAxis: {
       type: 'value',
       ...axisCommon(theme),
       axisLabel: { ...axisCommon(theme).axisLabel, formatter: (v: number) => valueFormatter('pp', locale, 0)(v) },
     },
     series: [
+      // Stacked areas rather than ~160 thin monthly bars: a long monthly series reads as
+      // bands. Each band's top edge is drawn in the surface color, a 2px gap that keeps
+      // neighbors apart alongside their color. Positive and negative values stack apart.
       ...stacks.map((s) => ({
         name: s.name,
-        type: 'bar',
+        type: 'line',
         stack: 'c',
+        stackStrategy: 'samesign',
         data: s.values,
-        barCategoryGap: '20%',
-        // 2px surface gap between stacked segments (secondary encoding next to color).
-        itemStyle: { color: s.color, borderColor: theme.surface, borderWidth: 2 },
+        showSymbol: false,
+        lineStyle: { width: 2, color: theme.surface },
+        areaStyle: { color: s.color, opacity: 0.9 },
+        itemStyle: { color: s.color },
         emphasis: { focus: 'series' },
       })),
       {

@@ -57,6 +57,8 @@ export interface ThemeColors {
   header_text: string;
   accent: string;
   band: string;
+  up: string;
+  down: string;
   series: string[];
 }
 

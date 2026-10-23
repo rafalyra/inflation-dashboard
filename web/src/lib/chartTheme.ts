@@ -40,6 +40,9 @@ export function useChartTheme(): ChartTheme {
 
   useEffect(() => {
     const update = () => setTheme(readTheme());
+    // Re-read now as well: the country theme may have been applied before this effect
+    // subscribed (e.g. React's dev-mode remount drops the pending mutation record).
+    update();
     const observer = new MutationObserver(update);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-country'] });
     const media = window.matchMedia?.('(prefers-color-scheme: dark)');

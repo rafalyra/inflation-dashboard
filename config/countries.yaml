@@ -41,36 +41,42 @@ countries:
       policy_rate: br.policy.selic_target
       fx: br.fx.usdbrl
     # Page palette drawn from the flag (forest green, gold, navy, white), in muted tones.
-    # `series` is the chart order: the validated categorical hues, reordered so blue,
-    # green and gold come first; this order passed the colorblind checks in both modes
-    # (scripts in docs/methodology.md, "Chart colors").
+    # `series` (chart order) uses only flag families: navy / mid / light blue, light and
+    # dark green, gold and deep gold, plus a teal-blue bridge. Generated inside the
+    # validator's lightness band and checked for colorblind safety in both modes
+    # (worst neighbor ΔE 19.9 light, 18.4 dark; docs/methodology.md, "Chart colors").
+    # `up` / `down` color price increases and decreases (gold / navy).
     theme:
       light:
-        bg: "#f3f6f1"
+        bg: "#f8faf7"
         surface: "#ffffff"
-        surface_muted: "#e7eee6"
-        border: "#cfdacd"
+        surface_muted: "#eef3ec"
+        border: "#d9e2d6"
         text: "#142019"
         text_muted: "#4f5d54"
-        link: "#1f4f8a"
-        header_bg: "#14583a"
+        link: "#1b589e"
+        header_bg: "#17603f"
         header_text: "#ffffff"
-        accent: "#b88a1b"
-        band: "rgba(20, 88, 58, 0.10)"
-        series: ["#2a78d6", "#008300", "#eda100", "#e87ba4", "#6250d6", "#eb6834", "#1baf7a", "#e34948"]
+        accent: "#c8942d"
+        band: "rgba(23, 96, 63, 0.09)"
+        up: "#9f7100"
+        down: "#1b589e"
+        series: ["#1b589e", "#5cb572", "#3a7bcb", "#c8942d", "#18b1cd", "#9f7100", "#64a1ee", "#046a2f"]
       dark:
-        bg: "#0d1511"
-        surface: "#142019"
-        surface_muted: "#1b2a21"
-        border: "#2a3b30"
-        text: "#e7efe8"
-        text_muted: "#9fb0a4"
+        bg: "#18231c"
+        surface: "#202d25"
+        surface_muted: "#27362d"
+        border: "#36493c"
+        text: "#e9f0ea"
+        text_muted: "#a8b8ad"
         link: "#8fb4e8"
-        header_bg: "#0f3a27"
+        header_bg: "#14432d"
         header_text: "#f2f5f0"
         accent: "#d4ad45"
         band: "rgba(122, 190, 150, 0.12)"
-        series: ["#3987e5", "#008300", "#c98500", "#d55181", "#9085e9", "#d95926", "#199e70", "#e66767"]
+        up: "#b28324"
+        down: "#578ed4"
+        series: ["#346aac", "#50a064", "#407bc5", "#b28324", "#139cb6", "#9f7100", "#578ed4", "#287c42"]
     # Country-specific comparison panels: each lists series shown side by side (12-month rates).
     panels:
       free_vs_administered: [br.ipca.free, br.ipca.administered]

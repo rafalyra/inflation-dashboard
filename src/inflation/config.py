@@ -69,6 +69,8 @@ class ThemeColors(_Config):
     header_text: HexColor
     accent: HexColor
     band: HexColor
+    up: HexColor  # price increases (bars, arrows)
+    down: HexColor  # price decreases
     series: tuple[HexColor, ...] = Field(min_length=8, max_length=8)
 
 
