@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { CountryData, OverviewData } from './types';
+import type { CountryData, ExploreData, OverviewData } from './types';
 
 // The pipeline writes these into public/data/ (gitignored) before each build.
 const DATA_URL = `${import.meta.env.BASE_URL}data/`;
@@ -40,4 +40,8 @@ export function useOverview(): LoadState<OverviewData> {
 
 export function useCountry(code: string): LoadState<CountryData> {
   return useJson<CountryData>(`${code}.json`);
+}
+
+export function useExplore(code: string): LoadState<ExploreData> {
+  return useJson<ExploreData>(`${code}-explore.json`);
 }

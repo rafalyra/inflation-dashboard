@@ -206,5 +206,101 @@ export interface CountryData {
     fx?: { label: LocalizedText; date: string; value: number; yoy_pct: number | null; monthly_average: Points };
   };
   history: { headline_yoy: Points; core_mean_yoy: Points };
+  adjusted: Adjusted;
+  composition: Composition;
+  seasonality: Seasonality | null;
   validation: { passed: boolean; checked_at_utc: string; checks: { name: string; passed: boolean }[] };
+}
+
+// ---- Composition, seasonality, explorer (export_deep.py) ----
+
+export interface ContributionSet {
+  period: string;
+  parts: { series_id: string; label: LocalizedText; weight_pct: number; mom_pct: number; contribution_pp: number; yoy_pct: number | null }[];
+  monthly: { periods: string[]; series: { series_id: string; label: LocalizedText; values_pp: (number | null)[] }[]; headline_mom_pct: (number | null)[] };
+  twelve_month: { periods: string[]; series: { series_id: string; label: LocalizedText; values_pp: (number | null)[] }[]; headline_yoy_pct: (number | null)[] };
+  yoy: { series: LabeledPoints[] };
+}
+
+export interface TreemapNode {
+  id: string;
+  parent: string;
+  label: LocalizedText;
+  level: number;
+  weight_pct: number;
+  mom_pct: number;
+  contribution_pp: number;
+}
+
+export interface Composition {
+  sets: Record<string, ContributionSet>;
+  groups_yoy: LabeledPoints[];
+  treemap: { period: string; nodes: TreemapNode[] };
+  weighted_diffusion: { rising: Points; above_threshold?: Points & { threshold_pct: number } } | null;
+}
+
+export interface SeasonalProfile {
+  year: number;
+  current: (number | null)[];
+  previous: Record<string, (number | null)[]>;
+  median_pct: (number | null)[];
+  q25_pct: (number | null)[];
+  q75_pct: (number | null)[];
+}
+
+export interface SeasonalSeries {
+  series_id: string;
+  label: LocalizedText;
+  kind: 'aggregate' | 'group';
+  latest: {
+    period: string;
+    value_pct: number;
+    median_pct: number | null;
+    q25_pct: number | null;
+    q75_pct: number | null;
+    n_years: number;
+    deviation_pp: number | null;
+  };
+  profile: SeasonalProfile;
+}
+
+export interface Seasonality {
+  period: string;
+  baseline_years: number[];
+  series: SeasonalSeries[];
+  deviation: {
+    groups: { series_id: string; label: LocalizedText; deviation_pp: number }[];
+    items_up: { series_id: string; label: LocalizedText; deviation_pp: number }[];
+    items_down: { series_id: string; label: LocalizedText; deviation_pp: number }[];
+    total_pp: number;
+  };
+}
+
+export type Adjusted =
+  | { available: false; reason: string }
+  | {
+      available: true;
+      sa_mom: { periods: string[]; headline_pct: (number | null)[]; core_pct: (number | null)[] };
+      core_saar: { periods: string[]; saar3_pct: (number | null)[]; saar6_pct: (number | null)[]; yoy_pct: (number | null)[] };
+      revisable_from: string;
+    };
+
+export interface ExploreSeries {
+  series_id: string;
+  label: LocalizedText;
+  concept: string;
+  level: number;
+  parent: string | null;
+  mom_pct: (number | null)[];
+  yoy_pct: (number | null)[];
+  weight_pct: (number | null)[];
+  seasonal: { median_pct: (number | null)[]; q25_pct: (number | null)[]; q75_pct: (number | null)[] };
+}
+
+export interface ExploreData {
+  schema_version: number;
+  generated_at_utc: string;
+  periods: string[];
+  baseline_years: number[];
+  series: ExploreSeries[];
 }

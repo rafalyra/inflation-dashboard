@@ -72,7 +72,25 @@
       "momentum": "Ritmo",
       "base": "Próximo mês",
       "policy": "Juros e mercado",
-      "history": "Histórico"
+      "history": "Histórico",
+      "recent": "Últimos meses",
+      "segments": "Alimentos, bens, serviços e monitorados",
+      "basket": "A cesta",
+      "groups12m": "Os 9 grupos ao longo do tempo",
+      "diffusion": "Quão espalhadas estão as altas?",
+      "pattern": "Este mês e o seu padrão sazonal",
+      "deviation": "O que fugiu do normal para a época",
+      "profiles": "Perfis sazonais",
+      "adjusted": "Variação dessazonalizada",
+      "explore": "Explore qualquer categoria"
+    },
+    "tabsLabel": "Abas da página",
+    "tab": {
+      "summary": "Resumo",
+      "composition": "Composição",
+      "seasonality": "Sazonalidade",
+      "trend": "Tendência e juros",
+      "explore": "Explorar"
     }
   },
   "snapshot": {
@@ -315,5 +333,84 @@
   "notFound": {
     "heading": "Página não encontrada",
     "back": "Voltar à visão geral"
+  },
+  "composition": {
+    "headlineMom": "Índice cheio, variação no mês",
+    "splitBy": "Dividir por",
+    "set": {
+      "groups": "9 grupos",
+      "bcb_segments": "Alimentos, bens, serviços, monitorados"
+    },
+    "recentTitle": "Contribuições para a variação de cada mês, últimos 24 meses",
+    "recentSubtitle": "As barras somam a variação mensal do índice (os pontos), em pontos percentuais.",
+    "noSegments": "Esta divisão não está disponível.",
+    "segmentsIntro": "O Banco Central divide o IPCA em alimentação no domicílio, bens industriais, serviços e preços monitorados (definidos ou regulados por contratos e pelo governo). Último mês: {{period}}. Calculado a partir dos subitens do IBGE com a classificação oficial do Banco Central, disponível desde janeiro de 2020.",
+    "segment": "Segmento",
+    "segments12mTitle": "Contribuições para a taxa em 12 meses",
+    "segments12mSubtitle": "A parte de cada segmento na taxa em 12 meses, em pontos percentuais.",
+    "segmentsYoyTitle": "Variação em 12 meses de cada segmento",
+    "segmentsYoySubtitle": "Quão rápido os preços sobem dentro de cada segmento.",
+    "basketTitle": "A cesta em {{period}}",
+    "basketSubtitle": "O tamanho de cada caixa é o peso na cesta; a cor é a variação do mês (dourado para altas, azul-marinho para quedas). Clique numa caixa para ver suas partes.",
+    "smallMultiplesNote": "Variação em 12 meses de cada grupo, na mesma escala ({{min}} a {{max}}) para comparar; a faixa sombreada é o intervalo de tolerância da meta.",
+    "diffusionWeighted": "Peso da cesta em alta",
+    "diffusionCount": "Itens em alta (índice do BCB)",
+    "diffusionAbove": "Peso acima de {{value}} em 12 meses",
+    "diffusionAboveShort": "Peso acima do teto da meta",
+    "diffusionTitle": "Difusão: quantos preços estão subindo",
+    "diffusionSubtitle": "Contar itens trata o coentro como o aluguel; ponderar pela cesta mostra quanto do que as famílias compram ficou mais caro."
+  },
+  "seasonality": {
+    "band": "Faixa usual (metade central)",
+    "median": "Variação usual (mediana)",
+    "thisYear": "{{year}}",
+    "patternTitle": "Variação de {{period}} e a variação usual para este mês",
+    "patternSubtitle": "O ponto é este ano; o traço é a mediana do mesmo mês em anos normais, e a faixa a sua metade central.",
+    "deviation": "Diferença do usual",
+    "baselineNote_one": "Anos normais: {{first}} a {{last}} ({{count}} ano), sem 2020–2022.",
+    "baselineNote_many": "Anos normais: {{first}} a {{last}} ({{count}} anos), sem 2020–2022.",
+    "baselineNote_other": "Anos normais: {{first}} a {{last}} ({{count}} anos), sem 2020–2022.",
+    "shortHistory": "* Histórico curto: esta série começa em 2020, então sua faixa usual se apoia em poucos anos.",
+    "deviationIntro": "Em relação a um mês normal como este, os componentes somaram {{total}} ao índice.",
+    "deviationTitle": "Diferença da variação usual, por grupo",
+    "deviationSubtitle": "(Variação deste mês − variação usual para este mês) × peso, em pontos percentuais.",
+    "itemsUp": "Itens acima do normal para a época",
+    "itemsDown": "Itens abaixo do normal para a época",
+    "pickSeries": "Escolha uma série",
+    "profileTitle": "{{name}}: mês a mês",
+    "profileSubtitle": "Este ano (em destaque), os três anos anteriores (finos) e o padrão usual (mediana tracejada, metade central sombreada).",
+    "saHeadline": "Índice cheio, dessazonalizado",
+    "saCore": "Média dos núcleos, dessazonalizada",
+    "saTitle": "Variação mensal sem efeitos sazonais",
+    "saSubtitle": "Sem o padrão do calendário, cada mês pode ser lido como tendência.",
+    "coreMomentumTitle": "Ritmo dos núcleos",
+    "coreMomentumSubtitle": "Média dos núcleos: taxas dessazonalizadas de 3 e 6 meses, anualizadas, contra a taxa em 12 meses."
+  },
+  "explore": {
+    "yoy": "Variação em 12 meses",
+    "mom": "Variação no mês",
+    "intro": "Pesquise {{count}} categorias do IPCA, dos 9 grupos até os subitens.",
+    "search": "Pesquisar",
+    "placeholder": "ex.: energia, arroz, escola…",
+    "results": "Categorias encontradas",
+    "noResults": "Nada corresponde a essa pesquisa.",
+    "level": {
+      "headline": "Índice",
+      "group": "Grupo",
+      "subgroup": "Subgrupo",
+      "item": "Item",
+      "subitem": "Subitem",
+      "bcb_segment": "Segmento do Banco Central",
+      "free_prices": "Série do Banco Central",
+      "administered_prices": "Série do Banco Central",
+      "services": "Série do Banco Central"
+    },
+    "partOf": "parte de {{parent}}",
+    "weight": "peso {{value}}",
+    "latest": "Em {{period}}: {{mom}} no mês, {{yoy}} em 12 meses.",
+    "historyTitle": "Histórico",
+    "historySubtitle": "Variação no mês e em 12 meses desde 2012.",
+    "profileTitle": "Mês a mês",
+    "profileSubtitle": "Este ano e o anterior contra o padrão usual ({{first}}–{{last}}, sem 2020–2022)."
   }
 }

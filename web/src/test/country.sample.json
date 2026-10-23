@@ -4,7 +4,10 @@
   "generated_at_utc": "2026-01-01T00:00:00+00:00",
   "country": {
     "code": "br",
-    "name": { "en": "Brazil", "pt-BR": "Brasil" },
+    "name": {
+      "en": "Brazil",
+      "pt-BR": "Brasil"
+    },
     "default_locale": "pt-BR",
     "color_token": "country-br",
     "currency": "BRL",
@@ -13,7 +16,10 @@
   "headline": {
     "series_id": "br.ipca.headline",
     "indicator": "IPCA",
-    "label": { "en": "IPCA", "pt-BR": "IPCA" },
+    "label": {
+      "en": "IPCA",
+      "pt-BR": "IPCA"
+    },
     "reference_period": "2025-12",
     "release_date": "2026-01-01",
     "mom_pct": 1.23,
@@ -22,18 +28,24 @@
     "previous_mom_pct": -0.11,
     "expected": {
       "source": "bcb_focus_30d",
-      "median_pct": 1.0,
+      "median_pct": 1,
       "survey_date": "2025-12-31",
       "n_respondents": 10,
       "other_sources": []
     },
     "surprise_pp": 0.23,
-    "next_release": { "reference_period": "2026-01", "scheduled_utc": "2030-01-01T12:00:00+00:00" }
+    "next_release": {
+      "reference_period": "2026-01",
+      "scheduled_utc": "2030-01-01T12:00:00+00:00"
+    }
   },
   "preview": {
     "series_id": "br.ipca15.headline",
     "indicator": "IPCA15",
-    "label": { "en": "IPCA-15", "pt-BR": "IPCA-15" },
+    "label": {
+      "en": "IPCA-15",
+      "pt-BR": "IPCA-15"
+    },
     "reference_period": "2025-12",
     "release_date": "2025-12-20",
     "mom_pct": 2.22,
@@ -45,7 +57,7 @@
     "next_release": null
   },
   "target": {
-    "target_pct": 3.0,
+    "target_pct": 3,
     "band_low_pct": 1.5,
     "band_high_pct": 4.5,
     "distance_pp": 1.56,
@@ -59,72 +71,660 @@
     "mom_pct": 1.23,
     "top_driver": {
       "series_id": "br.ipca.item.0001",
-      "label": { "en": "Sample item A", "pt-BR": "Item de exemplo A" },
+      "label": {
+        "en": "Sample item A",
+        "pt-BR": "Item de exemplo A"
+      },
       "contribution_pp": 0.5,
-      "mom_pct": 5.0
+      "mom_pct": 5
     },
     "all_groups_rose": false
   },
   "core": {
     "available": true,
     "members": [
-      { "series_id": "br.core.a", "label": { "en": "Core A", "pt-BR": "Núcleo A" }, "latest_pct": 4.0 },
-      { "series_id": "br.core.b", "label": { "en": "Core B", "pt-BR": "Núcleo B" }, "latest_pct": 5.0 }
+      {
+        "series_id": "br.core.a",
+        "label": {
+          "en": "Core A",
+          "pt-BR": "Núcleo A"
+        },
+        "latest_pct": 4
+      },
+      {
+        "series_id": "br.core.b",
+        "label": {
+          "en": "Core B",
+          "pt-BR": "Núcleo B"
+        },
+        "latest_pct": 5
+      }
     ],
-    "periods": ["2025-11", "2025-12"],
-    "mean_pct": [4.4, 4.5],
-    "min_pct": [4.0, 4.0],
-    "max_pct": [4.8, 5.0],
+    "periods": [
+      "2025-11",
+      "2025-12"
+    ],
+    "mean_pct": [
+      4.4,
+      4.5
+    ],
+    "min_pct": [
+      4,
+      4
+    ],
+    "max_pct": [
+      4.8,
+      5
+    ],
     "latest_mean_pct": 4.5,
     "latest_period": "2025-12"
   },
   "drivers": {
     "period": "2025-12",
     "groups": [
-      { "series_id": "br.ipca.group.a", "label": { "en": "Group A", "pt-BR": "Grupo A" }, "contribution_pp": 1.0, "mom_pct": 2.0, "weight_pct": 50.0 },
-      { "series_id": "br.ipca.group.b", "label": { "en": "Group B", "pt-BR": "Grupo B" }, "contribution_pp": 0.23, "mom_pct": 0.46, "weight_pct": 50.0 }
+      {
+        "series_id": "br.ipca.group.a",
+        "label": {
+          "en": "Group A",
+          "pt-BR": "Grupo A"
+        },
+        "contribution_pp": 1,
+        "mom_pct": 2,
+        "weight_pct": 50
+      },
+      {
+        "series_id": "br.ipca.group.b",
+        "label": {
+          "en": "Group B",
+          "pt-BR": "Grupo B"
+        },
+        "contribution_pp": 0.23,
+        "mom_pct": 0.46,
+        "weight_pct": 50
+      }
     ],
     "sum_pp": 1.23,
     "headline_mom_pct": 1.23,
     "top_up": [
-      { "series_id": "br.ipca.item.0001", "label": { "en": "Sample item A", "pt-BR": "Item de exemplo A" }, "contribution_pp": 0.5, "mom_pct": 5.0 }
+      {
+        "series_id": "br.ipca.item.0001",
+        "label": {
+          "en": "Sample item A",
+          "pt-BR": "Item de exemplo A"
+        },
+        "contribution_pp": 0.5,
+        "mom_pct": 5
+      }
     ],
     "top_down": [],
     "twelve_month": {
-      "periods": ["2025-11", "2025-12"],
-      "series": [
-        { "series_id": "br.ipca.group.a", "label": { "en": "Group A", "pt-BR": "Grupo A" }, "values_pp": [2.0, 2.5] },
-        { "series_id": "br.ipca.group.b", "label": { "en": "Group B", "pt-BR": "Grupo B" }, "values_pp": [2.0, 2.06] }
+      "periods": [
+        "2025-11",
+        "2025-12"
       ],
-      "headline_yoy_pct": [4.0, 4.56],
-      "rounding_pp": [0.0, 0.0]
+      "series": [
+        {
+          "series_id": "br.ipca.group.a",
+          "label": {
+            "en": "Group A",
+            "pt-BR": "Grupo A"
+          },
+          "values_pp": [
+            2,
+            2.5
+          ]
+        },
+        {
+          "series_id": "br.ipca.group.b",
+          "label": {
+            "en": "Group B",
+            "pt-BR": "Grupo B"
+          },
+          "values_pp": [
+            2,
+            2.06
+          ]
+        }
+      ],
+      "headline_yoy_pct": [
+        4,
+        4.56
+      ],
+      "rounding_pp": [
+        0,
+        0
+      ]
     }
   },
   "trend": {
     "panels": {
       "free_vs_administered": {
         "series": [
-          { "series_id": "br.ipca.free", "label": { "en": "Free prices", "pt-BR": "Preços livres" }, "periods": ["2025-11", "2025-12"], "values": [4.0, 4.1] }
+          {
+            "series_id": "br.ipca.free",
+            "label": {
+              "en": "Free prices",
+              "pt-BR": "Preços livres"
+            },
+            "periods": [
+              "2025-11",
+              "2025-12"
+            ],
+            "values": [
+              4,
+              4.1
+            ]
+          }
         ]
       }
     },
-    "diffusion": { "series_id": "br.ipca.diffusion", "label": { "en": "Diffusion index", "pt-BR": "Índice de difusão" }, "periods": ["2025-11", "2025-12"], "values": [50.0, 60.0] }
+    "diffusion": {
+      "series_id": "br.ipca.diffusion",
+      "label": {
+        "en": "Diffusion index",
+        "pt-BR": "Índice de difusão"
+      },
+      "periods": [
+        "2025-11",
+        "2025-12"
+      ],
+      "values": [
+        50,
+        60
+      ]
+    }
   },
   "momentum": {
-    "same_month": { "period": "2025-12", "value_pct": 1.23, "years": ["2023", "2024"], "past_pct": [0.5, 0.7], "median_pct": 0.6, "min_pct": 0.5, "max_pct": 0.7 },
-    "saar": { "available": false, "reason": "sample" }
+    "same_month": {
+      "period": "2025-12",
+      "value_pct": 1.23,
+      "years": [
+        "2023",
+        "2024"
+      ],
+      "past_pct": [
+        0.5,
+        0.7
+      ],
+      "median_pct": 0.6,
+      "min_pct": 0.5,
+      "max_pct": 0.7
+    },
+    "saar": {
+      "available": false,
+      "reason": "sample"
+    }
   },
   "base_effects": {
-    "dropping_out": [{ "period": "2026-01", "leaving_period": "2025-01", "leaving_mom_pct": 0.11 }],
+    "dropping_out": [
+      {
+        "period": "2026-01",
+        "leaving_period": "2025-01",
+        "leaving_mom_pct": 0.11
+      }
+    ],
     "next_expected": null,
     "implied_next_yoy_pct": null
   },
   "policy": {
-    "year_end_expectations": [{ "year": 2026, "median_pct": 4.0, "survey_date": "2025-12-31" }]
+    "year_end_expectations": [
+      {
+        "year": 2026,
+        "median_pct": 4,
+        "survey_date": "2025-12-31"
+      }
+    ]
   },
   "history": {
-    "headline_yoy": { "periods": ["2025-11", "2025-12"], "values": [4.0, 4.56] },
-    "core_mean_yoy": { "periods": ["2025-11", "2025-12"], "values": [4.4, 4.5] }
+    "headline_yoy": {
+      "periods": [
+        "2025-11",
+        "2025-12"
+      ],
+      "values": [
+        4,
+        4.56
+      ]
+    },
+    "core_mean_yoy": {
+      "periods": [
+        "2025-11",
+        "2025-12"
+      ],
+      "values": [
+        4.4,
+        4.5
+      ]
+    }
   },
-  "validation": { "passed": true, "checked_at_utc": "2026-01-01T00:00:00+00:00", "checks": [{ "name": "sample", "passed": true }] }
+  "validation": {
+    "passed": true,
+    "checked_at_utc": "2026-01-01T00:00:00+00:00",
+    "checks": [
+      {
+        "name": "sample",
+        "passed": true
+      }
+    ]
+  },
+  "adjusted": {
+    "available": false,
+    "reason": "sample"
+  },
+  "composition": {
+    "sets": {
+      "groups": {
+        "period": "2025-12",
+        "parts": [
+          {
+            "series_id": "br.ipca.bcb.a",
+            "label": {
+              "en": "Segment A",
+              "pt-BR": "Segmento A"
+            },
+            "weight_pct": 60,
+            "mom_pct": 1,
+            "contribution_pp": 0.6,
+            "yoy_pct": 4
+          },
+          {
+            "series_id": "br.ipca.bcb.b",
+            "label": {
+              "en": "Segment B",
+              "pt-BR": "Segmento B"
+            },
+            "weight_pct": 40,
+            "mom_pct": 1.58,
+            "contribution_pp": 0.63,
+            "yoy_pct": 5
+          }
+        ],
+        "monthly": {
+          "periods": [
+            "2025-11",
+            "2025-12"
+          ],
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "values_pp": [
+                0.1,
+                0.6
+              ]
+            },
+            {
+              "series_id": "br.ipca.bcb.b",
+              "label": {
+                "en": "Segment B",
+                "pt-BR": "Segmento B"
+              },
+              "values_pp": [
+                0.1,
+                0.63
+              ]
+            }
+          ],
+          "headline_mom_pct": [
+            0.2,
+            1.23
+          ]
+        },
+        "twelve_month": {
+          "periods": [
+            "2025-11",
+            "2025-12"
+          ],
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "values_pp": [
+                2,
+                2.5
+              ]
+            },
+            {
+              "series_id": "br.ipca.bcb.b",
+              "label": {
+                "en": "Segment B",
+                "pt-BR": "Segmento B"
+              },
+              "values_pp": [
+                2,
+                2.06
+              ]
+            }
+          ],
+          "headline_yoy_pct": [
+            4,
+            4.56
+          ]
+        },
+        "yoy": {
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "periods": [
+                "2025-11",
+                "2025-12"
+              ],
+              "values": [
+                3.9,
+                4
+              ]
+            }
+          ]
+        }
+      },
+      "bcb_segments": {
+        "period": "2025-12",
+        "parts": [
+          {
+            "series_id": "br.ipca.bcb.a",
+            "label": {
+              "en": "Segment A",
+              "pt-BR": "Segmento A"
+            },
+            "weight_pct": 60,
+            "mom_pct": 1,
+            "contribution_pp": 0.6,
+            "yoy_pct": 4
+          },
+          {
+            "series_id": "br.ipca.bcb.b",
+            "label": {
+              "en": "Segment B",
+              "pt-BR": "Segmento B"
+            },
+            "weight_pct": 40,
+            "mom_pct": 1.58,
+            "contribution_pp": 0.63,
+            "yoy_pct": 5
+          }
+        ],
+        "monthly": {
+          "periods": [
+            "2025-11",
+            "2025-12"
+          ],
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "values_pp": [
+                0.1,
+                0.6
+              ]
+            },
+            {
+              "series_id": "br.ipca.bcb.b",
+              "label": {
+                "en": "Segment B",
+                "pt-BR": "Segmento B"
+              },
+              "values_pp": [
+                0.1,
+                0.63
+              ]
+            }
+          ],
+          "headline_mom_pct": [
+            0.2,
+            1.23
+          ]
+        },
+        "twelve_month": {
+          "periods": [
+            "2025-11",
+            "2025-12"
+          ],
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "values_pp": [
+                2,
+                2.5
+              ]
+            },
+            {
+              "series_id": "br.ipca.bcb.b",
+              "label": {
+                "en": "Segment B",
+                "pt-BR": "Segmento B"
+              },
+              "values_pp": [
+                2,
+                2.06
+              ]
+            }
+          ],
+          "headline_yoy_pct": [
+            4,
+            4.56
+          ]
+        },
+        "yoy": {
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "periods": [
+                "2025-11",
+                "2025-12"
+              ],
+              "values": [
+                3.9,
+                4
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "groups_yoy": [
+      {
+        "series_id": "br.ipca.group.a",
+        "label": {
+          "en": "Group A",
+          "pt-BR": "Grupo A"
+        },
+        "periods": [
+          "2025-11",
+          "2025-12"
+        ],
+        "values": [
+          4,
+          4.4
+        ]
+      }
+    ],
+    "treemap": {
+      "period": "2025-12",
+      "nodes": [
+        {
+          "id": "br.ipca.group.a",
+          "parent": "br.ipca.headline",
+          "label": {
+            "en": "Group A",
+            "pt-BR": "Grupo A"
+          },
+          "level": 1,
+          "weight_pct": 50,
+          "mom_pct": 2,
+          "contribution_pp": 1
+        }
+      ]
+    },
+    "weighted_diffusion": {
+      "rising": {
+        "periods": [
+          "2025-11",
+          "2025-12"
+        ],
+        "values": [
+          55,
+          66
+        ]
+      },
+      "above_threshold": {
+        "threshold_pct": 4.5,
+        "periods": [
+          "2025-11",
+          "2025-12"
+        ],
+        "values": [
+          40,
+          44
+        ]
+      }
+    }
+  },
+  "seasonality": {
+    "period": "2025-12",
+    "baseline_years": [
+      2012,
+      2013,
+      2023,
+      2024
+    ],
+    "series": [
+      {
+        "series_id": "br.ipca.headline",
+        "label": {
+          "en": "IPCA",
+          "pt-BR": "IPCA"
+        },
+        "kind": "aggregate",
+        "latest": {
+          "period": "2025-12",
+          "value_pct": 1.23,
+          "median_pct": 0.5,
+          "q25_pct": 0.4,
+          "q75_pct": 0.6,
+          "n_years": 4,
+          "deviation_pp": 0.73
+        },
+        "profile": {
+          "year": 2025,
+          "current": [
+            0.5,
+            0.4,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            1.23
+          ],
+          "previous": {
+            "2024": [
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3,
+              0.3
+            ]
+          },
+          "median_pct": [
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3
+          ],
+          "q25_pct": [
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ],
+          "q75_pct": [
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4
+          ]
+        }
+      }
+    ],
+    "deviation": {
+      "groups": [
+        {
+          "series_id": "br.ipca.group.a",
+          "label": {
+            "en": "Group A",
+            "pt-BR": "Grupo A"
+          },
+          "deviation_pp": 0.36
+        }
+      ],
+      "items_up": [
+        {
+          "series_id": "br.ipca.item.0001",
+          "label": {
+            "en": "Sample item A",
+            "pt-BR": "Item de exemplo A"
+          },
+          "deviation_pp": 0.2
+        }
+      ],
+      "items_down": [],
+      "total_pp": 0.36
+    }
+  }
 }

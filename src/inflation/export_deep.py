@@ -48,6 +48,34 @@ def _children(ex: CountryExport, parent_id: str) -> list[str]:
 # ---- Composition -------------------------------------------------------------------------
 
 
+def _stack_series(
+    ex: CountryExport, frame: pd.DataFrame, ids: list[str], weights: pd.Series
+) -> list[dict[str, Any]]:
+    """Chart series for a stacked chart. Beyond MAX_STACK parts, the smallest by latest weight
+    are summed into "Other" (a chart can only tell 8 colors apart); kept parts stay in order."""
+    from inflation.export import MAX_STACK
+
+    kept = list(ids)
+    other_ids: list[str] = []
+    if len(kept) > MAX_STACK:
+        other_ids = list(weights[kept].sort_values().index[: len(kept) - MAX_STACK + 1])
+        kept = [sid for sid in kept if sid not in set(other_ids)]
+    out: list[dict[str, Any]] = [
+        {"series_id": sid, "label": ex.label(sid), "values_pp": [_r(v) for v in frame[sid]]}
+        for sid in kept
+    ]
+    if other_ids:
+        out.append(
+            {
+                "series_id": "other",
+                "label": {"en": "Other", "pt-BR": "Outros"},
+                "members": [ex.label(sid) for sid in other_ids],
+                "values_pp": [_r(v) for v in frame[other_ids].sum(axis=1)],
+            }
+        )
+    return out
+
+
 def _contribution_set(ex: CountryExport, ids: list[str], headline_id: str) -> dict[str, Any]:
     """Monthly (recent) and 12-month contributions for a set of parts of the headline."""
     head_mom = _series(ex.obs, headline_id, "mom_pct")
@@ -73,22 +101,12 @@ def _contribution_set(ex: CountryExport, ids: list[str], headline_id: str) -> di
         "period": period,
         "monthly": {
             "periods": list(recent.index),
-            "series": [
-                {
-                    "series_id": sid,
-                    "label": ex.label(sid),
-                    "values_pp": [_r(v) for v in recent[sid]],
-                }
-                for sid in ids
-            ],
+            "series": _stack_series(ex, recent, ids, w.loc[c.index[-1]]),
             "headline_mom_pct": [_r(head_mom.get(p)) for p in recent.index],
         },
         "twelve_month": {
             "periods": list(c12.index),
-            "series": [
-                {"series_id": sid, "label": ex.label(sid), "values_pp": [_r(v) for v in c12[sid]]}
-                for sid in ids
-            ],
+            "series": _stack_series(ex, c12, ids, w.loc[c.index[-1]]),
             "headline_yoy_pct": [_r(yoy.get(p)) for p in c12.index],
         },
         "yoy": {

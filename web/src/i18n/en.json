@@ -72,7 +72,25 @@
       "momentum": "Momentum",
       "base": "Next month",
       "policy": "Policy and markets",
-      "history": "History"
+      "history": "History",
+      "recent": "Recent months",
+      "segments": "Food, goods, services and administered prices",
+      "basket": "The basket",
+      "groups12m": "The 9 groups over time",
+      "diffusion": "How widespread are increases?",
+      "pattern": "This month against its seasonal pattern",
+      "deviation": "What was unusual for the time of year",
+      "profiles": "Seasonal profiles",
+      "adjusted": "Seasonally adjusted change",
+      "explore": "Explore any category"
+    },
+    "tabsLabel": "Page tabs",
+    "tab": {
+      "summary": "Summary",
+      "composition": "Composition",
+      "seasonality": "Seasonality",
+      "trend": "Trend & rates",
+      "explore": "Explore"
     }
   },
   "snapshot": {
@@ -307,5 +325,83 @@
   "notFound": {
     "heading": "Page not found",
     "back": "Back to the overview"
+  },
+  "composition": {
+    "headlineMom": "Headline, monthly change",
+    "splitBy": "Split by",
+    "set": {
+      "groups": "9 groups",
+      "bcb_segments": "Food, goods, services, administered"
+    },
+    "recentTitle": "Contributions to each month’s change, last 24 months",
+    "recentSubtitle": "Bars add up to the monthly headline change (the dots), in percentage points.",
+    "noSegments": "This breakdown is not available.",
+    "segmentsIntro": "The central bank splits the IPCA into food at home, industrial goods, services and administered prices (set or regulated by contracts and government). Latest month: {{period}}. Built from IBGE’s subitems with the central bank’s official classification, available from January 2020.",
+    "segment": "Segment",
+    "segments12mTitle": "Contributions to the 12-month rate",
+    "segments12mSubtitle": "Each segment’s share of the 12-month rate, in percentage points.",
+    "segmentsYoyTitle": "12-month change of each segment",
+    "segmentsYoySubtitle": "How fast prices are rising within each segment.",
+    "basketTitle": "The basket in {{period}}",
+    "basketSubtitle": "Box size is the weight in the basket; color is this month’s change (gold for rises, navy for falls). Click a box to see its parts.",
+    "smallMultiplesNote": "12-month change of each group, on the same scale ({{min}} to {{max}}) so they can be compared; the shaded band is the target tolerance interval.",
+    "diffusionWeighted": "Share of basket weight rising",
+    "diffusionCount": "Share of items rising (BCB index)",
+    "diffusionAbove": "Share of weight above {{value}} over 12 months",
+    "diffusionAboveShort": "Share above the band ceiling",
+    "diffusionTitle": "Diffusion: how many prices are rising",
+    "diffusionSubtitle": "Counting items treats coriander like rent; weighting by the basket shows how much of what households buy got dearer."
+  },
+  "seasonality": {
+    "band": "Usual range (middle half)",
+    "median": "Usual change (median)",
+    "thisYear": "{{year}}",
+    "patternTitle": "{{period}} against the usual change for this month",
+    "patternSubtitle": "The dot is this year; the tick is the median of the same month in normal years, and the band its middle half.",
+    "deviation": "Gap from usual",
+    "baselineNote_one": "Normal years: {{first}} to {{last}} ({{count}} year), skipping 2020–2022.",
+    "baselineNote_other": "Normal years: {{first}} to {{last}} ({{count}} years), skipping 2020–2022.",
+    "shortHistory": "* Short history: this series starts in 2020, so its usual range rests on few years.",
+    "deviationIntro": "Compared with a normal month like this one, the components together added {{total}} to the headline.",
+    "deviationTitle": "Gap from the usual change, by group",
+    "deviationSubtitle": "(This month’s change − its usual change for this month) × weight, in percentage points.",
+    "itemsUp": "Items unusually high for the time of year",
+    "itemsDown": "Items unusually low for the time of year",
+    "pickSeries": "Choose a series",
+    "profileTitle": "{{name}}: month by month",
+    "profileSubtitle": "This year (bold), the three years before (thin), and the usual pattern (dashed median, shaded middle half).",
+    "saHeadline": "Headline, seasonally adjusted",
+    "saCore": "Core average, seasonally adjusted",
+    "saTitle": "Monthly change without seasonal effects",
+    "saSubtitle": "With the calendar pattern removed, each month can be read as a trend.",
+    "coreMomentumTitle": "Core momentum",
+    "coreMomentumSubtitle": "Core average: 3- and 6-month seasonally adjusted rates, annualized, against its 12-month rate."
+  },
+  "explore": {
+    "yoy": "12-month change",
+    "mom": "Monthly change",
+    "intro": "Search {{count}} IPCA categories, from the 9 groups down to individual subitems.",
+    "search": "Search",
+    "placeholder": "e.g. electricity, rice, school…",
+    "results": "Matching categories",
+    "noResults": "Nothing matches that search.",
+    "level": {
+      "headline": "Index",
+      "group": "Group",
+      "subgroup": "Subgroup",
+      "item": "Item",
+      "subitem": "Subitem",
+      "bcb_segment": "Central bank segment",
+      "free_prices": "Central bank series",
+      "administered_prices": "Central bank series",
+      "services": "Central bank series"
+    },
+    "partOf": "part of {{parent}}",
+    "weight": "weight {{value}}",
+    "latest": "{{period}}: {{mom}} in the month, {{yoy}} over 12 months.",
+    "historyTitle": "History",
+    "historySubtitle": "Monthly and 12-month change since 2012.",
+    "profileTitle": "Month by month",
+    "profileSubtitle": "This year and last year against the usual pattern ({{first}}–{{last}}, skipping 2020–2022)."
   }
 }

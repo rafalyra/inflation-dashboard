@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { ChartCard } from '../components/ChartCard';
 import { Direction, StatTile } from '../components/StatTile';
 import { TargetChip } from '../components/TargetChip';
@@ -20,9 +20,21 @@ import {
   formatPpNumber,
 } from '../lib/format';
 import type { CountryData, Locale, LocalizedText } from '../lib/types';
+import {
+  AdjustedChange,
+  BasketMap,
+  Explore,
+  GroupsSmallMultiples,
+  RecentContributions,
+  Segments,
+  SeasonalDeviation,
+  SeasonalPattern,
+  SeasonalProfiles,
+  WeightedDiffusion,
+} from './CountryDeep';
 import { NotFoundPage } from './NotFound';
 
-interface Ctx {
+export interface Ctx {
   d: CountryData;
   locale: Locale;
   theme: ChartTheme;
@@ -31,9 +43,12 @@ interface Ctx {
   pp: (v: number, signed?: boolean) => string;
 }
 
+const TABS = ['summary', 'composition', 'seasonality', 'trend', 'explore'] as const;
+type Tab = (typeof TABS)[number];
+
 export function CountryPage() {
   const { t } = useTranslation();
-  const { code = '' } = useParams();
+  const { code = '', tab } = useParams();
   const state = useCountry(code);
   // Each country page opens in its own configured language (e.g. Brazil in Portuguese).
   usePageLocale(state.status === 'ready' ? state.data.country.default_locale : undefined);
@@ -42,13 +57,15 @@ export function CountryPage() {
 
   if (state.status === 'loading') return <p className="muted">{t('status.loading')}</p>;
   if (state.status === 'error') return <NotFoundPage />;
-  return <CountryView d={state.data} />;
+  const current = (TABS as readonly string[]).includes(tab ?? '') ? (tab as Tab) : 'summary';
+  return <CountryView d={state.data} tab={current} />;
 }
 
-export function CountryView({ d }: { d: CountryData }) {
+export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab }) {
   const { t } = useTranslation();
   const locale = useLocale();
   const theme = useChartTheme();
+  const navigate = useNavigate();
   const ctx: Ctx = {
     d,
     locale,
@@ -57,15 +74,34 @@ export function CountryView({ d }: { d: CountryData }) {
     L: (text) => text[locale],
     pp: (v, signed = true) => t('units.pp', { value: formatPpNumber(v, locale, signed) }),
   };
-  const sections = [
-    ['snapshot', <Snapshot key="s" {...ctx} />],
-    ['drivers', <Drivers key="d" {...ctx} />],
-    ['trend', <Trend key="t" {...ctx} />],
-    ['momentum', <Momentum key="m" {...ctx} />],
-    ['base', <BaseEffects key="b" {...ctx} />],
-    ['policy', <Policy key="p" {...ctx} />],
-    ['history', <History key="h" {...ctx} />],
-  ] as const;
+  // Each tab is a list of sections (id → content); headings come from i18n.
+  const sections: Record<Tab, [string, ReactNode][]> = {
+    summary: [
+      ['snapshot', <Snapshot key="s" {...ctx} />],
+      ['base', <BaseEffects key="b" {...ctx} />],
+      ['history', <History key="h" {...ctx} />],
+    ],
+    composition: [
+      ['drivers', <Drivers key="d" {...ctx} />],
+      ['recent', <RecentContributions key="r" {...ctx} />],
+      ['segments', <Segments key="sg" {...ctx} />],
+      ['basket', <BasketMap key="bm" {...ctx} />],
+      ['groups12m', <GroupsSmallMultiples key="g" {...ctx} />],
+      ['diffusion', <WeightedDiffusion key="df" {...ctx} />],
+    ],
+    seasonality: [
+      ['pattern', <SeasonalPattern key="sp" {...ctx} />],
+      ['deviation', <SeasonalDeviation key="sd" {...ctx} />],
+      ['profiles', <SeasonalProfiles key="pr" {...ctx} />],
+      ['adjusted', <AdjustedChange key="ad" {...ctx} />],
+      ['momentum', <Momentum key="m" {...ctx} />],
+    ],
+    trend: [
+      ['trend', <Trend key="t" {...ctx} />],
+      ['policy', <Policy key="p" {...ctx} />],
+    ],
+    explore: [['explore', <Explore key="e" {...ctx} />]],
+  };
 
   return (
     <>
@@ -76,60 +112,27 @@ export function CountryView({ d }: { d: CountryData }) {
       )}
       <header className="country-head">
         <h1>{d.country.name[locale]}</h1>
-        <SectionNav ids={sections.map(([id]) => id)} label={t('country.sections')} names={(id) => t(`country.section.${id}`)} />
+        <nav className="section-nav" aria-label={t('country.tabsLabel')}>
+          {TABS.map((id) => (
+            <button
+              key={id}
+              type="button"
+              className="section-nav__button"
+              aria-current={id === tab ? 'page' : undefined}
+              onClick={() => navigate(`/country/${d.country.code}/${id}`)}
+            >
+              {t(`country.tab.${id}`)}
+            </button>
+          ))}
+        </nav>
       </header>
-      {sections.map(([id, node]) => (
+      {sections[tab].map(([id, node]) => (
         <section key={id} id={id} className="country-section" aria-labelledby={`${id}-h`}>
           <h2 id={`${id}-h`}>{t(`country.section.${id}`)}</h2>
           {node}
         </section>
       ))}
     </>
-  );
-}
-
-/**
- * Buttons that scroll to each section. The one for the section in view is highlighted
- * (and marked with aria-current), so the reader always knows where they are.
- */
-function SectionNav({ ids, label, names }: { ids: readonly string[]; label: string; names: (id: string) => string }) {
-  const [active, setActive] = useState(ids[0]);
-  useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActive(visible[0].target.id);
-      },
-      { rootMargin: '-80px 0px -60% 0px' },
-    );
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, [ids]);
-
-  return (
-    <nav className="section-nav" aria-label={label}>
-      {ids.map((id) => (
-        <button
-          key={id}
-          type="button"
-          className="section-nav__button"
-          aria-current={active === id ? 'true' : undefined}
-          onClick={() => {
-            setActive(id);
-            const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-            document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
-          }}
-        >
-          {names(id)}
-        </button>
-      ))}
-    </nav>
   );
 }
 
@@ -401,7 +404,6 @@ function Trend({ d, t, locale, theme, L }: Ctx) {
           <PanelChart key={name} name={name} panel={panel} {...{ d, t, locale, theme, L }} />
         ))}
       </div>
-      {d.trend.diffusion && <DiffusionChart {...{ d, t, locale, theme, L }} />}
     </>
   );
 }
@@ -439,31 +441,6 @@ function PanelChart({
         columns: [t('table.month'), ...panel.series.map((s) => L(s.label))],
         rows: periodRows(periods, panel.series.map((s) => periods.map((p) => s.values[s.periods.indexOf(p)] ?? null)), locale, 'pct'),
       }}
-    />
-  );
-}
-
-function DiffusionChart({ d, t, locale, theme }: Pick<Ctx, 'd' | 't' | 'locale' | 'theme' | 'L'>) {
-  const diff = d.trend.diffusion;
-  const option = useMemo(
-    () =>
-      diff &&
-      lineOption({
-        periods: diff.periods,
-        series: [{ name: t('trend.diffusion'), values: diff.values, color: theme.series[0] ?? '' }],
-        theme,
-        locale,
-        unit: 'pct',
-      }),
-    [diff, theme, locale, t],
-  );
-  if (!diff || !option) return null;
-  return (
-    <ChartCard
-      title={t('trend.diffusion')}
-      subtitle={t('trend.diffusionSubtitle')}
-      option={option}
-      table={{ columns: [t('table.month'), t('trend.diffusion')], rows: periodRows(diff.periods, [diff.values], locale, 'pct') }}
     />
   );
 }

@@ -550,3 +550,105 @@ h2 {
 .steps li + li {
   margin-top: var(--space-1);
 }
+
+/* Option pickers above a chart (pressed = selected). */
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.picker .section-nav__button[aria-pressed='true'] {
+  background: var(--header-bg);
+  color: var(--header-text);
+  border-color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Small multiples: one small chart per group, same scale. */
+.multiples {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-3);
+}
+
+.multiple {
+  margin: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  min-width: 0;
+}
+
+.multiple figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* Explore: search list beside the selected series. */
+.explore {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 56rem) {
+  .explore {
+    grid-template-columns: minmax(16rem, 1fr) minmax(0, 2.4fr);
+    align-items: start;
+  }
+}
+
+.explore__search {
+  margin-bottom: 0;
+}
+
+.input {
+  font: inherit;
+  width: 100%;
+  margin: var(--space-1) 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.explore__results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 32rem;
+  overflow: auto;
+}
+
+.explore__result {
+  font: inherit;
+  font-size: var(--text-sm);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  text-align: left;
+  color: var(--color-text);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-1);
+  cursor: pointer;
+}
+
+.explore__result:hover {
+  background: var(--color-surface-muted);
+}
+
+.explore__result[aria-pressed='true'] {
+  background: var(--color-surface-muted);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}

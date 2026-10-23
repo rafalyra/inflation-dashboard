@@ -80,6 +80,64 @@ rates are unavailable.
 **Same month in past years.** This compares this month's change with the same calendar month in the
 previous 10 years (median and range), so seasonal months are compared like with like.
 
+## Composition: food, goods, services, administered (`countries/br/composition.py`)
+
+The BCB splits the IPCA into:
+- **food at home**;
+- **industrial goods**;
+- **services**;
+- **administered prices**, which are set or regulated by contracts or government.
+
+We rebuild these segments from IBGE's ~377 subitems using the BCB's official classification (Estudo
+Especial 69/2019, Tabela 5; `countries/br/bcb_classification.csv`). For each segment, the monthly
+change is the weight-averaged change of its subitems, and its weight is the sum of their weights.
+
+- **Validation:** the segments must reproduce the BCB's published free-price (SGS 11428),
+  administered (4449) and services (10844) series, and IBGE's food-at-home subgroup, in every month
+  since January 2020, within 0.01 pp. The largest gap seen was 0.0063 pp.
+- **Coverage:** the classification applies to the 2017–2018 basket, so the segments start in January
+  2020. Contributions and 12-month rates per segment use the same formulas as the 9 groups.
+- **"Other":** a stacked chart shows at most 8 series, so any extra parts (by latest weight) are
+  summed into "Other".
+
+## Diffusion (`metrics/diffusion.py`)
+
+The BCB's index counts the share of items that rose. We add two weighted versions, computed from
+subitems:
+- the **share of basket weight** whose price rose in the month;
+- the share of weight whose 12-month change is above the band ceiling (4.5%, from config).
+
+## Seasonality (`metrics/seasonality.py`)
+
+A monthly change is judged against the same calendar month in "normal" years.
+
+- **Normal years:** 2012 onward, excluding 2020–2022, up to the year before the latest month.
+  This is set in config.
+- **Summary per calendar month:** its median and middle half (25th–75th percentile).
+- **Latest against its pattern:** this month's change next to that median and middle half. The gap
+  from the median is shown in pp.
+- **Weighted deviation:** for each group or item, (this month's change − its median for this calendar
+  month) × weight / 100, in pp. It shows which components made this month unusual *for the time
+  of year*, not just large.
+- **Profiles:** Jan–Dec changes for this year and the three years before, against the median and the
+  middle half.
+- **Long histories:** where official long series exist, they are used (BCB SGS free, administered and
+  services; IBGE subgroup 11 for food). Industrial goods only exists as our 2020+ aggregate, so its
+  baseline rests on few years, and the page marks it.
+
+**Seasonally adjusted change and core momentum.**
+- Headline: X-13 is applied to the IPCA index.
+- Core: X-13 is applied to an index chained from the average monthly change of the configured core
+  measures.
+- From the adjusted indexes we show the monthly change, and the 3- and 6-month annualized rates for
+  the core average.
+
+## Explorer
+
+`br-explore.json` holds every IPCA category from 2012, from the 9 groups down to subitems, plus the
+BCB series. Each has monthly and 12-month changes, weights and its seasonal median and middle half.
+The Explore tab loads it only when opened.
+
 ## Target (`metrics/target.py`)
 
 - **Status:** above, inside or below the tolerance band. The band edges count as inside.

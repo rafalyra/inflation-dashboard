@@ -19,6 +19,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<OverviewPage />} />
           <Route path="/country/:code" element={<CountryPage />} />
+          <Route path="/country/:code/:tab" element={<CountryPage />} />
           <Route path="/learn" element={<LearnPage />} />
           <Route path="/methodology" element={<MethodologyPage />} />
           <Route path="*" element={<NotFoundPage />} />

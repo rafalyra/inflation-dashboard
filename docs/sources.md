@@ -79,6 +79,19 @@ Food at home comes from SIDRA (subgroup 11, "Alimentação no domicílio"), so i
 - From GitHub's runners (the manual "Source health" workflow, 2026-10-22), SGS, SIDRA and Focus all
   answered normally.
 
+### BCB classification of IPCA subitems
+
+Source: BCB, *Estudo Especial nº 69/2019*, "Atualizações da estrutura de ponderação do IPCA e repercussão
+nas suas classificações", Tabela 5 (full structure from January 2020):
+https://www.bcb.gov.br/conteudo/relatorioinflacao/EstudosEspeciais/EE069_Atualizacoes_da_estrutura_de_ponderacao_do_IPCA_e_repercussao_nas_suas_classificacoes.pdf
+(✅ read 2026-10-23).
+- The table is transcribed by code into `src/inflation/countries/br/bcb_classification.csv`.
+- Rebuilding free, administered and services from IBGE subitems with it reproduces SGS
+  11428 / 4449 / 10844 in all 81 months from Jan 2020 to Sep 2026, within 0.0063 pp. A validation check
+  keeps this true.
+- The 2012–2019 basket used a different classification, which this study doesn't list, so the
+  segments start in 2020.
+
 ### BCB Olinda: Focus market expectations
 
 Base: `https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/` (✅ 2026-10-18).
