@@ -66,6 +66,12 @@ def test_sgs_drops_future_dated_rows() -> None:
     assert [v.date for v in values] == [date(2026, 10, 17)]
 
 
+def test_sgs_windows_start_on_january_first() -> None:
+    # A mid-month start (as a routine refresh produces) is moved to 1 January.
+    spans = sgs.windows(date(2025, 9, 29), date(2026, 11, 3))
+    assert spans == [(date(2025, 1, 1), date(2026, 11, 3))]
+
+
 def test_sgs_windows_cover_range_without_overlap() -> None:
     spans = sgs.windows(date(1995, 1, 1), date(2026, 10, 18))
     assert spans[0] == (date(1995, 1, 1), date(2004, 12, 31))

@@ -41,9 +41,14 @@ def validate(response: httpx.Response) -> None:
 
 
 def windows(start: date, end: date) -> list[tuple[date, date]]:
-    """Split [start, end] into consecutive windows of at most MAX_WINDOW_YEARS."""
+    """Split [start, end] into consecutive windows of at most MAX_WINDOW_YEARS.
+
+    The first window starts on 1 January of `start`'s year: some series (e.g. 28750) answer
+    a mid-month start date with an error body (seen 2026-11-03), while month and year
+    boundaries always work. Re-reading a few extra months is harmless.
+    """
     spans = []
-    cursor = start
+    cursor = date(start.year, 1, 1)
     while cursor <= end:
         stop = min(date(cursor.year + MAX_WINDOW_YEARS - 1, 12, 31), end)
         spans.append((cursor, stop))
