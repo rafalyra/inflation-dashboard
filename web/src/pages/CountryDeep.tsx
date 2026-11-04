@@ -142,7 +142,7 @@ export function Segments({ d, t, locale, theme, L, pp }: Ctx) {
           title={t('composition.segments12mTitle')}
           subtitle={t('composition.segments12mSubtitle')}
           option={stacked}
-          height={340}
+          height={460}
           table={{
             columns: [t('table.month'), ...set.twelve_month.series.map((s) => L(s.label)), t('drivers.headlineYoy')],
             rows: periodRows(set.twelve_month.periods, [...set.twelve_month.series.map((s) => s.values_pp), set.twelve_month.headline_yoy_pct], locale, 'pp'),
@@ -152,7 +152,7 @@ export function Segments({ d, t, locale, theme, L, pp }: Ctx) {
           title={t('composition.segmentsYoyTitle')}
           subtitle={t('composition.segmentsYoySubtitle')}
           option={yoy}
-          height={340}
+          height={460}
           table={{
             columns: [t('table.month'), ...set.yoy.series.map((s) => L(s.label))],
             rows: periodRows(set.yoy.series[0]?.periods ?? [], set.yoy.series.map((s) => s.values), locale, 'pct'),

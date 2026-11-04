@@ -39,8 +39,10 @@
       "5y": "5 years",
       "10y": "10 years",
       "all": "All",
-      "hint": "Applies to every time chart below. Drag a chart’s slider to adjust it, or hold Ctrl and scroll over it to zoom."
-    }
+      "hint": "Applies to every time chart below. To zoom into a period, press on a chart, drag across it and release; double-click to reset."
+    },
+    "resetZoom": "Reset zoom",
+    "zoomedTo": "Zoomed in: {{from}} – {{to}}"
   },
   "table": {
     "month": "Month",

@@ -50,29 +50,12 @@ function base(theme: ChartTheme, showLegend: boolean): EChartsCoreOption {
 }
 
 /**
- * Zoom for monthly time charts: a slider under the plot (drag the handles or the window; works
- * with a finger) and Ctrl + mouse wheel. Plain scrolling and touch drags keep scrolling the
- * page, so nobody gets trapped inside a chart.
+ * Zoom support for monthly time charts. Zooming itself is press-drag-release on the chart
+ * (see components/Chart.tsx); this component only receives those zoom actions, with its own
+ * wheel and drag handling switched off so page scrolling is never captured.
  */
-function zoomControls(theme: ChartTheme, locale: Locale) {
-  return [
-    { type: 'inside', zoomOnMouseWheel: 'ctrl', moveOnMouseWheel: false, moveOnMouseMove: false, preventDefaultMouseMove: false },
-    {
-      type: 'slider',
-      height: 20,
-      bottom: 6,
-      borderColor: theme.axis,
-      backgroundColor: 'transparent',
-      fillerColor: bandAlpha(theme, 0.35),
-      dataBackground: { lineStyle: { color: theme.axis }, areaStyle: { color: theme.grid } },
-      selectedDataBackground: { lineStyle: { color: theme.series[0] }, areaStyle: { color: bandAlpha(theme, 0.25) } },
-      handleStyle: { color: theme.surface, borderColor: theme.series[0] },
-      moveHandleStyle: { color: theme.axis },
-      textStyle: { color: theme.ink, fontSize: 11 },
-      labelFormatter: (_: number, value: string) => (value ? formatPeriod(value, locale) : ''),
-      brushSelect: false,
-    },
-  ];
+function zoomControls(_theme: ChartTheme, _locale: Locale) {
+  return [{ type: 'inside', zoomOnMouseWheel: false, moveOnMouseWheel: false, moveOnMouseMove: false, preventDefaultMouseMove: false }];
 }
 
 /** Category x-axis of months, labelled by year to stay readable on phones. */
@@ -177,7 +160,7 @@ export function lineOption(opts: {
   const baseOpts = base(theme, visible.length > 1) as { grid: Record<string, unknown> };
   return {
     ...baseOpts,
-    ...(zoom ? { dataZoom: zoomControls(theme, locale), grid: { ...baseOpts.grid, bottom: 40 } } : {}),
+    ...(zoom ? { dataZoom: zoomControls(theme, locale), grid: baseOpts.grid } : {}),
     legend:
       visible.length > 1
         ? { ...(base(theme, true).legend as object), data: visible.map((s) => s.name) }
@@ -270,7 +253,7 @@ export function stackedOption(opts: {
   });
   return {
     ...base(theme, true),
-    grid: { left: 8, right: 16, top: 64, bottom: 40, containLabel: true },
+    grid: { left: 8, right: 16, top: 64, bottom: 8, containLabel: true },
     dataZoom: zoomControls(theme, locale),
     tooltip: {
       trigger: 'axis',

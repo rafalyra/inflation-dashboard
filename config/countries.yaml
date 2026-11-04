@@ -48,10 +48,10 @@ countries:
     # `up` / `down` color price increases and decreases (gold / navy).
     theme:
       light:
-        # Pistachio page (the owner's chosen swatch) with warm off-white cards for charts.
+        # Pistachio page (the owner's chosen swatch) with cream off-white cards for charts.
         bg: "#d6e5ad"
-        surface: "#fbfaf4"
-        surface_muted: "#eef2df"
+        surface: "#f1eddc"
+        surface_muted: "#e7e2cc"
         border: "#bfcf93"
         text: "#1b2614"
         text_muted: "#46543a"
@@ -65,9 +65,9 @@ countries:
         series: ["#1b589e", "#5cb572", "#3a7bcb", "#c8942d", "#18b1cd", "#9f7100", "#64a1ee", "#046a2f"]
       dark:
         bg: "#18231c"
-        surface: "#202d25"
-        surface_muted: "#27362d"
-        border: "#36493c"
+        surface: "#2b3a31"
+        surface_muted: "#334339"
+        border: "#435749"
         text: "#e9f0ea"
         text_muted: "#a8b8ad"
         link: "#8fb4e8"

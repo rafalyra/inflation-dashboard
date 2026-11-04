@@ -114,6 +114,10 @@ export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab 
       )}
       <header className="country-head">
         <h1>{d.country.name[locale]}</h1>
+      </header>
+      {/* Tabs and the period row stay together at the top while scrolling. A sticky
+          element only sticks inside its parent, so this sits at page level. */}
+      <div className="sticky-controls">
         <nav className="section-nav" aria-label={t('country.tabsLabel')}>
           {TABS.map((id) => (
             <button
@@ -144,7 +148,7 @@ export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab 
             <span className="muted range-bar__hint">{t('chart.range.hint')}</span>
           </div>
         )}
-      </header>
+      </div>
       <ZoomContext.Provider value={range}>
         {sections[tab].map(([id, node]) => (
           <section key={id} id={id} className="country-section" aria-labelledby={`${id}-h`}>
@@ -368,7 +372,7 @@ function Drivers({ d, t, locale, theme, L, pp }: Ctx) {
         title={t('drivers.stackedTitle')}
         subtitle={t('drivers.stackedSubtitle')}
         option={stacked}
-        height={360}
+        height={540}
         table={{
           columns: [t('table.month'), ...tm.series.map((s) => L(s.label)), t('drivers.headlineYoy'), t('drivers.rounding')],
           rows: periodRows(tm.periods, [...tm.series.map((s) => s.values_pp), tm.headline_yoy_pct, tm.rounding_pp], locale, 'pp'),

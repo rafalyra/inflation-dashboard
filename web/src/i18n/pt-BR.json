@@ -39,8 +39,10 @@
       "5y": "5 anos",
       "10y": "10 anos",
       "all": "Tudo",
-      "hint": "Vale para todos os gráficos de tempo abaixo. Arraste a barra de um gráfico para ajustá-lo, ou segure Ctrl e role sobre ele para dar zoom."
-    }
+      "hint": "Vale para todos os gráficos de tempo abaixo. Para dar zoom num período, clique no gráfico, arraste sobre ele e solte; clique duas vezes para voltar."
+    },
+    "resetZoom": "Desfazer zoom",
+    "zoomedTo": "Zoom: {{from}} – {{to}}"
   },
   "table": {
     "month": "Mês",

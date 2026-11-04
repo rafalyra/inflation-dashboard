@@ -304,16 +304,20 @@ h2 {
 }
 
 /* Section buttons stay in reach while scrolling the long country page. */
-.section-nav {
+.sticky-controls {
   position: sticky;
   top: 0;
   z-index: 5;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+
+.section-nav {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
   padding: var(--space-2) 0;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
 }
 
 .section-nav__button {
@@ -343,8 +347,8 @@ h2 {
   padding-top: var(--space-5);
   margin-top: var(--space-5);
   border-top: 1px solid var(--color-border);
-  /* Leave room for the sticky section buttons when jumping to a section. */
-  scroll-margin-top: 4.5rem;
+  /* Leave room for the sticky tabs and period row when jumping to a section. */
+  scroll-margin-top: 9rem;
 }
 
 /* The sticky section buttons already draw a line; the first section needs no second one. */
@@ -689,3 +693,34 @@ h2 {
   font-size: var(--text-xs);
   flex-basis: 100%;
 }
+
+/* Drag-to-zoom on time charts: a translucent band follows the drag. */
+.chart__plot {
+  position: relative;
+}
+
+.chart--zoomable .chart__plot {
+  cursor: crosshair;
+  user-select: none;
+}
+
+.chart__zoombar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.chart__selection {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--series-1) 18%, transparent);
+  border-left: 1px solid var(--series-1);
+  border-right: 1px solid var(--series-1);
+  pointer-events: none;
+}
+
