@@ -59,11 +59,11 @@ countries:
         link: "#1b4f8f"
         header_bg: "#17603f"
         header_text: "#ffffff"
-        accent: "#b8861f"
+        accent: "#c99410"
         band: "rgba(23, 96, 63, 0.10)"
         up: "#c0392b"
         down: "#5cb572"
-        series: ["#1b589e", "#5cb572", "#3a7bcb", "#c8942d", "#18b1cd", "#9f7100", "#64a1ee", "#046a2f"]
+        series: ["#1b589e", "#5cb572", "#3a7bcb", "#d9a514", "#18b1cd", "#b27f02", "#64a1ee", "#046a2f"]
       dark:
         bg: "#18231c"
         surface: "#2b3a31"
@@ -78,7 +78,7 @@ countries:
         band: "rgba(122, 190, 150, 0.12)"
         up: "#c0463d"
         down: "#52ab68"
-        series: ["#346aac", "#50a064", "#407bc5", "#b28324", "#139cb6", "#9f7100", "#578ed4", "#287c42"]
+        series: ["#346aac", "#50a064", "#407bc5", "#b98c06", "#139cb6", "#9f7100", "#578ed4", "#287c42"]
     # Ways to split the headline into parts that add up to it. Each set gets monthly and
     # 12-month contributions on the Composition tab. The BCB segments are aggregated from
     # IBGE subitems with the BCB's own classification (from Jan 2020; validated against SGS).
@@ -104,6 +104,14 @@ countries:
     # Weighted diffusion counts subitems whose 12-month change is above this level (the
     # band ceiling), next to the share whose price rose in the month.
     diffusion_threshold_pct: 4.5
+    # Summary tab. `core` is the official long-history core used for the headline cards and
+    # the "core vs target" chart; `table` lists the rows of the latest-release table (official
+    # long series where they exist, so each month's usual change rests on many years).
+    summary:
+      core: br.core.ex0
+      noncore: br.ipca.bcb.noncore
+      cards: [br.ipca.headline, br.core.ex0, br.ipca.services, br.ipca.bcb.industrial]
+      table: [br.ipca.headline, br.core.ex0, br.ipca.bcb.industrial, br.ipca.services, br.ipca.bcb.noncore, br.ipca.subgroup.11, br.ipca.administered]
     # Country-specific comparison panels: each lists series shown side by side (12-month rates).
     panels:
       free_vs_administered: [br.ipca.free, br.ipca.administered]

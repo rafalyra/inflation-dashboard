@@ -218,7 +218,12 @@ def _focus_rows(entity: str, item: dict[str, object]) -> Iterable[dict[str, obje
     else:
         measure, period = "year_end_pct", f"{item['DataReferencia']}-12"
     base = int(str(item["baseCalculo"]))
-    for statistic, field in (("median", "Mediana"), ("mean", "Media")):
+    for statistic, field in (
+        ("median", "Mediana"),
+        ("mean", "Media"),
+        ("min", "Minimo"),
+        ("max", "Maximo"),
+    ):
         if item.get(field) is None:
             continue
         yield {

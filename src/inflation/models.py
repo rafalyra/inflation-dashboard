@@ -134,6 +134,8 @@ class ExpectationMeasure(StrEnum):
 class Statistic(StrEnum):
     MEDIAN = "median"
     MEAN = "mean"
+    MIN = "min"  # lowest forecast in the survey
+    MAX = "max"  # highest forecast in the survey
 
 
 class Expectation(_Model):

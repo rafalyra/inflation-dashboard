@@ -264,6 +264,7 @@ class CountryExport:
                 {
                     "series_id": sid,
                     "label": self.label(sid),
+                    "group": export_deep.group_of(self, sid),
                     "contribution_pp": _r(v),
                     "mom_pct": _r(i_mom.loc[period, sid]),
                 }
@@ -377,7 +378,40 @@ class CountryExport:
                     headline["yoy_pct"], leaving_mom, expected["median_pct"]
                 )
             )
-        return {"dropping_out": leaving, "next_expected": expected, "implied_next_yoy_pct": implied}
+        # The spread of forecasts in the same survey (lowest and highest), and the 12-month rate
+        # each would imply, so the page can show a likely range next to the median.
+        spread: dict[str, Any] | None = None
+        exp = self.data.expectations
+        primary = self.cfg.primary_expectation_source
+        if expected and primary and not exp.empty and isinstance(leaving_mom, float):
+            ends = {}
+            for stat in ("min", "max"):
+                row = surprise.expectation_before(
+                    exp, headline["indicator"], next_period, "mom_pct", primary, tomorrow, stat
+                )
+                if row is not None:
+                    ends[stat] = float(row["value"])
+            if len(ends) == 2 and headline["yoy_pct"] is not None:
+                spread = {
+                    "min_mom_pct": _r(ends["min"]),
+                    "max_mom_pct": _r(ends["max"]),
+                    "min_yoy_pct": _r(
+                        base_effects.implied_next_yoy_pct(
+                            headline["yoy_pct"], leaving_mom, ends["min"]
+                        )
+                    ),
+                    "max_yoy_pct": _r(
+                        base_effects.implied_next_yoy_pct(
+                            headline["yoy_pct"], leaving_mom, ends["max"]
+                        )
+                    ),
+                }
+        return {
+            "dropping_out": leaving,
+            "next_expected": expected,
+            "implied_next_yoy_pct": implied,
+            "next_spread": spread,
+        }
 
     def policy_section(self) -> dict[str, Any]:
         daily = self.data.daily
@@ -525,6 +559,7 @@ class CountryExport:
                 self, hid, f"{self.cfg.chart_start_year - SA_ESTIMATION_YEARS}-01"
             ),
             "composition": export_deep.composition_section(self, hid, headline["reference_period"]),
+            "overview": export_deep.summary_section(self, headline["reference_period"]),
             "seasonality": export_deep.seasonality_section(self, hid, headline["reference_period"]),
             "base_effects": self.base_effects_section(headline),
             "policy": self.policy_section(),

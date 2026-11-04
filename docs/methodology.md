@@ -57,7 +57,13 @@ contribution, scaled by how much prices had already risen earlier in the window.
   are summed into "Other", and the page names which groups those are.
 
 **Top movers.** These are the 5 largest positive and the 5 largest negative item-level (IBGE level
-3) contributions in the latest month.
+3) contributions in the latest month. Each is labelled with the group it belongs to.
+
+**Share of a change.** A part's share of its parent's change is its contribution ÷ the parent's
+change × 100: if the IPCA rose 0.82% and core contributed 0.26 pp, core explains 32% of the month.
+The same is done for the 12-month rate with the chain-linked contributions above. A share is left
+blank when the parent barely moved (|change| < 0.005), since dividing by almost zero means nothing.
+The bar of shares is drawn only when both parts pushed in the same direction.
 
 ## Momentum (`metrics/momentum.py`, `metrics/seasonal.py`)
 
@@ -136,6 +142,15 @@ A monthly change is judged against the same calendar month in "normal" years.
 - From the adjusted indexes we show the monthly change, and the 3- and 6-month annualized rates for
   the core average.
 
+## Summary tab (`export_deep.summary_section`)
+
+For each series listed under `summary` in `config/countries.yaml`, the export gives:
+
+- this month's change and the **usual change** for this calendar month (the median over the
+  seasonal baseline years, see Seasonality). Series that start in 2020 have few baseline years and
+  are flagged on the page;
+- the 12-month rate now and a month earlier, and the difference between them in pp.
+
 ## Explorer
 
 `br-explore.json` holds every IPCA category from 2012, from the 9 groups down to subitems, plus the
@@ -157,6 +172,9 @@ The 12-month window moves forward one month at a time:
 
 The page lists the month that leaves the window at each of the next three releases. It also shows the 12-month
 rate implied for next month if the new print equals the latest expectation.
+
+The Summary tab also shows the survey's lowest and highest forecasts for next month (Focus
+"Mínimo"/"Máximo") and the 12-month rates each would imply, using the same formula.
 
 ## Real interest rate (`metrics/real_rate.py`)
 

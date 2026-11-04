@@ -112,6 +112,15 @@ class CompositionSet(_Config):
     parent: str | None = None
 
 
+class SummaryConfig(_Config):
+    """Series for the Summary tab (see config/countries.yaml)."""
+
+    core: str
+    noncore: str | None = None
+    cards: tuple[str, ...] = ()
+    table: tuple[str, ...] = ()
+
+
 class CountryConfig(_Config):
     enabled: bool
     name: LocalizedName
@@ -129,6 +138,7 @@ class CountryConfig(_Config):
     panels: dict[str, tuple[str, ...]] = {}
     composition: dict[str, CompositionSet] = {}
     seasonality: Seasonality | None = None
+    summary: SummaryConfig | None = None
     diffusion_threshold_pct: float | None = None
 
     def core_series_ids(self, code: str) -> list[str]:

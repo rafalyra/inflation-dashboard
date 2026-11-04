@@ -23,7 +23,7 @@ br.bcb.ipca,br,IPCA,headline_check,,0,IPCA (BCB SGS copy),IPCA (cópia no SGS do
 br.bcb.ipca_12m,br,IPCA,headline_check,,0,"IPCA, 12-month (BCB SGS copy)","IPCA, 12 meses (cópia no SGS do BCB)",bcb_sgs,13522,yoy_pct,monthly,nsa
 br.core.ms,br,IPCA,core,,0,Trimmed mean (smoothed),Médias aparadas com suavização (MS),bcb_sgs,4466,mom_pct,monthly,nsa
 br.core.ma,br,IPCA,core,,0,Trimmed mean (unsmoothed),Médias aparadas sem suavização (MA),bcb_sgs,11426,mom_pct,monthly,nsa
-br.core.ex0,br,IPCA,core,,0,Exclusion EX0,Exclusão EX0,bcb_sgs,11427,mom_pct,monthly,nsa
+br.core.ex0,br,IPCA,core,,0,Core EX0,Núcleo EX0,bcb_sgs,11427,mom_pct,monthly,nsa
 br.core.ex1,br,IPCA,core,,0,Exclusion EX1,Exclusão EX1,bcb_sgs,16121,mom_pct,monthly,nsa
 br.core.ex2,br,IPCA,core,,0,Exclusion EX2,Exclusão EX2,bcb_sgs,27838,mom_pct,monthly,nsa
 br.core.ex3,br,IPCA,core,,0,Exclusion EX3,Exclusão EX3,bcb_sgs,27839,mom_pct,monthly,nsa

@@ -96,6 +96,15 @@ def _contribution_set(ex: CountryExport, ids: list[str], parent_id: str) -> dict
     if yoy.empty:  # derived parents (core, non-core) are published as monthly rates only
         yoy = changes.rolling_compound_pct(head_mom, 12)
     period = c.index[-1]
+    last12 = c12.index[-1] if len(c12) else None
+    yoy_last = yoy.get(last12) if last12 is not None else None
+
+    def share_of(part_pp: float, total: float | None) -> float | None:
+        # A part's share of its parent's change (%); meaningless when the parent is flat.
+        if total is None or pd.isna(total) or abs(total) < 0.005:
+            return None
+        return _r(part_pp / total * 100)
+
     return {
         "parts": [
             {
@@ -104,11 +113,20 @@ def _contribution_set(ex: CountryExport, ids: list[str], parent_id: str) -> dict
                 "weight_pct": _r(w.loc[period, sid]),
                 "mom_pct": _r(m.loc[period, sid]),
                 "contribution_pp": _r(c.loc[period, sid]),
+                # Share of the parent's monthly change explained by this part (%); only
+                # meaningful when the parent moved, so null for a flat month.
+                "share_of_change_pct": share_of(c.loc[period, sid], head_mom.get(period)),
                 "yoy_pct": _r(changes.rolling_compound_pct(m[sid].dropna(), 12).get(period)),
+                # The same split for the 12-month rate (chain-linked contributions).
+                "twelve_month_pp": _r(c12.loc[last12, sid]) if last12 is not None else None,
+                "twelve_month_share_pct": share_of(c12.loc[last12, sid], yoy_last)
+                if last12 is not None
+                else None,
             }
             for sid in ids
         ],
         "period": period,
+        "twelve_month_period": last12,
         "parent": {
             "series_id": parent_id,
             "label": ex.label(parent_id),
@@ -388,3 +406,78 @@ def explore_payload(ex: CountryExport, headline_id: str) -> dict[str, Any]:
             }
         )
     return {"periods": periods, "baseline_years": years, "series": series}
+
+
+# ---- Summary -------------------------------------------------------------------------------
+
+
+def _yoy(ex: CountryExport, sid: str) -> pd.Series:
+    """Published 12-month change, or compounded from monthly changes when none is published."""
+    yoy = _series(ex.obs, sid, "yoy_pct")
+    return yoy if len(yoy) else changes.rolling_compound_pct(_series(ex.obs, sid, "mom_pct"), 12)
+
+
+def _previous(period: str) -> str:
+    return str((pd.Period(period, freq="M") - 1).strftime("%Y-%m"))
+
+
+def series_snapshot(ex: CountryExport, sid: str, period: str, years: list[int]) -> dict[str, Any]:
+    """One row of the summary: this month's change, its usual change for this calendar month,
+    and the 12-month rate now and a month earlier."""
+    mom = _series(ex.obs, sid, "mom_pct")
+    yoy = _yoy(ex, sid)
+    stats = seasonality.monthly_stats(mom, years)
+    month = period[5:]
+    usual = stats.loc[month, "median_pct"] if month in stats.index else None
+    now, before = yoy.get(period), yoy.get(_previous(period))
+    return {
+        "series_id": sid,
+        "label": ex.label(sid),
+        "mom_pct": _r(mom.get(period)),
+        "usual_mom_pct": _r(usual),
+        "usual_years": int(stats.loc[month, "n"])
+        if month in stats.index and pd.notna(stats.loc[month, "n"])
+        else 0,
+        "yoy_pct": _r(now),
+        "yoy_prev_pct": _r(before),
+        "yoy_change_pp": _r(now - before)
+        if now is not None and before is not None and pd.notna(now) and pd.notna(before)
+        else None,
+    }
+
+
+def summary_section(ex: CountryExport, period: str) -> dict[str, Any] | None:
+    cfg = ex.cfg.summary
+    if cfg is None:
+        return None
+    years = ex.cfg.seasonality.baseline_years(int(period[:4])) if ex.cfg.seasonality else []
+    core_yoy = _yoy(ex, cfg.core)
+    return {
+        "period": period,
+        "core": series_snapshot(ex, cfg.core, period, years),
+        "noncore": series_snapshot(ex, cfg.noncore, period, years) if cfg.noncore else None,
+        "cards": [
+            series_snapshot(ex, sid, period, years) for sid in cfg.cards if sid in ex.catalog.index
+        ],
+        "table": [
+            series_snapshot(ex, sid, period, years) for sid in cfg.table if sid in ex.catalog.index
+        ],
+        "core_yoy": {
+            "series_id": cfg.core,
+            "label": ex.label(cfg.core),
+            **_points(core_yoy, ex.start),
+        },
+        "baseline_years": years,
+    }
+
+
+def group_of(ex: CountryExport, sid: str) -> dict[str, str] | None:
+    """The group (level 1) an item or subitem belongs to, for labelling tables."""
+    cat = ex.catalog
+    current = sid
+    while current in cat.index and cat.loc[current, "concept"] != "group":
+        parent = cat.loc[current, "parent_id"]
+        if pd.isna(parent):
+            return None
+        current = str(parent)
+    return ex.label(current) if current in cat.index else None
