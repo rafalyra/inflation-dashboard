@@ -184,14 +184,18 @@ export function lineOption(opts: {
   };
 }
 
-/** Horizontal bars for one month's contributions, colored by sign (up vs down). */
+/**
+ * Horizontal bars for one month's contributions, colored by sign (up vs down), or all in
+ * one `color` (the bar's side of zero and its signed label then carry the sign).
+ */
 export function contributionBars(opts: {
   labels: string[];
   values: number[];
   theme: ChartTheme;
   locale: Locale;
+  color?: string;
 }): EChartsCoreOption {
-  const { labels, values, theme, locale } = opts;
+  const { labels, values, theme, locale, color } = opts;
   const fmt = valueFormatter('pp', locale);
   return {
     ...base(theme, false),
@@ -213,7 +217,7 @@ export function contributionBars(opts: {
         data: values.map((v) => ({
           value: v,
           itemStyle: {
-            color: v >= 0 ? theme.up : theme.down,
+            color: color ?? (v >= 0 ? theme.up : theme.down),
             borderRadius: v >= 0 ? [0, 4, 4, 0] : [4, 0, 0, 4],
           },
         })),

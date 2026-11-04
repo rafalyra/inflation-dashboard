@@ -299,8 +299,100 @@ h2 {
 
 /* Country page */
 
+/* Flag and name, then the tab bar on the same row (it wraps below on narrow screens). */
 .country-head {
-  margin-bottom: var(--space-5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+  padding-top: var(--space-3);
+}
+
+.country-head__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.country-head__flag {
+  width: 2.25rem;
+  height: auto;
+  border-radius: 3px;
+  /* A hairline keeps the flag's edge visible on any background. */
+  box-shadow: 0 0 0 1px var(--color-border);
+}
+
+/* Tabs in one rounded bar; a soft highlight glides to the hovered tab and fades in. */
+/* On narrow screens the bar scrolls sideways instead of wrapping onto a second row. */
+.tabbar {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabbar__glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 999px;
+  background: var(--header-bg);
+  transition:
+    transform 260ms ease,
+    width 260ms ease,
+    opacity 200ms ease,
+    background-color 200ms ease;
+  pointer-events: none;
+}
+
+/* While hovering another tab the highlight is a lighter, see-through version. */
+.tabbar__glow--hover {
+  background: color-mix(in srgb, var(--header-bg) 22%, transparent);
+}
+
+.tabbar__tab {
+  position: relative;
+  z-index: 1;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-4);
+  min-height: 2.25rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.tabbar__tab[aria-current='page'] {
+  font-weight: 600;
+}
+
+/* The current tab's text turns light only while the solid highlight sits under it. */
+.tabbar:not(:has(.tabbar__glow--hover)) .tabbar__tab[aria-current='page'] {
+  color: var(--header-text);
+}
+
+.tabbar__tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabbar__glow,
+  .tabbar__tab {
+    transition: none;
+  }
 }
 
 /* Section buttons stay in reach while scrolling the long country page. */
@@ -352,7 +444,7 @@ h2 {
 }
 
 /* The sticky section buttons already draw a line; the first section needs no second one. */
-.country-head + .country-section {
+.sticky-controls + .country-section {
   border-top: 0;
   margin-top: 0;
 }
@@ -767,4 +859,232 @@ h2 {
 .row--child th {
   font-weight: 400;
   padding-left: var(--space-5);
+}
+
+/* ---- Summary tab ---- */
+
+.small {
+  font-size: var(--text-sm);
+}
+
+.row-sub {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.overview-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 56rem) {
+  .overview-top {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+}
+
+/* The headline card: the country's header color, big 12-month number. */
+.hero {
+  background: var(--header-bg);
+  color: var(--header-text);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.hero p {
+  margin: 0;
+}
+
+.hero__meta {
+  font-size: var(--text-sm);
+  opacity: 0.85;
+}
+
+.hero__headline {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.hero__sub {
+  font-size: var(--text-lg);
+}
+
+.next-card {
+  margin-bottom: 0;
+}
+
+.next-card p {
+  margin: var(--space-1) 0;
+}
+
+.next-card hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-3) 0;
+}
+
+.next-card__date {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.chip-soft {
+  display: inline-block;
+  font-size: var(--text-sm);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0 var(--space-3);
+}
+
+.check--ok {
+  color: var(--status-inside);
+}
+
+.check--fail {
+  color: var(--signal-up);
+  font-weight: 600;
+}
+
+.kpi-grid,
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.kpi {
+  margin-bottom: 0;
+}
+
+.kpi p {
+  margin: 0 0 var(--space-2);
+}
+
+.kpi__label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.kpi__value .num {
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+.kpi__mom {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* Change in the 12-month rate: arrow + text, tinted red (up) or green (down). */
+.delta {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 2px var(--space-2);
+}
+
+.delta--up {
+  color: var(--signal-up);
+  background: color-mix(in srgb, var(--signal-up) 12%, transparent);
+}
+
+.delta--down {
+  color: color-mix(in srgb, var(--signal-down) 70%, var(--color-text));
+  background: color-mix(in srgb, var(--signal-down) 16%, transparent);
+}
+
+.delta--flat {
+  color: var(--color-text-muted);
+  background: var(--color-surface-muted);
+}
+
+.insight {
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+
+.insight p {
+  margin: 0 0 var(--space-1);
+}
+
+.insight__title {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+/* Core vs non-core: one bar split in blue (core) and yellow (non-core). */
+.core-split__row + .core-split__row {
+  margin-top: var(--space-4);
+}
+
+.core-split__label {
+  margin: 0 0 var(--space-2);
+  font-weight: 600;
+}
+
+.core-split__bar {
+  display: flex;
+  gap: 2px;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.core-split__seg {
+  flex-basis: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.core-split__seg--core {
+  background: var(--series-1);
+  color: #ffffff;
+}
+
+.core-split__seg--noncore {
+  background: var(--series-4);
+  color: #1b1a14;
+}
+
+.core-split__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.core-split__swatch {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+  margin-right: var(--space-2);
+  vertical-align: -1px;
+}
+
+/* Numbers in tables stay on one line ("0,82%" never splits). */
+.data-table td.num {
+  white-space: nowrap;
 }

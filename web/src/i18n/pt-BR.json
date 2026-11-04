@@ -77,7 +77,7 @@
   "country": {
     "sections": "Seções",
     "section": {
-      "snapshot": "Divulgação",
+      "snapshot": "Detalhes da divulgação",
       "drivers": "O que puxou",
       "trend": "Tendência",
       "momentum": "Ritmo",
@@ -93,7 +93,12 @@
       "profiles": "Perfis sazonais",
       "adjusted": "Variação dessazonalizada",
       "explore": "Explore qualquer categoria",
-      "corenoncore": "Núcleo e não núcleo"
+      "corenoncore": "Núcleo e não núcleo",
+      "overview": "A última divulgação",
+      "targets": "Em relação à meta",
+      "corecharts": "Núcleo e não núcleo",
+      "seasonalnow": "Este mês e o seu padrão usual",
+      "movers": "Contribuições por item"
     },
     "tabsLabel": "Abas da página",
     "tab": {
@@ -441,5 +446,47 @@
     "historySubtitle": "Variação no mês e em 12 meses desde 2012.",
     "profileTitle": "Mês a mês",
     "profileSubtitle": "Este ano e o anterior contra o padrão usual ({{first}}–{{last}}, sem 2020–2022)."
+  },
+  "summary": {
+    "lastRelease": "Última divulgação do {{indicator}}: {{period}} (publicada em {{date}})",
+    "headline": "{{indicator}} em {{value}} em 12 meses",
+    "heroSub": "Núcleo {{core}} · não núcleo {{noncore}} · {{mom}} no mês",
+    "nextRelease": "Próxima divulgação",
+    "estimate": "Estimativa do mercado para {{period}}: {{mom}} no mês, levando a taxa em 12 meses a {{yoy}}.",
+    "range": "Intervalo das projeções: {{min}} a {{max}} (12 meses: {{minYoy}} a {{maxYoy}}).",
+    "updated": "Dados atualizados em {{when}}",
+    "checked": "Conferido com os números oficiais de {{period}}",
+    "notChecked": "A conferência com os números oficiais de {{period}} falhou",
+    "inMonth": "no mês",
+    "vsPrev": "{{value}} vs {{period}}",
+    "kpiLabel": "{{name}} · 12 meses",
+    "target": "Meta de {{target}}, intervalo de tolerância de {{low}} a {{high}}:",
+    "insight": {
+      "expected": "Efetivo vs esperado",
+      "aboveExp": "O mês veio em {{actual}}, {{gap}} acima da mediana do mercado ({{expected}}).",
+      "belowExp": "O mês veio em {{actual}}, {{gap}} abaixo da mediana do mercado ({{expected}}).",
+      "noExp": "Não houve expectativa de mercado publicada para {{period}}.",
+      "contributions": "Maiores contribuições",
+      "upItem": "▲ {{item}}: {{pp}} ({{pct}} no mês)",
+      "downItem": "▼ {{item}}: {{pp}} ({{pct}} no mês)",
+      "seasonal": "Mais longe do usual para a época",
+      "devUp": "acima: {{item}} ({{pp}})",
+      "devDown": "abaixo: {{item}} ({{pp}})",
+      "diffusion": "Quão espalhada",
+      "diffusionText": "{{share}} da cesta (pelo peso) sobe mais de {{threshold}} ao ano ({{period}})."
+    },
+    "vsTarget": "{{name}}: taxa em 12 meses e a meta",
+    "vsTargetSubtitle": "Sombreado: o intervalo de tolerância. Último: {{last}}.",
+    "stackSubtitle": "Quanto da taxa em 12 meses cada parte explica, em pontos percentuais; a linha é o total.",
+    "tableTitle": "Última divulgação por componente",
+    "tableSubtitle": "Este mês, a variação usual para este mês (mediana dos anos normais) e a taxa em 12 meses agora e um mês antes.",
+    "component": "Componente",
+    "monthChange": "{{period}}",
+    "usual": "Usual para o mês",
+    "yoyAt": "12 meses até {{period}}",
+    "yoyChange": "Mudança na taxa em 12 meses",
+    "splitTitle": "Quanto veio do núcleo e do não núcleo",
+    "splitMonth": "O mês ({{period}}): {{value}}",
+    "split12m": "12 meses até {{period}}: {{value}}"
   }
 }

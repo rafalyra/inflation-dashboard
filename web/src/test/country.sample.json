@@ -264,7 +264,8 @@
       }
     ],
     "next_expected": null,
-    "implied_next_yoy_pct": null
+    "implied_next_yoy_pct": null,
+    "next_spread": null
   },
   "policy": {
     "year_end_expectations": [
@@ -449,7 +450,10 @@
             "weight_pct": 60,
             "mom_pct": 1,
             "contribution_pp": 0.6,
-            "yoy_pct": 4
+            "yoy_pct": 4,
+            "share_of_change_pct": 48.8,
+            "twelve_month_pp": 2.4,
+            "twelve_month_share_pct": 52.6
           },
           {
             "series_id": "br.ipca.bcb.b",
@@ -460,7 +464,10 @@
             "weight_pct": 40,
             "mom_pct": 1.58,
             "contribution_pp": 0.63,
-            "yoy_pct": 5
+            "yoy_pct": 5,
+            "share_of_change_pct": 51.2,
+            "twelve_month_pp": 2.16,
+            "twelve_month_share_pct": 47.4
           }
         ],
         "monthly": {
@@ -559,7 +566,8 @@
           "mom_pct": 1.23,
           "yoy_pct": 4.56,
           "weight_pct": 100
-        }
+        },
+        "twelve_month_period": "2025-12"
       },
       "core": {
         "period": "2025-12",
@@ -994,5 +1002,123 @@
       "items_down": [],
       "total_pp": 0.36
     }
+  },
+  "overview": {
+    "period": "2025-12",
+    "core": {
+      "series_id": "br.core.ex0",
+      "label": {
+        "en": "Sample core",
+        "pt-BR": "Núcleo de exemplo"
+      },
+      "mom_pct": 0.8,
+      "usual_mom_pct": 0.5,
+      "usual_years": 3,
+      "yoy_pct": 4.2,
+      "yoy_prev_pct": 4.3,
+      "yoy_change_pp": -0.1
+    },
+    "noncore": {
+      "series_id": "br.ipca.bcb.noncore",
+      "label": {
+        "en": "Sample non-core",
+        "pt-BR": "Não núcleo de exemplo"
+      },
+      "mom_pct": 1.6,
+      "usual_mom_pct": 0.5,
+      "usual_years": 3,
+      "yoy_pct": 5.1,
+      "yoy_prev_pct": 4.9,
+      "yoy_change_pp": 0.2
+    },
+    "cards": [
+      {
+        "series_id": "br.ipca.headline",
+        "label": {
+          "en": "IPCA",
+          "pt-BR": "IPCA"
+        },
+        "mom_pct": 1.23,
+        "usual_mom_pct": 0.5,
+        "usual_years": 3,
+        "yoy_pct": 4.56,
+        "yoy_prev_pct": 4,
+        "yoy_change_pp": 0.56
+      },
+      {
+        "series_id": "br.core.ex0",
+        "label": {
+          "en": "Sample core",
+          "pt-BR": "Núcleo de exemplo"
+        },
+        "mom_pct": 0.8,
+        "usual_mom_pct": 0.5,
+        "usual_years": 3,
+        "yoy_pct": 4.2,
+        "yoy_prev_pct": 4.3,
+        "yoy_change_pp": -0.1
+      }
+    ],
+    "table": [
+      {
+        "series_id": "br.ipca.headline",
+        "label": {
+          "en": "IPCA",
+          "pt-BR": "IPCA"
+        },
+        "mom_pct": 1.23,
+        "usual_mom_pct": 0.5,
+        "usual_years": 3,
+        "yoy_pct": 4.56,
+        "yoy_prev_pct": 4,
+        "yoy_change_pp": 0.56
+      },
+      {
+        "series_id": "br.core.ex0",
+        "label": {
+          "en": "Sample core",
+          "pt-BR": "Núcleo de exemplo"
+        },
+        "mom_pct": 0.8,
+        "usual_mom_pct": 0.5,
+        "usual_years": 3,
+        "yoy_pct": 4.2,
+        "yoy_prev_pct": 4.3,
+        "yoy_change_pp": -0.1
+      },
+      {
+        "series_id": "br.ipca.bcb.noncore",
+        "label": {
+          "en": "Sample non-core",
+          "pt-BR": "Não núcleo de exemplo"
+        },
+        "mom_pct": 1.6,
+        "usual_mom_pct": 0.5,
+        "usual_years": 3,
+        "yoy_pct": 5.1,
+        "yoy_prev_pct": 4.9,
+        "yoy_change_pp": 0.2
+      }
+    ],
+    "core_yoy": {
+      "series_id": "br.core.ex0",
+      "label": {
+        "en": "Sample core",
+        "pt-BR": "Núcleo de exemplo"
+      },
+      "periods": [
+        "2025-11",
+        "2025-12"
+      ],
+      "values": [
+        4,
+        4.56
+      ]
+    },
+    "baseline_years": [
+      2023,
+      2024,
+      2025
+    ]
   }
 }

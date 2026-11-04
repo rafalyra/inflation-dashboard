@@ -101,6 +101,20 @@ export interface Contribution {
   contribution_pp: number;
   mom_pct: number;
   weight_pct?: number;
+  /** The group (level 1) an item belongs to, for labelling tables. */
+  group?: LocalizedText | null;
+}
+
+/** One series in the Summary tab: this month, its usual month, and the 12-month rate. */
+export interface SeriesSnapshot {
+  series_id: string;
+  label: LocalizedText;
+  mom_pct: number | null;
+  usual_mom_pct: number | null;
+  usual_years: number;
+  yoy_pct: number | null;
+  yoy_prev_pct: number | null;
+  yoy_change_pp: number | null;
 }
 
 export interface LabeledPoints extends Points {
@@ -192,6 +206,8 @@ export interface CountryData {
     dropping_out: { period: string; leaving_period: string; leaving_mom_pct: number | null }[];
     next_expected: Expectation | null;
     implied_next_yoy_pct: number | null;
+    /** Lowest and highest forecasts in the survey, and the 12-month rates they imply. */
+    next_spread?: { min_mom_pct: number; max_mom_pct: number; min_yoy_pct: number; max_yoy_pct: number } | null;
   };
   policy: {
     policy_rate?: { label: LocalizedText; date: string; rate_pct: number; history: Points };
@@ -209,6 +225,15 @@ export interface CountryData {
   adjusted: Adjusted;
   composition: Composition;
   seasonality: Seasonality | null;
+  overview?: {
+    period: string;
+    core: SeriesSnapshot;
+    noncore: SeriesSnapshot | null;
+    cards: SeriesSnapshot[];
+    table: SeriesSnapshot[];
+    core_yoy: LabeledPoints;
+    baseline_years: number[];
+  } | null;
   validation: { passed: boolean; checked_at_utc: string; checks: { name: string; passed: boolean }[] };
 }
 
@@ -216,8 +241,10 @@ export interface CountryData {
 
 export interface ContributionSet {
   period: string;
+  twelve_month_period?: string | null;
   parent: { series_id: string; label: LocalizedText; mom_pct: number | null; yoy_pct: number | null; weight_pct: number | null };
-  parts: { series_id: string; label: LocalizedText; weight_pct: number; mom_pct: number; contribution_pp: number; yoy_pct: number | null }[];
+  parts: { series_id: string; label: LocalizedText; weight_pct: number; mom_pct: number; contribution_pp: number; yoy_pct: number | null;
+    share_of_change_pct?: number | null; twelve_month_pp?: number | null; twelve_month_share_pct?: number | null }[];
   monthly: { periods: string[]; series: { series_id: string; label: LocalizedText; values_pp: (number | null)[] }[]; headline_mom_pct: (number | null)[] };
   twelve_month: { periods: string[]; series: { series_id: string; label: LocalizedText; values_pp: (number | null)[] }[]; headline_yoy_pct: (number | null)[] };
   yoy: { series: LabeledPoints[] };

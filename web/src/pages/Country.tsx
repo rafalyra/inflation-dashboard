@@ -2,8 +2,8 @@ import { type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { ChartCard } from '../components/ChartCard';
-import { SignalBar, maxAbs } from '../components/SignalBar';
 import { Direction, StatTile } from '../components/StatTile';
+import { TabBar } from '../components/TabBar';
 import { TargetChip } from '../components/TargetChip';
 import { usePageLocale, useLocale } from '../i18n';
 import { contributionBars, lineOption, periodRows, stackedOption, valueFormatter } from '../lib/chartOptions';
@@ -34,6 +34,7 @@ import {
   SeasonalProfiles,
   WeightedDiffusion,
 } from './CountryDeep';
+import { CoreCharts, CoreSplit, MoverTables, ReleaseOverview, SeasonalNow, TargetCharts } from './CountrySummary';
 import { NotFoundPage } from './NotFound';
 
 export interface Ctx {
@@ -80,9 +81,11 @@ export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab 
   // Each tab is a list of sections (id → content); headings come from i18n.
   const sections: Record<Tab, [string, ReactNode][]> = {
     summary: [
-      ['snapshot', <Snapshot key="s" {...ctx} />],
-      ['base', <BaseEffects key="b" {...ctx} />],
-      ['history', <History key="h" {...ctx} />],
+      ['overview', <ReleaseOverview key="o" {...ctx} />],
+      ['targets', <TargetCharts key="tg" {...ctx} />],
+      ['corecharts', <CoreCharts key="cc" {...ctx} />],
+      ['seasonalnow', <SeasonalNow key="sn" {...ctx} />],
+      ['movers', <MoverTables key="mv" {...ctx} />],
     ],
     composition: [
       ['drivers', <Drivers key="d" {...ctx} />],
@@ -100,7 +103,10 @@ export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab 
       ['momentum', <Momentum key="m" {...ctx} />],
     ],
     trend: [
+      ['snapshot', <Snapshot key="s" {...ctx} />],
       ['trend', <Trend key="t" {...ctx} />],
+      ['base', <BaseEffects key="b" {...ctx} />],
+      ['history', <History key="h" {...ctx} />],
       ['policy', <Policy key="p" {...ctx} />],
     ],
     explore: [['explore', <Explore key="e" {...ctx} />]],
@@ -113,25 +119,22 @@ export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab 
           {t('sample.banner')}
         </p>
       )}
-      <header className="country-head">
-        <h1>{d.country.name[locale]}</h1>
-      </header>
-      {/* Tabs and the period row stay together at the top while scrolling. A sticky
+      {/* Title, tabs and the period row stay together at the top while scrolling. A sticky
           element only sticks inside its parent, so this sits at page level. */}
       <div className="sticky-controls">
-        <nav className="section-nav" aria-label={t('country.tabsLabel')}>
-          {TABS.map((id) => (
-            <button
-              key={id}
-              type="button"
-              className="section-nav__button"
-              aria-current={id === tab ? 'page' : undefined}
-              onClick={() => navigate(`/country/${d.country.code}/${id}`)}
-            >
-              {t(`country.tab.${id}`)}
-            </button>
-          ))}
-        </nav>
+        <header className="country-head">
+          <h1 className="country-head__title">
+            <img className="country-head__flag" src={`${import.meta.env.BASE_URL}flags/${d.country.code}.svg`} alt="" width={36} height={25} />
+            {d.country.name[locale]}
+          </h1>
+          <TabBar
+            tabs={TABS}
+            active={tab}
+            label={t('country.tabsLabel')}
+            name={(id) => t(`country.tab.${id}`)}
+            onSelect={(id) => navigate(`/country/${d.country.code}/${id}`)}
+          />
+        </header>
         {tab !== 'explore' && (
           <div className="range-bar" role="group" aria-label={t('chart.range.label')}>
             <span className="tile__label">{t('chart.range.label')}</span>
@@ -291,7 +294,8 @@ function Snapshot({ d, t, locale, L, pp }: Ctx) {
 
 // ---- 2. Drivers ---------------------------------------------------------------------------
 
-function Drivers({ d, t, locale, theme, L, pp }: Ctx) {
+function Drivers(ctx: Ctx) {
+  const { d, t, locale, theme, L, pp } = ctx;
   const dr = d.drivers;
   const bars = useMemo(
     () =>
@@ -300,6 +304,8 @@ function Drivers({ d, t, locale, theme, L, pp }: Ctx) {
         values: dr.groups.map((g) => g.contribution_pp),
         theme,
         locale,
+        // One green for every group (the owner's choice); the signed labels carry the sign.
+        color: theme.series[1],
       }),
     [dr, theme, locale, L],
   );
@@ -318,42 +324,9 @@ function Drivers({ d, t, locale, theme, L, pp }: Ctx) {
   const fmtPp = valueFormatter('pp', locale);
   const other = tm.series.find((s) => s.series_id === 'other');
 
-  // Each table has its own scale (its biggest move gets the longest bar), so the falls are
-  // as readable as the rises; the signed numbers keep the true sizes.
-  const moverTable = (rows: typeof dr.top_up, title: string, moverMax = maxAbs(rows.map((r) => r.contribution_pp))) => (
-    <div className="panel">
-      <h3>{title}</h3>
-      {rows.length === 0 ? (
-        <p className="muted">{t('drivers.none')}</p>
-      ) : (
-        <div className="table-x">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th scope="col">{t('drivers.item')}</th>
-              <th scope="col">{t('drivers.change')}</th>
-              <th scope="col">{t('drivers.contribution')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.series_id}>
-                <th scope="row">{L(r.label)}</th>
-                <td className="num">{formatPct(r.mom_pct, locale, true)}</td>
-                <td>
-                  <SignalBar value={r.contribution_pp} max={moverMax} label={pp(r.contribution_pp)} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        </div>
-      )}
-    </div>
-  );
-
   return (
     <>
+      <CoreSplit {...ctx} />
       <ChartCard
         title={t('drivers.groupsTitle', { period: formatPeriod(dr.period, locale, 'long') })}
         subtitle={t('drivers.groupsSubtitle', { sum: pp(dr.sum_pp), headline: formatPct(dr.headline_mom_pct, locale, true) })}
@@ -369,10 +342,7 @@ function Drivers({ d, t, locale, theme, L, pp }: Ctx) {
           ]),
         }}
       />
-      <div className="split">
-        {moverTable(dr.top_up, t('drivers.topUp'))}
-        {moverTable(dr.top_down, t('drivers.topDown'))}
-      </div>
+      <MoverTables {...ctx} />
       <ChartCard
         title={t('drivers.stackedTitle')}
         subtitle={t('drivers.stackedSubtitle')}

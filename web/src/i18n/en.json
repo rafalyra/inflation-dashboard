@@ -77,7 +77,7 @@
   "country": {
     "sections": "Sections",
     "section": {
-      "snapshot": "Release",
+      "snapshot": "Release details",
       "drivers": "Drivers",
       "trend": "Underlying trend",
       "momentum": "Momentum",
@@ -93,7 +93,12 @@
       "profiles": "Seasonal profiles",
       "adjusted": "Seasonally adjusted change",
       "explore": "Explore any category",
-      "corenoncore": "Core and non-core"
+      "corenoncore": "Core and non-core",
+      "overview": "The latest release",
+      "targets": "Against the target",
+      "corecharts": "Core and non-core",
+      "seasonalnow": "This month against its usual pattern",
+      "movers": "Contributions by item"
     },
     "tabsLabel": "Page tabs",
     "tab": {
@@ -432,5 +437,47 @@
     "historySubtitle": "Monthly and 12-month change since 2012.",
     "profileTitle": "Month by month",
     "profileSubtitle": "This year and last year against the usual pattern ({{first}}–{{last}}, skipping 2020–2022)."
+  },
+  "summary": {
+    "lastRelease": "Latest {{indicator}} release: {{period}} (published {{date}})",
+    "headline": "{{indicator}} at {{value}} over 12 months",
+    "heroSub": "Core {{core}} · non-core {{noncore}} · {{mom}} in the month",
+    "nextRelease": "Next release",
+    "estimate": "Market estimate for {{period}}: {{mom}} in the month, taking the 12-month rate to {{yoy}}.",
+    "range": "Forecast range: {{min}} to {{max}} (12 months: {{minYoy}} to {{maxYoy}}).",
+    "updated": "Data updated {{when}}",
+    "checked": "Checked against the official figures for {{period}}",
+    "notChecked": "Checks against the official figures failed for {{period}}",
+    "inMonth": "in the month",
+    "vsPrev": "{{value}} vs {{period}}",
+    "kpiLabel": "{{name}} · 12 months",
+    "target": "Target {{target}}, tolerance band {{low}} to {{high}}:",
+    "insight": {
+      "expected": "Actual vs expected",
+      "aboveExp": "The month came in at {{actual}}, {{gap}} above the market median of {{expected}}.",
+      "belowExp": "The month came in at {{actual}}, {{gap}} below the market median of {{expected}}.",
+      "noExp": "No market expectation was published for {{period}}.",
+      "contributions": "Biggest contributions",
+      "upItem": "▲ {{item}}: {{pp}} ({{pct}} in the month)",
+      "downItem": "▼ {{item}}: {{pp}} ({{pct}} in the month)",
+      "seasonal": "Furthest from the usual for the season",
+      "devUp": "above: {{item}} ({{pp}})",
+      "devDown": "below: {{item}} ({{pp}})",
+      "diffusion": "How widespread",
+      "diffusionText": "{{share}} of the basket (by weight) is rising faster than {{threshold}} a year ({{period}})."
+    },
+    "vsTarget": "{{name}}: 12-month rate and the target",
+    "vsTargetSubtitle": "Shaded: the tolerance band. Latest: {{last}}.",
+    "stackSubtitle": "How much of the 12-month rate each part explains, in percentage points; the line is the total.",
+    "tableTitle": "Latest release by component",
+    "tableSubtitle": "This month, the usual change for this month (median of normal years), and the 12-month rate now and a month earlier.",
+    "component": "Component",
+    "monthChange": "{{period}}",
+    "usual": "Usual for the month",
+    "yoyAt": "12 months to {{period}}",
+    "yoyChange": "Change in the 12-month rate",
+    "splitTitle": "How much came from core and from non-core",
+    "splitMonth": "The month ({{period}}): {{value}}",
+    "split12m": "12 months to {{period}}: {{value}}"
   }
 }
