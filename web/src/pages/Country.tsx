@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { ChartCard } from '../components/ChartCard';
@@ -9,6 +9,7 @@ import { contributionBars, lineOption, periodRows, stackedOption, valueFormatter
 import { type ChartTheme, useChartTheme } from '../lib/chartTheme';
 import { useCountryTheme } from '../lib/countryTheme';
 import { useCountry } from '../lib/data';
+import { RANGES, type Range, ZoomContext } from '../lib/zoom';
 import {
   formatCountdown,
   formatDate,
@@ -66,6 +67,7 @@ export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab 
   const locale = useLocale();
   const theme = useChartTheme();
   const navigate = useNavigate();
+  const [range, setRange] = useState<Range>('all');
   const ctx: Ctx = {
     d,
     locale,
@@ -125,13 +127,32 @@ export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab 
             </button>
           ))}
         </nav>
+        {tab !== 'explore' && (
+          <div className="range-bar" role="group" aria-label={t('chart.range.label')}>
+            <span className="tile__label">{t('chart.range.label')}</span>
+            {RANGES.map((r) => (
+              <button
+                key={r}
+                type="button"
+                className="range-bar__button"
+                aria-pressed={r === range}
+                onClick={() => setRange(r)}
+              >
+                {t(`chart.range.${r}`)}
+              </button>
+            ))}
+            <span className="muted range-bar__hint">{t('chart.range.hint')}</span>
+          </div>
+        )}
       </header>
-      {sections[tab].map(([id, node]) => (
-        <section key={id} id={id} className="country-section" aria-labelledby={`${id}-h`}>
-          <h2 id={`${id}-h`}>{t(`country.section.${id}`)}</h2>
-          {node}
-        </section>
-      ))}
+      <ZoomContext.Provider value={range}>
+        {sections[tab].map(([id, node]) => (
+          <section key={id} id={id} className="country-section" aria-labelledby={`${id}-h`}>
+            <h2 id={`${id}-h`}>{t(`country.section.${id}`)}</h2>
+            {node}
+          </section>
+        ))}
+      </ZoomContext.Provider>
     </>
   );
 }

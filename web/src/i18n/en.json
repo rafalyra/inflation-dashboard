@@ -31,7 +31,16 @@
   },
   "chart": {
     "showTable": "Show table",
-    "showChart": "Show chart"
+    "showChart": "Show chart",
+    "range": {
+      "label": "Period",
+      "1y": "1 year",
+      "3y": "3 years",
+      "5y": "5 years",
+      "10y": "10 years",
+      "all": "All",
+      "hint": "Applies to every time chart below. Drag a chart’s slider to adjust it, or hold Ctrl and scroll over it to zoom."
+    }
   },
   "table": {
     "month": "Month",

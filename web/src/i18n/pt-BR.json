@@ -31,7 +31,16 @@
   },
   "chart": {
     "showTable": "Ver tabela",
-    "showChart": "Ver gráfico"
+    "showChart": "Ver gráfico",
+    "range": {
+      "label": "Período",
+      "1y": "1 ano",
+      "3y": "3 anos",
+      "5y": "5 anos",
+      "10y": "10 anos",
+      "all": "Tudo",
+      "hint": "Vale para todos os gráficos de tempo abaixo. Arraste a barra de um gráfico para ajustá-lo, ou segure Ctrl e role sobre ele para dar zoom."
+    }
   },
   "table": {
     "month": "Mês",

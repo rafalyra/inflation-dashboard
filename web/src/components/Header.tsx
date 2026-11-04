@@ -5,7 +5,8 @@ import { chooseLocale, useLocale } from '../i18n';
 import { useOverview } from '../lib/data';
 import { applyTheme, getThemeChoice, setThemeChoice, type ThemeChoice } from '../lib/preferences';
 
-const NEXT_THEME: Record<ThemeChoice, ThemeChoice> = { system: 'light', light: 'dark', dark: 'system' };
+// Light is the default, so the button goes light → dark → follow the computer → light.
+const NEXT_THEME: Record<ThemeChoice, ThemeChoice> = { light: 'dark', dark: 'system', system: 'light' };
 
 export function Header() {
   const { t } = useTranslation();

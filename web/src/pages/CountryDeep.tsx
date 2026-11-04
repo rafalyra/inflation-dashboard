@@ -233,6 +233,7 @@ export function GroupsSmallMultiples({ d, t, locale, theme, L }: Ctx) {
                   locale,
                   unit: 'pct',
                   yRange,
+                  zoom: false,
                   band: band
                     ? { low: d.target.band_low_pct as number, high: d.target.band_high_pct as number, target: d.target.target_pct, label: t('history.band'), targetLabel: '' }
                     : null,

@@ -34,9 +34,11 @@ export function setChosenLocale(locale: Locale): void {
   write(LOCALE_KEY, locale);
 }
 
+/** The visitor's theme. Light is the default; dark (or following the computer) only when
+ *  the visitor picks it with the theme button. */
 export function getThemeChoice(): ThemeChoice {
   const value = read(THEME_KEY);
-  return value === 'light' || value === 'dark' ? value : 'system';
+  return value === 'dark' || value === 'system' ? value : 'light';
 }
 
 export function setThemeChoice(choice: ThemeChoice): void {

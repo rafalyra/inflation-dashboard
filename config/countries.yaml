@@ -48,17 +48,18 @@ countries:
     # `up` / `down` color price increases and decreases (gold / navy).
     theme:
       light:
-        bg: "#f8faf7"
-        surface: "#ffffff"
-        surface_muted: "#eef3ec"
-        border: "#d9e2d6"
-        text: "#142019"
-        text_muted: "#4f5d54"
-        link: "#1b589e"
+        # Pistachio page (the owner's chosen swatch) with warm off-white cards for charts.
+        bg: "#d6e5ad"
+        surface: "#fbfaf4"
+        surface_muted: "#eef2df"
+        border: "#bfcf93"
+        text: "#1b2614"
+        text_muted: "#46543a"
+        link: "#1b4f8f"
         header_bg: "#17603f"
         header_text: "#ffffff"
-        accent: "#c8942d"
-        band: "rgba(23, 96, 63, 0.09)"
+        accent: "#b8861f"
+        band: "rgba(23, 96, 63, 0.10)"
         up: "#9f7100"
         down: "#1b589e"
         series: ["#1b589e", "#5cb572", "#3a7bcb", "#c8942d", "#18b1cd", "#9f7100", "#64a1ee", "#046a2f"]

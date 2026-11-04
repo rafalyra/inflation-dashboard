@@ -49,6 +49,32 @@ function base(theme: ChartTheme, showLegend: boolean): EChartsCoreOption {
   };
 }
 
+/**
+ * Zoom for monthly time charts: a slider under the plot (drag the handles or the window; works
+ * with a finger) and Ctrl + mouse wheel. Plain scrolling and touch drags keep scrolling the
+ * page, so nobody gets trapped inside a chart.
+ */
+function zoomControls(theme: ChartTheme, locale: Locale) {
+  return [
+    { type: 'inside', zoomOnMouseWheel: 'ctrl', moveOnMouseWheel: false, moveOnMouseMove: false, preventDefaultMouseMove: false },
+    {
+      type: 'slider',
+      height: 20,
+      bottom: 6,
+      borderColor: theme.axis,
+      backgroundColor: 'transparent',
+      fillerColor: bandAlpha(theme, 0.35),
+      dataBackground: { lineStyle: { color: theme.axis }, areaStyle: { color: theme.grid } },
+      selectedDataBackground: { lineStyle: { color: theme.series[0] }, areaStyle: { color: bandAlpha(theme, 0.25) } },
+      handleStyle: { color: theme.surface, borderColor: theme.series[0] },
+      moveHandleStyle: { color: theme.axis },
+      textStyle: { color: theme.ink, fontSize: 11 },
+      labelFormatter: (_: number, value: string) => (value ? formatPeriod(value, locale) : ''),
+      brushSelect: false,
+    },
+  ];
+}
+
 /** Category x-axis of months, labelled by year to stay readable on phones. */
 function monthAxis(periods: string[], theme: ChartTheme, locale: Locale) {
   return {
@@ -77,6 +103,8 @@ export function lineOption(opts: {
   zeroLine?: boolean;
   /** Fixed y-range, so small multiples share one scale. */
   yRange?: { min: number; max: number };
+  /** Add zoom controls (default: on for series longer than 3 years). */
+  zoom?: boolean;
 }): EChartsCoreOption {
   const { periods, series, theme, locale, unit, band } = opts;
   const fmt = valueFormatter(unit, locale);
@@ -145,8 +173,11 @@ export function lineOption(opts: {
     };
   }
   const visible = series.filter((s) => !s.bandLow);
+  const zoom = opts.zoom ?? periods.length > 36;
+  const baseOpts = base(theme, visible.length > 1) as { grid: Record<string, unknown> };
   return {
-    ...base(theme, visible.length > 1),
+    ...baseOpts,
+    ...(zoom ? { dataZoom: zoomControls(theme, locale), grid: { ...baseOpts.grid, bottom: 40 } } : {}),
     legend:
       visible.length > 1
         ? { ...(base(theme, true).legend as object), data: visible.map((s) => s.name) }
@@ -219,10 +250,39 @@ export function stackedOption(opts: {
 }): EChartsCoreOption {
   const { periods, stacks, total, theme, locale } = opts;
   const fmt = valueFormatter('pp', locale);
+  // Each part is drawn as two areas with the same name and color: its positive values
+  // stacked up from zero and its negative values stacked down. A part that flips sign then
+  // never jumps across the other bands (the old "colorless lines"). The tooltip shows each
+  // part's actual value from the original series.
+  const pos = (v: number | null) => (v === null ? null : Math.max(v, 0));
+  const neg = (v: number | null) => (v === null ? null : Math.min(v, 0));
+  const area = (s: { name: string; color: string }, data: (number | null)[], stack: string) => ({
+    name: s.name,
+    type: 'line',
+    stack,
+    data,
+    showSymbol: false,
+    symbol: 'none',
+    lineStyle: { width: 0 },
+    areaStyle: { color: s.color, opacity: 0.92 },
+    itemStyle: { color: s.color },
+    emphasis: { focus: 'series' },
+  });
   return {
     ...base(theme, true),
-    grid: { left: 8, right: 16, top: 64, bottom: 8, containLabel: true },
-    tooltip: { trigger: 'axis', axisPointer: { type: 'line', lineStyle: { color: theme.axis } }, valueFormatter: fmt },
+    grid: { left: 8, right: 16, top: 64, bottom: 40, containLabel: true },
+    dataZoom: zoomControls(theme, locale),
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'line', lineStyle: { color: theme.axis } },
+      formatter: (params: { dataIndex: number; axisValue: string }[]) => {
+        const i = params[0]?.dataIndex ?? 0;
+        const rows = [...stacks, { name: total.name, values: total.values, color: theme.text }]
+          .map((s) => `<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${s.color};margin-right:6px"></span>${s.name}: <b>${fmt(s.values[i] ?? null)}</b>`)
+          .join('<br/>');
+        return `<b>${formatPeriod(params[0]?.axisValue ?? '', locale)}</b><br/>${rows}`;
+      },
+    },
     xAxis: monthAxis(periods, theme, locale),
     yAxis: {
       type: 'value',
@@ -230,21 +290,9 @@ export function stackedOption(opts: {
       axisLabel: { ...axisCommon(theme).axisLabel, formatter: (v: number) => valueFormatter('pp', locale, 0)(v) },
     },
     series: [
-      // Stacked areas rather than ~160 thin monthly bars: a long monthly series reads as
-      // bands. Each band's top edge is drawn in the surface color, a 2px gap that keeps
-      // neighbors apart alongside their color. Positive and negative values stack apart.
-      ...stacks.map((s) => ({
-        name: s.name,
-        type: 'line',
-        stack: 'c',
-        stackStrategy: 'samesign',
-        data: s.values,
-        showSymbol: false,
-        lineStyle: { width: 2, color: theme.surface },
-        areaStyle: { color: s.color, opacity: 0.9 },
-        itemStyle: { color: s.color },
-        emphasis: { focus: 'series' },
-      })),
+      // Stacked areas rather than ~160 thin monthly bars: a long monthly series reads as bands.
+      ...stacks.map((s) => area(s, s.values.map(pos), 'positive')),
+      ...stacks.map((s) => area(s, s.values.map(neg), 'negative')),
       {
         name: total.name,
         type: 'line',
