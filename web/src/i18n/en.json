@@ -85,7 +85,6 @@
       "policy": "Policy and markets",
       "history": "History",
       "recent": "Recent months",
-      "segments": "Food, goods, services and administered prices",
       "basket": "The basket",
       "groups12m": "The 9 groups over time",
       "diffusion": "How widespread are increases?",
@@ -93,7 +92,8 @@
       "deviation": "What was unusual for the time of year",
       "profiles": "Seasonal profiles",
       "adjusted": "Seasonally adjusted change",
-      "explore": "Explore any category"
+      "explore": "Explore any category",
+      "corenoncore": "Core and non-core"
     },
     "tabsLabel": "Page tabs",
     "tab": {
@@ -342,7 +342,9 @@
     "splitBy": "Split by",
     "set": {
       "groups": "9 groups",
-      "bcb_segments": "Food, goods, services, administered"
+      "core_noncore": "Core and non-core",
+      "core": "Inside the core",
+      "noncore": "Inside non-core"
     },
     "recentTitle": "Contributions to each month’s change, last 24 months",
     "recentSubtitle": "Bars add up to the monthly headline change (the dots), in percentage points.",
@@ -354,14 +356,30 @@
     "segmentsYoyTitle": "12-month change of each segment",
     "segmentsYoySubtitle": "How fast prices are rising within each segment.",
     "basketTitle": "The basket in {{period}}",
-    "basketSubtitle": "Box size is the weight in the basket; color is this month’s change (gold for rises, navy for falls). Click a box to see its parts.",
+    "basketSubtitle": "Box size is the weight in the basket; color is this month’s change (red for rises, green for falls). Click a box to see its parts.",
     "smallMultiplesNote": "12-month change of each group, on the same scale ({{min}} to {{max}}) so they can be compared; the shaded band is the target tolerance interval.",
     "diffusionWeighted": "Share of basket weight rising",
     "diffusionCount": "Share of items rising (BCB index)",
     "diffusionAbove": "Share of weight above {{value}} over 12 months",
     "diffusionAboveShort": "Share above the band ceiling",
     "diffusionTitle": "Diffusion: how many prices are rising",
-    "diffusionSubtitle": "Counting items treats coriander like rent; weighting by the basket shows how much of what households buy got dearer."
+    "diffusionSubtitle": "Counting items treats coriander like rent; weighting by the basket shows how much of what households buy got dearer.",
+    "cnc": {
+      "intro": "Core (the central bank’s EX0 measure) is industrial goods plus services; non-core is food at home plus administered prices (set or regulated by contracts and government). Latest month: {{period}}. Built from IBGE subitems with the central bank’s classification, from January 2020; checked against the central bank’s published EX0 core.",
+      "share": "Weight",
+      "shareOf": "{{value}} of {{of}}",
+      "contribution": "Contribution",
+      "yoyTitle": "{{name}}: 12-month change",
+      "yoySubtitle": "The total (dark line) and its parts.",
+      "contribTitle": "Contributions to {{name}}",
+      "contribSubtitle": "How much of the 12-month rate each part explains, in percentage points.",
+      "short": {
+        "core": "Core",
+        "noncore": "Non-core",
+        "coreLower": "core",
+        "noncoreLower": "non-core"
+      }
+    }
   },
   "seasonality": {
     "band": "Usual range (middle half)",

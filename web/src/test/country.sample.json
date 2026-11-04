@@ -425,9 +425,19 @@
               ]
             }
           ]
+        },
+        "parent": {
+          "series_id": "br.ipca.headline",
+          "label": {
+            "en": "Parent",
+            "pt-BR": "Pai"
+          },
+          "mom_pct": 1.23,
+          "yoy_pct": 4.56,
+          "weight_pct": 100
         }
       },
-      "bcb_segments": {
+      "core_noncore": {
         "period": "2025-12",
         "parts": [
           {
@@ -539,6 +549,264 @@
               ]
             }
           ]
+        },
+        "parent": {
+          "series_id": "br.ipca.headline",
+          "label": {
+            "en": "Parent",
+            "pt-BR": "Pai"
+          },
+          "mom_pct": 1.23,
+          "yoy_pct": 4.56,
+          "weight_pct": 100
+        }
+      },
+      "core": {
+        "period": "2025-12",
+        "parts": [
+          {
+            "series_id": "br.ipca.bcb.a",
+            "label": {
+              "en": "Segment A",
+              "pt-BR": "Segmento A"
+            },
+            "weight_pct": 60,
+            "mom_pct": 1,
+            "contribution_pp": 0.6,
+            "yoy_pct": 4
+          },
+          {
+            "series_id": "br.ipca.bcb.b",
+            "label": {
+              "en": "Segment B",
+              "pt-BR": "Segmento B"
+            },
+            "weight_pct": 40,
+            "mom_pct": 1.58,
+            "contribution_pp": 0.63,
+            "yoy_pct": 5
+          }
+        ],
+        "monthly": {
+          "periods": [
+            "2025-11",
+            "2025-12"
+          ],
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "values_pp": [
+                0.1,
+                0.6
+              ]
+            },
+            {
+              "series_id": "br.ipca.bcb.b",
+              "label": {
+                "en": "Segment B",
+                "pt-BR": "Segmento B"
+              },
+              "values_pp": [
+                0.1,
+                0.63
+              ]
+            }
+          ],
+          "headline_mom_pct": [
+            0.2,
+            1.23
+          ]
+        },
+        "twelve_month": {
+          "periods": [
+            "2025-11",
+            "2025-12"
+          ],
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "values_pp": [
+                2,
+                2.5
+              ]
+            },
+            {
+              "series_id": "br.ipca.bcb.b",
+              "label": {
+                "en": "Segment B",
+                "pt-BR": "Segmento B"
+              },
+              "values_pp": [
+                2,
+                2.06
+              ]
+            }
+          ],
+          "headline_yoy_pct": [
+            4,
+            4.56
+          ]
+        },
+        "yoy": {
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "periods": [
+                "2025-11",
+                "2025-12"
+              ],
+              "values": [
+                3.9,
+                4
+              ]
+            }
+          ]
+        },
+        "parent": {
+          "series_id": "br.ipca.bcb.core",
+          "label": {
+            "en": "Parent",
+            "pt-BR": "Pai"
+          },
+          "mom_pct": 1.23,
+          "yoy_pct": 4.56,
+          "weight_pct": 100
+        }
+      },
+      "noncore": {
+        "period": "2025-12",
+        "parts": [
+          {
+            "series_id": "br.ipca.bcb.a",
+            "label": {
+              "en": "Segment A",
+              "pt-BR": "Segmento A"
+            },
+            "weight_pct": 60,
+            "mom_pct": 1,
+            "contribution_pp": 0.6,
+            "yoy_pct": 4
+          },
+          {
+            "series_id": "br.ipca.bcb.b",
+            "label": {
+              "en": "Segment B",
+              "pt-BR": "Segmento B"
+            },
+            "weight_pct": 40,
+            "mom_pct": 1.58,
+            "contribution_pp": 0.63,
+            "yoy_pct": 5
+          }
+        ],
+        "monthly": {
+          "periods": [
+            "2025-11",
+            "2025-12"
+          ],
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "values_pp": [
+                0.1,
+                0.6
+              ]
+            },
+            {
+              "series_id": "br.ipca.bcb.b",
+              "label": {
+                "en": "Segment B",
+                "pt-BR": "Segmento B"
+              },
+              "values_pp": [
+                0.1,
+                0.63
+              ]
+            }
+          ],
+          "headline_mom_pct": [
+            0.2,
+            1.23
+          ]
+        },
+        "twelve_month": {
+          "periods": [
+            "2025-11",
+            "2025-12"
+          ],
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "values_pp": [
+                2,
+                2.5
+              ]
+            },
+            {
+              "series_id": "br.ipca.bcb.b",
+              "label": {
+                "en": "Segment B",
+                "pt-BR": "Segmento B"
+              },
+              "values_pp": [
+                2,
+                2.06
+              ]
+            }
+          ],
+          "headline_yoy_pct": [
+            4,
+            4.56
+          ]
+        },
+        "yoy": {
+          "series": [
+            {
+              "series_id": "br.ipca.bcb.a",
+              "label": {
+                "en": "Segment A",
+                "pt-BR": "Segmento A"
+              },
+              "periods": [
+                "2025-11",
+                "2025-12"
+              ],
+              "values": [
+                3.9,
+                4
+              ]
+            }
+          ]
+        },
+        "parent": {
+          "series_id": "br.ipca.bcb.noncore",
+          "label": {
+            "en": "Parent",
+            "pt-BR": "Pai"
+          },
+          "mom_pct": 1.23,
+          "yoy_pct": 4.56,
+          "weight_pct": 100
         }
       }
     },

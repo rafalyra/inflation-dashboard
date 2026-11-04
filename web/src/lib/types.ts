@@ -216,6 +216,7 @@ export interface CountryData {
 
 export interface ContributionSet {
   period: string;
+  parent: { series_id: string; label: LocalizedText; mom_pct: number | null; yoy_pct: number | null; weight_pct: number | null };
   parts: { series_id: string; label: LocalizedText; weight_pct: number; mom_pct: number; contribution_pp: number; yoy_pct: number | null }[];
   monthly: { periods: string[]; series: { series_id: string; label: LocalizedText; values_pp: (number | null)[] }[]; headline_mom_pct: (number | null)[] };
   twelve_month: { periods: string[]; series: { series_id: string; label: LocalizedText; values_pp: (number | null)[] }[]; headline_yoy_pct: (number | null)[] };

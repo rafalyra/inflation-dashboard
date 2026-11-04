@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ChartCard } from '../components/ChartCard';
 import { Chart } from '../components/Chart';
+import { SignalBar, maxAbs } from '../components/SignalBar';
 import {
   contributionBars,
   lineOption,
@@ -84,80 +85,132 @@ export function RecentContributions({ d, t, locale, theme, L }: Ctx) {
   );
 }
 
-export function Segments({ d, t, locale, theme, L, pp }: Ctx) {
-  const set: ContributionSet | undefined = d.composition.sets.bcb_segments;
-  const stacked = useMemo(
-    () =>
-      set &&
-      stackedOption({
-        periods: set.twelve_month.periods,
-        stacks: set.twelve_month.series.map((s, i) => ({ name: L(s.label), values: s.values_pp, color: theme.series[i] ?? theme.ink })),
-        total: { name: t('drivers.headlineYoy'), values: set.twelve_month.headline_yoy_pct },
-        theme,
-        locale,
-      }),
-    [set, theme, locale, L, t],
-  );
-  const yoy = useMemo(() => {
-    if (!set) return null;
+export function CoreNonCore({ d, t, locale, theme, L, pp }: Ctx) {
+  const sets = d.composition.sets;
+  const top = sets.core_noncore;
+  const core = sets.core;
+  const noncore = sets.noncore;
+
+  const yoyChart = (set: ContributionSet, parentLabel: string) => {
     const periods = set.yoy.series[0]?.periods ?? [];
+    const parentYoy = periods.map((p) => set.twelve_month.headline_yoy_pct[set.twelve_month.periods.indexOf(p)] ?? null);
     return lineOption({
       periods,
-      series: set.yoy.series.map((s, i) => ({ name: L(s.label), values: periods.map((p) => s.values[s.periods.indexOf(p)] ?? null), color: theme.series[i] ?? '' })),
+      series: [
+        { name: parentLabel, values: parentYoy, color: theme.text },
+        ...set.yoy.series.map((s, i) => ({
+          name: L(s.label),
+          values: periods.map((p) => s.values[s.periods.indexOf(p)] ?? null),
+          color: theme.series[i] ?? '',
+        })),
+      ],
       theme,
       locale,
       unit: 'pct',
     });
-  }, [set, theme, locale, L]);
-  if (!set || !stacked || !yoy) return <p className="muted">{t('composition.noSegments')}</p>;
+  };
+  const stackChart = (set: ContributionSet, totalLabel: string) =>
+    stackedOption({
+      periods: set.twelve_month.periods,
+      stacks: set.twelve_month.series.map((s, i) => ({ name: L(s.label), values: s.values_pp, color: theme.series[i] ?? theme.ink })),
+      total: { name: totalLabel, values: set.twelve_month.headline_yoy_pct },
+      theme,
+      locale,
+    });
+
+  const charts = useMemo(() => {
+    if (!top || !core || !noncore) return null;
+    // Short names keep titles readable; the table and intro give the full definitions.
+    const ipca = L(d.headline.label);
+    const coreName = t('composition.cnc.short.core');
+    const noncoreName = t('composition.cnc.short.noncore');
+    return [
+      { set: top, kind: 'yoy', title: t('composition.cnc.yoyTitle', { name: ipca }), option: yoyChart(top, ipca) },
+      { set: top, kind: 'stack', title: t('composition.cnc.contribTitle', { name: ipca }), option: stackChart(top, ipca) },
+      { set: core, kind: 'yoy', title: t('composition.cnc.yoyTitle', { name: coreName }), option: yoyChart(core, coreName) },
+      { set: core, kind: 'stack', title: t('composition.cnc.contribTitle', { name: coreName }), option: stackChart(core, coreName) },
+      { set: noncore, kind: 'yoy', title: t('composition.cnc.yoyTitle', { name: noncoreName }), option: yoyChart(noncore, noncoreName) },
+      { set: noncore, kind: 'stack', title: t('composition.cnc.contribTitle', { name: noncoreName }), option: stackChart(noncore, noncoreName) },
+    ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [top, core, noncore, theme, locale, L, t, d.headline.label]);
+
+  if (!top || !core || !noncore || !charts) return <p className="muted">{t('composition.noSegments')}</p>;
+
+  // One table: core and non-core (as parts of the IPCA), each followed by its own parts
+  // (as parts of it). Bars compare contributions within each level.
+  const topMax = maxAbs(top.parts.map((p) => p.contribution_pp));
+  const subMax = maxAbs([...core.parts, ...noncore.parts].map((p) => p.contribution_pp));
+  const rows = top.parts.flatMap((p, i) => {
+    const sub = i === 0 ? core : noncore;
+    return [
+      { key: p.series_id, label: L(p.label), part: p, level: 1, max: topMax, of: L(d.headline.label) },
+      ...sub.parts.map((s) => ({
+        key: s.series_id,
+        label: L(s.label),
+        part: s,
+        level: 2,
+        max: subMax,
+        of: t(i === 0 ? 'composition.cnc.short.coreLower' : 'composition.cnc.short.noncoreLower'),
+      })),
+    ];
+  });
+
   return (
     <>
-      <p>{t('composition.segmentsIntro', { period: formatPeriod(set.period, locale, 'long') })}</p>
+      <p>{t('composition.cnc.intro', { period: formatPeriod(top.period, locale, 'long') })}</p>
       <div className="panel table-x">
         <table className="data-table">
           <thead>
             <tr>
               <th scope="col">{t('composition.segment')}</th>
-              <th scope="col">{t('drivers.weight')}</th>
+              <th scope="col">{t('composition.cnc.share')}</th>
               <th scope="col">{t('drivers.change')}</th>
-              <th scope="col">{t('drivers.contribution')}</th>
+              <th scope="col">{t('composition.cnc.contribution')}</th>
               <th scope="col">{t('snapshot.yoy')}</th>
             </tr>
           </thead>
           <tbody>
-            {set.parts.map((p) => (
-              <tr key={p.series_id}>
-                <th scope="row">{L(p.label)}</th>
-                <td className="num">{formatPct(p.weight_pct, locale)}</td>
-                <td className="num">{formatPct(p.mom_pct, locale, true)}</td>
-                <td className="num">{pp(p.contribution_pp)}</td>
-                <td className="num">{p.yoy_pct !== null ? formatPct(p.yoy_pct, locale) : '—'}</td>
+            {rows.map((r) => (
+              <tr key={r.key} className={r.level === 2 ? 'row--child' : 'row--parent'}>
+                <th scope="row">{r.label}</th>
+                <td className="num">{t('composition.cnc.shareOf', { value: formatPct(r.part.weight_pct, locale), of: r.of })}</td>
+                <td className="num">{formatPct(r.part.mom_pct, locale, true)}</td>
+                <td>
+                  <SignalBar value={r.part.contribution_pp} max={r.max} label={pp(r.part.contribution_pp)} />
+                </td>
+                <td className="num">{r.part.yoy_pct !== null ? formatPct(r.part.yoy_pct, locale) : '—'}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <div className="split">
-        <ChartCard
-          title={t('composition.segments12mTitle')}
-          subtitle={t('composition.segments12mSubtitle')}
-          option={stacked}
-          height={460}
-          table={{
-            columns: [t('table.month'), ...set.twelve_month.series.map((s) => L(s.label)), t('drivers.headlineYoy')],
-            rows: periodRows(set.twelve_month.periods, [...set.twelve_month.series.map((s) => s.values_pp), set.twelve_month.headline_yoy_pct], locale, 'pp'),
-          }}
-        />
-        <ChartCard
-          title={t('composition.segmentsYoyTitle')}
-          subtitle={t('composition.segmentsYoySubtitle')}
-          option={yoy}
-          height={460}
-          table={{
-            columns: [t('table.month'), ...set.yoy.series.map((s) => L(s.label))],
-            rows: periodRows(set.yoy.series[0]?.periods ?? [], set.yoy.series.map((s) => s.values), locale, 'pct'),
-          }}
-        />
+        {charts.map((c) => (
+          <ChartCard
+            key={c.title}
+            title={c.title}
+            subtitle={c.kind === 'yoy' ? t('composition.cnc.yoySubtitle') : t('composition.cnc.contribSubtitle')}
+            option={c.option}
+            height={c.kind === 'yoy' ? 380 : 420}
+            table={
+              c.kind === 'yoy'
+                ? {
+                    columns: [t('table.month'), ...c.set.yoy.series.map((s) => L(s.label))],
+                    rows: periodRows(c.set.yoy.series[0]?.periods ?? [], c.set.yoy.series.map((s) => s.values), locale, 'pct'),
+                  }
+                : {
+                    columns: [t('table.month'), ...c.set.twelve_month.series.map((s) => L(s.label)), t('drivers.headlineYoy')],
+                    rows: periodRows(
+                      c.set.twelve_month.periods,
+                      [...c.set.twelve_month.series.map((s) => s.values_pp), c.set.twelve_month.headline_yoy_pct],
+                      locale,
+                      'pp',
+                    ),
+                  }
+            }
+          />
+        ))}
       </div>
     </>
   );
@@ -341,7 +394,8 @@ export function SeasonalDeviation({ d, t, locale, theme, L, pp }: Ctx) {
     [s, theme, locale, L],
   );
   if (!s || !option) return null;
-  const table = (rows: typeof s.deviation.items_up, title: string) => (
+  // Each table has its own scale, like the Top 5 tables on the Composition tab.
+  const table = (rows: typeof s.deviation.items_up, title: string, devMax = maxAbs(rows.map((r) => r.deviation_pp))) => (
     <div className="panel">
       <h3>{title}</h3>
       <div className="table-x">
@@ -356,7 +410,9 @@ export function SeasonalDeviation({ d, t, locale, theme, L, pp }: Ctx) {
             {rows.map((r) => (
               <tr key={r.series_id}>
                 <th scope="row">{L(r.label)}</th>
-                <td className="num">{pp(r.deviation_pp)}</td>
+                <td>
+                  <SignalBar value={r.deviation_pp} max={devMax} label={pp(r.deviation_pp)} />
+                </td>
               </tr>
             ))}
           </tbody>

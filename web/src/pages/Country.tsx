@@ -2,6 +2,7 @@ import { type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { ChartCard } from '../components/ChartCard';
+import { SignalBar, maxAbs } from '../components/SignalBar';
 import { Direction, StatTile } from '../components/StatTile';
 import { TargetChip } from '../components/TargetChip';
 import { usePageLocale, useLocale } from '../i18n';
@@ -24,10 +25,10 @@ import type { CountryData, Locale, LocalizedText } from '../lib/types';
 import {
   AdjustedChange,
   BasketMap,
+  CoreNonCore,
   Explore,
   GroupsSmallMultiples,
   RecentContributions,
-  Segments,
   SeasonalDeviation,
   SeasonalPattern,
   SeasonalProfiles,
@@ -86,7 +87,7 @@ export function CountryView({ d, tab = 'summary' }: { d: CountryData; tab?: Tab 
     composition: [
       ['drivers', <Drivers key="d" {...ctx} />],
       ['recent', <RecentContributions key="r" {...ctx} />],
-      ['segments', <Segments key="sg" {...ctx} />],
+      ['corenoncore', <CoreNonCore key="cnc" {...ctx} />],
       ['basket', <BasketMap key="bm" {...ctx} />],
       ['groups12m', <GroupsSmallMultiples key="g" {...ctx} />],
       ['diffusion', <WeightedDiffusion key="df" {...ctx} />],
@@ -317,7 +318,9 @@ function Drivers({ d, t, locale, theme, L, pp }: Ctx) {
   const fmtPp = valueFormatter('pp', locale);
   const other = tm.series.find((s) => s.series_id === 'other');
 
-  const moverTable = (rows: typeof dr.top_up, title: string) => (
+  // Each table has its own scale (its biggest move gets the longest bar), so the falls are
+  // as readable as the rises; the signed numbers keep the true sizes.
+  const moverTable = (rows: typeof dr.top_up, title: string, moverMax = maxAbs(rows.map((r) => r.contribution_pp))) => (
     <div className="panel">
       <h3>{title}</h3>
       {rows.length === 0 ? (
@@ -337,7 +340,9 @@ function Drivers({ d, t, locale, theme, L, pp }: Ctx) {
               <tr key={r.series_id}>
                 <th scope="row">{L(r.label)}</th>
                 <td className="num">{formatPct(r.mom_pct, locale, true)}</td>
-                <td className="num">{pp(r.contribution_pp)}</td>
+                <td>
+                  <SignalBar value={r.contribution_pp} max={moverMax} label={pp(r.contribution_pp)} />
+                </td>
               </tr>
             ))}
           </tbody>

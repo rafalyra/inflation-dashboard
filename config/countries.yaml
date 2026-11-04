@@ -45,7 +45,8 @@ countries:
     # dark green, gold and deep gold, plus a teal-blue bridge. Generated inside the
     # validator's lightness band and checked for colorblind safety in both modes
     # (worst neighbor ΔE 19.9 light, 18.4 dark; docs/methodology.md, "Chart colors").
-    # `up` / `down` color price increases and decreases (gold / navy).
+    # `up` / `down` color price increases and decreases: red rise, green fall (the usual
+    # inflation convention; validated pairs, always shown with ▲/▼ or a signed number).
     theme:
       light:
         # Pistachio page (the owner's chosen swatch) with cream off-white cards for charts.
@@ -60,8 +61,8 @@ countries:
         header_text: "#ffffff"
         accent: "#b8861f"
         band: "rgba(23, 96, 63, 0.10)"
-        up: "#9f7100"
-        down: "#1b589e"
+        up: "#c0392b"
+        down: "#5cb572"
         series: ["#1b589e", "#5cb572", "#3a7bcb", "#c8942d", "#18b1cd", "#9f7100", "#64a1ee", "#046a2f"]
       dark:
         bg: "#18231c"
@@ -75,14 +76,23 @@ countries:
         header_text: "#f2f5f0"
         accent: "#d4ad45"
         band: "rgba(122, 190, 150, 0.12)"
-        up: "#b28324"
-        down: "#578ed4"
+        up: "#c0463d"
+        down: "#52ab68"
         series: ["#346aac", "#50a064", "#407bc5", "#b28324", "#139cb6", "#9f7100", "#578ed4", "#287c42"]
     # Ways to split the headline into parts that add up to it. Each set gets monthly and
     # 12-month contributions on the Composition tab. The BCB segments are aggregated from
     # IBGE subitems with the BCB's own classification (from Jan 2020; validated against SGS).
     composition:
-      bcb_segments: [br.ipca.bcb.food, br.ipca.bcb.industrial, br.ipca.bcb.services, br.ipca.bcb.administered]
+      # Core (the BCB's EX0: industrial goods + services) and non-core (food at home +
+      # administered prices), then what each of them is made of.
+      core_noncore:
+        parts: [br.ipca.bcb.core, br.ipca.bcb.noncore]
+      core:
+        parent: br.ipca.bcb.core
+        parts: [br.ipca.bcb.services, br.ipca.bcb.industrial]
+      noncore:
+        parent: br.ipca.bcb.noncore
+        parts: [br.ipca.bcb.food, br.ipca.bcb.administered]
     # Seasonality tab: the "normal" pattern for each calendar month comes from these years
     # (2012 onward, skipping the pandemic and the 2021-22 shock; the window grows each year).
     seasonality:

@@ -38,7 +38,9 @@ br.ipca.administered,br,IPCA,administered_prices,,0,Administered prices,Preços 
 br.ipca.services,br,IPCA,services,,0,Services,Serviços,bcb_sgs,10844,mom_pct,monthly,nsa
 br.policy.selic_target,br,SELIC,policy_rate,,0,Selic target,Meta Selic,bcb_sgs,432,rate_pct,daily,nsa
 br.fx.usdbrl,br,FX,fx,,0,"USD/BRL, sell",Dólar comercial (venda),bcb_sgs,1,brl_per_usd,daily,nsa
-br.ipca.bcb.food,br,IPCA,bcb_segment,br.ipca.headline,1,Food at home,Alimentação no domicílio,derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
-br.ipca.bcb.industrial,br,IPCA,bcb_segment,br.ipca.headline,1,Industrial goods,Bens industriais,derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
-br.ipca.bcb.services,br,IPCA,bcb_segment,br.ipca.headline,1,Services,Serviços,derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
-br.ipca.bcb.administered,br,IPCA,bcb_segment,br.ipca.headline,1,Administered prices,Preços monitorados,derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
+br.ipca.bcb.food,br,IPCA,bcb_segment,br.ipca.bcb.noncore,2,Food at home,Alimentação no domicílio,derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
+br.ipca.bcb.industrial,br,IPCA,bcb_segment,br.ipca.bcb.core,2,Industrial goods,Bens industriais,derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
+br.ipca.bcb.services,br,IPCA,bcb_segment,br.ipca.bcb.core,2,Services,Serviços,derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
+br.ipca.bcb.administered,br,IPCA,bcb_segment,br.ipca.bcb.noncore,2,Administered prices,Preços monitorados,derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
+br.ipca.bcb.core,br,IPCA,bcb_aggregate,br.ipca.headline,1,Core (EX0: goods and services),Núcleo (EX0: bens e serviços),derived,bcb_classification,mom_pct|weight_pct,monthly,nsa
+br.ipca.bcb.noncore,br,IPCA,bcb_aggregate,br.ipca.headline,1,Non-core (food at home and administered),Não núcleo (alimentação no domicílio e monitorados),derived,bcb_classification,mom_pct|weight_pct,monthly,nsa

@@ -85,7 +85,6 @@
       "policy": "Juros e mercado",
       "history": "Histórico",
       "recent": "Últimos meses",
-      "segments": "Alimentos, bens, serviços e monitorados",
       "basket": "A cesta",
       "groups12m": "Os 9 grupos ao longo do tempo",
       "diffusion": "Quão espalhadas estão as altas?",
@@ -93,7 +92,8 @@
       "deviation": "O que fugiu do normal para a época",
       "profiles": "Perfis sazonais",
       "adjusted": "Variação dessazonalizada",
-      "explore": "Explore qualquer categoria"
+      "explore": "Explore qualquer categoria",
+      "corenoncore": "Núcleo e não núcleo"
     },
     "tabsLabel": "Abas da página",
     "tab": {
@@ -350,7 +350,9 @@
     "splitBy": "Dividir por",
     "set": {
       "groups": "9 grupos",
-      "bcb_segments": "Alimentos, bens, serviços, monitorados"
+      "core_noncore": "Núcleo e não núcleo",
+      "core": "Dentro do núcleo",
+      "noncore": "Dentro do não núcleo"
     },
     "recentTitle": "Contribuições para a variação de cada mês, últimos 24 meses",
     "recentSubtitle": "As barras somam a variação mensal do índice (os pontos), em pontos percentuais.",
@@ -362,14 +364,30 @@
     "segmentsYoyTitle": "Variação em 12 meses de cada segmento",
     "segmentsYoySubtitle": "Quão rápido os preços sobem dentro de cada segmento.",
     "basketTitle": "A cesta em {{period}}",
-    "basketSubtitle": "O tamanho de cada caixa é o peso na cesta; a cor é a variação do mês (dourado para altas, azul-marinho para quedas). Clique numa caixa para ver suas partes.",
+    "basketSubtitle": "O tamanho de cada caixa é o peso na cesta; a cor é a variação do mês (vermelho para altas, verde para quedas). Clique numa caixa para ver suas partes.",
     "smallMultiplesNote": "Variação em 12 meses de cada grupo, na mesma escala ({{min}} a {{max}}) para comparar; a faixa sombreada é o intervalo de tolerância da meta.",
     "diffusionWeighted": "Peso da cesta em alta",
     "diffusionCount": "Itens em alta (índice do BCB)",
     "diffusionAbove": "Peso acima de {{value}} em 12 meses",
     "diffusionAboveShort": "Peso acima do teto da meta",
     "diffusionTitle": "Difusão: quantos preços estão subindo",
-    "diffusionSubtitle": "Contar itens trata o coentro como o aluguel; ponderar pela cesta mostra quanto do que as famílias compram ficou mais caro."
+    "diffusionSubtitle": "Contar itens trata o coentro como o aluguel; ponderar pela cesta mostra quanto do que as famílias compram ficou mais caro.",
+    "cnc": {
+      "intro": "O núcleo (a medida EX0 do Banco Central) reúne bens industriais e serviços; o não núcleo reúne alimentação no domicílio e preços monitorados (definidos ou regulados por contratos e pelo governo). Último mês: {{period}}. Calculado a partir dos subitens do IBGE com a classificação do Banco Central, desde janeiro de 2020, e conferido com o núcleo EX0 publicado pelo Banco Central.",
+      "share": "Peso",
+      "shareOf": "{{value}} do {{of}}",
+      "contribution": "Contribuição",
+      "yoyTitle": "{{name}}: variação em 12 meses",
+      "yoySubtitle": "O total (linha escura) e as suas partes.",
+      "contribTitle": "Contribuições: {{name}}",
+      "contribSubtitle": "Quanto da taxa em 12 meses cada parte explica, em pontos percentuais.",
+      "short": {
+        "core": "Núcleo",
+        "noncore": "Não núcleo",
+        "coreLower": "núcleo",
+        "noncoreLower": "não núcleo"
+      }
+    }
   },
   "seasonality": {
     "band": "Faixa usual (metade central)",

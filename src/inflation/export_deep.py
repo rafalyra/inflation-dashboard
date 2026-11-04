@@ -76,15 +76,25 @@ def _stack_series(
     return out
 
 
-def _contribution_set(ex: CountryExport, ids: list[str], headline_id: str) -> dict[str, Any]:
-    """Monthly (recent) and 12-month contributions for a set of parts of the headline."""
-    head_mom = _series(ex.obs, headline_id, "mom_pct")
-    w, m = wide(ex.obs, ids, "weight_pct"), wide(ex.obs, ids, "mom_pct")
+def _contribution_set(ex: CountryExport, ids: list[str], parent_id: str) -> dict[str, Any]:
+    """Monthly (recent) and 12-month contributions of parts to their parent series.
+
+    Weights are IPCA weights, so each part's weight is rescaled to its share of the parent
+    (a part with 10% of the IPCA inside a parent with 40% is 25% of that parent). For the
+    headline the parent weight is 100 and nothing changes.
+    """
+    head_mom = _series(ex.obs, parent_id, "mom_pct")
+    parent_w = _series(ex.obs, parent_id, "weight_pct")
+    w_ipca, m = wide(ex.obs, ids, "weight_pct"), wide(ex.obs, ids, "mom_pct")
+    share = w_ipca.div(parent_w.reindex(w_ipca.index), axis=0) * 100 if len(parent_w) else w_ipca
+    w = share
     c = contributions.monthly_pp(w, m).dropna(how="all")
     c = c.dropna()  # months where every part exists
     recent = c.iloc[-RECENT_MONTHS:]
     c12 = contributions.twelve_month_pp(c, head_mom)
-    yoy = _series(ex.obs, headline_id, "yoy_pct")
+    yoy = _series(ex.obs, parent_id, "yoy_pct")
+    if yoy.empty:  # derived parents (core, non-core) are published as monthly rates only
+        yoy = changes.rolling_compound_pct(head_mom, 12)
     period = c.index[-1]
     return {
         "parts": [
@@ -99,6 +109,13 @@ def _contribution_set(ex: CountryExport, ids: list[str], headline_id: str) -> di
             for sid in ids
         ],
         "period": period,
+        "parent": {
+            "series_id": parent_id,
+            "label": ex.label(parent_id),
+            "mom_pct": _r(head_mom.get(period)),
+            "yoy_pct": _r(yoy.get(period)),
+            "weight_pct": _r(parent_w.get(period)) if len(parent_w) else None,
+        },
         "monthly": {
             "periods": list(recent.index),
             "series": _stack_series(ex, recent, ids, w.loc[c.index[-1]]),
@@ -181,10 +198,11 @@ def weighted_diffusion(ex: CountryExport, indicator_prefix: str) -> dict[str, An
 def composition_section(ex: CountryExport, headline_id: str, period: str) -> dict[str, Any]:
     groups = list(ex.components(headline_id, "group").index)
     sets = {"groups": _contribution_set(ex, groups, headline_id)}
-    for name, ids in ex.cfg.composition.items():
-        present = [sid for sid in ids if sid in ex.catalog.index]
-        if present:
-            sets[name] = _contribution_set(ex, present, headline_id)
+    for name, spec in ex.cfg.composition.items():
+        present = [sid for sid in spec.parts if sid in ex.catalog.index]
+        parent = spec.parent or headline_id
+        if present and parent in ex.catalog.index:
+            sets[name] = _contribution_set(ex, present, parent)
     group_yoy = [
         {
             "series_id": sid,

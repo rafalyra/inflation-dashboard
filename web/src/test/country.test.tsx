@@ -47,7 +47,7 @@ describe('Country page', () => {
   it('renders the composition, seasonality and trend tabs', async () => {
     await i18n.changeLanguage('en');
     for (const [tab, headings] of [
-      ['composition', ['Drivers', 'Recent months', 'The basket', 'How widespread are increases?']],
+      ['composition', ['Drivers', 'Recent months', 'Core and non-core', 'The basket', 'How widespread are increases?']],
       ['seasonality', ['This month against its seasonal pattern', 'What was unusual for the time of year', 'Seasonal profiles']],
       ['trend', ['Underlying trend', 'Policy and markets']],
     ] as const) {

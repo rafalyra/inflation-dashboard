@@ -724,3 +724,47 @@ h2 {
   pointer-events: none;
 }
 
+
+/* Signal bars: length = size of the move; red rise, green fall; arrow + number alongside. */
+.signal {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  width: 100%;
+  min-width: 11rem;
+}
+
+.signal__track {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  max-width: 6rem;
+}
+
+.signal__bar {
+  height: 8px;
+  border-radius: 4px;
+}
+
+.signal__bar--up {
+  background: var(--signal-up);
+}
+
+.signal__bar--down {
+  background: var(--signal-down);
+}
+
+.signal__arrow {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.row--parent th {
+  font-weight: 700;
+}
+
+.row--child th {
+  font-weight: 400;
+  padding-left: var(--space-5);
+}

@@ -116,6 +116,10 @@ A monthly change is judged against the same calendar month in "normal" years.
 - **Summary per calendar month:** its median and middle half (25th–75th percentile).
 - **Latest against its pattern:** this month's change next to that median and middle half. The gap
   from the median is shown in pp.
+- **Core and non-core:** core is the BCB's EX0 (industrial goods + services); non-core is food at
+  home + administered prices. Our core reproduces the published EX0 (SGS 11427) in every month
+  since 2020 (largest gap 0.0059 pp), and a validation check keeps it so. Contributions *to the
+  core* rescale each part's IPCA weight to its share of the core.
 - **Weighted deviation:** for each group or item, (this month's change − its median for this calendar
   month) × weight / 100, in pp. It shows which components made this month unusual *for the time
   of year*, not just large.
@@ -222,7 +226,10 @@ Each country's page palette and chart order live in `config/countries.yaml`.
   - separation with normal color vision.
 - **Result.** The chosen order's worst neighboring pair is ΔE 19.9 (light) and 18.4 (dark), well
   above the 8 target.
-- **Increases and decreases** use gold and navy, a pairing that stays apart in every color-vision
-  type (ΔE ≈ 24).
+- **Increases and decreases** use red and green, the usual convention for inflation (a rise is bad
+  news). The shades also differ in lightness, so they stay apart for color-blind readers (ΔE 15
+  light, 10 dark), and they always appear with ▲/▼ or a signed number.
+- **Signal bars** in the tables show each item's move as a bar whose length is relative to the
+  largest move in that table.
 - **Table views.** Some light shades are below 3:1 contrast against the background, so every chart
   has a "Show table" view.

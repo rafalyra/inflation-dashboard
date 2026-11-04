@@ -239,6 +239,11 @@ def segments_match_published(obs: pd.DataFrame) -> list[CheckResult]:
         "administered": (seg["administered"], _series(obs, "br.ipca.administered", "mom_pct")),
         "services": (seg["services"], _series(obs, "br.ipca.services", "mom_pct")),
         "food": (seg["food"], _series(obs, "br.ipca.subgroup.11", "mom_pct")),
+        # Core = industrial goods + services is exactly the BCB's EX0 core.
+        "core_ex0": (
+            _series(obs, "br.ipca.bcb.core", "mom_pct"),
+            _series(obs, "br.core.ex0", "mom_pct"),
+        ),
     }
     results = []
     for name, (ours, published) in pairs.items():

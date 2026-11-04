@@ -105,6 +105,13 @@ class Seasonality(_Config):
         ]
 
 
+class CompositionSet(_Config):
+    """Parts that add up to a parent series (the headline unless `parent` is given)."""
+
+    parts: tuple[str, ...]
+    parent: str | None = None
+
+
 class CountryConfig(_Config):
     enabled: bool
     name: LocalizedName
@@ -120,7 +127,7 @@ class CountryConfig(_Config):
     series: SeriesRoles
     theme: CountryTheme | None = None
     panels: dict[str, tuple[str, ...]] = {}
-    composition: dict[str, tuple[str, ...]] = {}
+    composition: dict[str, CompositionSet] = {}
     seasonality: Seasonality | None = None
     diffusion_threshold_pct: float | None = None
 

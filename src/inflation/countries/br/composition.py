@@ -25,6 +25,12 @@ SEGMENT_IDS = {
     "services": "br.ipca.bcb.services",
     "administered": "br.ipca.bcb.administered",
 }
+# Core and non-core, as in the BCB's EX0 core: EX0 excludes food at home and administered
+# prices, so core = industrial goods + services and non-core = food at home + administered.
+AGGREGATE_IDS = {
+    "br.ipca.bcb.core": ("industrial", "services"),
+    "br.ipca.bcb.noncore": ("food", "administered"),
+}
 
 
 def load_rules() -> dict[str, str]:
@@ -62,8 +68,9 @@ def segment_observations(sidra_obs: pd.DataFrame) -> pd.DataFrame:
         release_id=("release_id", "first"), fetched_at_utc=("fetched_at_utc", "max")
     )
     rows = []
-    for name, series_id in SEGMENT_IDS.items():
-        cols = segment.index[segment == name]
+    groups = [(sid, (name,)) for name, sid in SEGMENT_IDS.items()] + list(AGGREGATE_IDS.items())
+    for series_id, names in groups:
+        cols = segment.index[segment.isin(names)]
         w = weight[cols].where(change[cols].notna())
         seg_weight = w.sum(axis=1)
         seg_change = (w * change[cols]).sum(axis=1) / seg_weight
